@@ -25,10 +25,10 @@ Bu adımların hiçbiri atlanmaz ve Enes'e hatırlattırılmaz.
 3. **Fikirler ve kancalar** (3-4 fikir, öneri). 1-3'ü `Adim-1-2-3.md` dosyasına yaz, Enes'e sun. **Fikir seçimini bekle.**
 4. **Senaryo** (`<Konu>-senaryo.md`). Kanca senaryodan önce yazılır ve çok vurucu olur, ses tonuyla da (fısıltı → sessizlik → sert vuruş gibi). **Onay bekle.**
 5. **Ses**: ElevenLabs yalnızca ses için. Sercan Esen (voice_id `dLAxUPEUCZ9cz4KHisnL`), model eleven_v4, tek kayıt (generations_count 1), önce estimate. ElevenLabs'te görsel/video üretme.
-6. **Görseller ve hareket (sabit kombinasyon, hedef toplam ≤1 saat)**:
+6. **Görseller ve hareket (Flow/Veo + SDXL + kodla hareket, hedef toplam ≤1 saat)**:
    - **Flow / Veo** (Enes'in Google AI üyeliği, `flow` MCP, `~/flow-mcp`; ek ücret yok): en çok hareket isteyen 4-6 kilit sahne (yürüyen, konuşan, oturup kalkan karakter). Veo 3.1 Fast ~20 kredi/klip; önce fiyatı oku, video başına ~100 kredi sınırı. Görsellerin bir kısmı da Flow'un ücretsiz görsel üretiminden. Tarayıcı sadece üretim sırasında açık; iş bitince kapat.
    - **Yerel SDXL** (`araclar/sd`): kalan ara/atmosfer görselleri (~10 dk).
-   - **Yerel hızlı LTX** (LTX-Video 0.9.8 distilled 2B, `gorseller/i2v.py`, ~8 adım): kalan ~19 sahnenin hareketi (~30-40 dk). Uzun işler `nohup caffeinate` ile oturumdan bağımsız çalışır; her klip bitince şerit kontrolü, bozulan son kareler `CLMAX` ile kırpılır.
+   - **LTX devre dışı (2026-11-12, Enes'in kararı):** ağırlıklar ve `i2v.py` silindi (Çöp Sepeti: `LTX-kaldirildi-2026-11-12`). Hareket = Veo kilit sahneler + kalan sahnelerde kodla kamera/ışık/parçacık hareketli fotoğraf. İleride gerekirse LTX-Video yeniden indirilip önce tek klip test edilir (Spinoza'da 30 adımla çalıştı, 8 adımlık distilled ayar gürültü verdi).
    - Gerçek lisanslı foto/gravür de kullanılabilir. Stil: Enes'in o videoda verdiği; vermediyse photoreal.
    - Bekleme 1 saati aşacaksa sahneler Flow'a kaydırılır; Enes saatlerce bekletilmez.
 
@@ -43,7 +43,6 @@ Bu adımların hiçbiri atlanmaz ve Enes'e hatırlattırılmaz.
 ## Bilinen tuzaklar ve kalıplar (2026-11-12, Leibniz videosundan)
 - Flow: yeni projede sağda ajan paneli açık gelir ve `flow_generate` "Agent" düğmesini bulamayıp düşer. Üretimden önce CDP (127.0.0.1:9333, `~/flow-mcp/node_modules/playwright-core`) ile paneldeki "Close" düğmesine bas. İlk işte tek kareyle dene, sonra topluca kuyruğa al. Flow'un kendi bekleme süresi var: kare başına ~2-3 dk, Veo klibi ~3-4 dk.
 - Kilit sahne akışı: önce Flow'da ücretsiz Nano Banana kareleri, sonra o kareler `first_frame` olarak Veo 3.1 Fast'e verilir (5 klip = 100 kredi). Veo klibi `fps=24` karelere açılıp `gorseller/klip/<ad>/` + `n.txt` + `done` olarak konur.
-- LTX: her klipten sonra şerit kontrolü zorunlu. Gürültü çıkarsa klibi sil ve o sahneyi kodla kamera/ışık hareketli fotoğraf olarak kullan. Bekleme yapma.
 - Müzik: CC0/PD kaydı Claude seçer (ör. Musopen, Wikimedia). `logs/sesler.py` ile müzik, ambiyans ve efekt üretilir, sonra mixdown ve master yapılır.
 - Kapak: `kaynak/kapak.html` ile kodla kurulur (Anton, videonun ana karakterleri). Canva'ya `create-upload-url` ile yüklenir, önceki kapak `copy-design` ile kopyalanıp görseli `update_fill` ile değiştirilir, kaydedilir ve PNG olarak dışa aktarılır.
 - Ses metninde zor isimler IPA ile yazılır (ör. Leibniz `/ˈlaɪbnɪts/`). Altyazıdaki yazım `video.json` → `duzelt` ile düzeltilir.

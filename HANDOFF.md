@@ -1,5 +1,7 @@
 # HANDOFF (2026-11-12, Leibniz-Merkez-Efendi Reels sonrası)
 
+**LTX devre dışı:** `araclar/ltx`, HF önbelleğindeki LTX modeli ve tüm `i2v.py` dosyaları Çöp Sepeti'ne taşındı (`LTX-kaldirildi-2026-11-12`, 8,9 GB; Enes boşaltacak). İleride gerekirse yeniden indirilip tek klip testiyle denenir.
+
 ## Leibniz ve Merkez Efendi: TESLİM EDİLDİ
 - outputs/Leibniz-Merkez-Efendi/: Reels mp4 (2:06), Onizleme-telefon.mp4, .srt, Kapak PNG, Yayin-paketi.md. Durum: Leibniz-Merkez-Efendi/STATE.md.
 - Flow UI değişti: yeni projede sağda ajan paneli açık geliyor, composer'daki "Agent" düğmesini gizliyor ve flow_generate düşüyor. Çözüm: CDP 9333'e bağlanıp paneli "Close" ile kapat (hafızada). ~/flow-mcp kaynağı henüz yamalanmadı.
@@ -26,7 +28,7 @@
 
 ## Araçlar
 - Flow MCP: `~/flow-mcp` (GTAI-1/flow-mcp, commit 1d17b7b), `~/.claude.json` mcpServers.flow eklendi (yedek: `~/.claude.json.bak-flow`). Google girişi yapıldı (profil `~/.flow-mcp/chrome-profile`). Araçlar yeni oturumda görünür. Tarayıcı otomasyonu; resmi API yok. İş bitince Chrome'u kapat.
-- LTX: 0.9.8 distilled 2B + bf16 T5 (`araclar/ltx/t5-bf16`). `_sablon/gorseller/i2v.py` buna göre; 8 adım, 97 kare ~54 sn. Eski ağırlıklar Çöp Sepeti'nde.
+- LTX: KALDIRILDI 2026-11-12 (Enes). Eski not: 0.9.8 distilled 2B + bf16 T5 (`araclar/ltx/t5-bf16`). `_sablon/gorseller/i2v.py` buna göre; 8 adım, 97 kare ~54 sn. Eski ağırlıklar Çöp Sepeti'nde.
 - Enes'in LTX hakkındaki yargısı: "reels'e kattığı hiçbir şey yok". Bir sonraki videoda hareketin ağırlığı Flow/Veo'da olmalı; LTX sadece küçük ara hareketler için, sonucu beğenilmezse tamamen bırakılabilir.
 
 ## Temizlik
