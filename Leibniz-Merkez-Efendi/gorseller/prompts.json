@@ -1,0 +1,12 @@
+{
+"style": ", cinematic photorealistic film still, chiaroscuro candlelight, deep shadows, warm golden amber highlights, 35mm film grain, shallow depth of field, vertical composition, highly detailed",
+"neg": "cartoon, illustration, drawing, painting texture, anime, 3d render, text, letters, watermark, signature, logo, nude, nsfw, deformed hands, extra fingers, extra limbs, blurry, lowres, frame, border",
+"items": [
+ ["a01_kureler", [7,42], "countless glowing translucent spheres floating in a dark cosmic void like possible worlds, one sphere in the centre glowing brighter gold than all the others"],
+ ["a02_keman", [7,42], "extreme close-up of violin strings and a bow touching them, rosin dust in a beam of warm light, dark background"],
+ ["a03_baharat", [7], "macro of heaps of colourful ground spices, red sumac, yellow turmeric, brown cinnamon, cloves and star anise on an old wooden table, warm light"],
+ ["a04_tuy_kalem", [7], "a quill pen writing ink letters on old paper, macro, candlelight"],
+ ["a05_tespih", [7], "close-up of a hand slowly moving wooden prayer beads, candlelight, dark background"],
+ ["a06_dunya", [7,42], "planet Earth from space at night, golden city lights, thin blue atmosphere, black starfield"],
+ ["a07_mum_alev", [7], "macro of a single candle flame in darkness, warm glow"]
+]}

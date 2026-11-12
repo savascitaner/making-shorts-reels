@@ -1,4 +1,12 @@
-# HANDOFF (2026-11-12, Spinoza Reels sonrası)
+# HANDOFF (2026-11-12, Leibniz-Merkez-Efendi Reels sonrası)
+
+## Leibniz ve Merkez Efendi: TESLİM EDİLDİ
+- outputs/Leibniz-Merkez-Efendi/: Reels mp4 (2:06), Onizleme-telefon.mp4, .srt, Kapak PNG, Yayin-paketi.md. Durum: Leibniz-Merkez-Efendi/STATE.md.
+- Flow UI değişti: yeni projede sağda ajan paneli açık geliyor, composer'daki "Agent" düğmesini gizliyor ve flow_generate düşüyor. Çözüm: CDP 9333'e bağlanıp paneli "Close" ile kapat (hafızada). ~/flow-mcp kaynağı henüz yamalanmadı.
+- LTX (steps 8) bu kez tamamen gürültü üretti; kullanılmadı. Hareket: 5 Veo klibi + kodla kamera/ışık.
+- Teslim kuralı güncellendi: sadece büyük mp4 sohbete eklenmez; metin dosyaları eklenebilir.
+
+# Önceki: Spinoza
 
 ## Spinoza: TESLİM EDİLDİ
 - Video: `outputs/Spinoza/Spinoza-Reels-9x16.mp4` (2:04, 1080p), `Onizleme-telefon.mp4`, `Spinoza-altyazi.srt`, `Kapak-Reels-9x16.png`, `Yayin-paketi.md`.

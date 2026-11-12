@@ -1,0 +1,70 @@
+{
+ "konu": "Leibniz-Merkez-Efendi",
+ "sure": 126.5,
+ "whisper_ipucu": "Leibniz, Merkez Efendi, Sünbül Efendi, Musa, Hannover, 1710, Gazali, Mesir macunu, kalkülüs, derviş, tespih, mürit.",
+ "duzelt": {
+  "hala": "hâlâ",
+  "Laybniç": "Leibniz",
+  "Laybniz": "Leibniz",
+  "Leybniz": "Leibniz",
+  "Laybniç'in": "Leibniz'in",
+  "Gazâlî": "Gazali",
+  "16.": "On altıncı",
+  "11.": "On birinci",
+  "200": "iki yüz",
+  "mesir": "Mesir",
+  "efendi": "Efendi",
+  "batıda": "Batıda",
+  "acı,": "acı?",
+  "kötülük.": "kötülük?",
+  "0": "sıfır",
+  "1'i": "biri",
+  "41": "kırk bir",
+  "gülümser.": "gülümser:",
+  "yazar.": "yazar:",
+  "sorar.": "sorar:",
+  "aynı.": "aynı:",
+  "yazmıştı.": "yazmıştı:"
+ },
+ "zaman_duzelt": [
+  {
+   "w": "On altıncı",
+   "s": 26.7,
+   "e": 27.5
+  }
+ ],
+ "vurgu": [
+  "AYNI",
+  "Merkezinde.",
+  "sensin.",
+  "İYİSİ.",
+  "eksik",
+  "düzeni",
+  "Gazali",
+  "Mesir",
+  "sıfır",
+  "göz."
+ ],
+ "bolum_sinirlari": [],
+ "boom": [
+  5.1
+ ],
+ "gecis": [],
+ "qc_kareleri": [
+  0,
+  60,
+  160,
+  330,
+  600,
+  900,
+  1200,
+  1500,
+  1800,
+  2100,
+  2400,
+  2700,
+  3000,
+  3300,
+  3700
+ ]
+}
