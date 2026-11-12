@@ -1,0 +1,12 @@
+{
+  "konu": "Spinoza",
+  "sure": 124.0,
+  "whisper_ipucu": "Özel isimler, terimler buraya.",
+  "duzelt": {"hala": "hâlâ"},
+  "zaman_duzelt": [],
+  "vurgu": [],
+  "bolum_sinirlari": [],
+  "boom": [],
+  "gecis": [],
+  "qc_kareleri": [0, 90, 200, 600, 1200, 1800, 2400, 3000, 3600]
+}
