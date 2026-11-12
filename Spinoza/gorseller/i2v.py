@@ -5,8 +5,8 @@ from diffusers import LTXImageToVideoPipeline
 from PIL import Image
 cfg = json.load(open(sys.argv[1])); only = sys.argv[2] if len(sys.argv) > 2 else None
 W, H, NF, ST = cfg.get("W", 576), cfg.get("H", 1024), cfg.get("frames", 65), cfg.get("steps", 30)
-STYLE = ", 2D hand-drawn graphic novel illustration, ink outlines, watercolor texture, indigo shadows, golden amber light, smooth natural motion"
-NEG = "worst quality, inconsistent motion, blurry, jittery, distorted, morphing faces, text, watermark"
+STYLE = ", cinematic photorealistic film footage, 17th century Dutch, candlelight chiaroscuro, warm golden light, 35mm film grain, smooth natural motion"
+NEG = "cartoon, illustration, worst quality, inconsistent motion, blurry, jittery, distorted, morphing faces, text, watermark"
 snap = glob.glob(os.environ["HF_HOME"] + "/hub/models--Lightricks--LTX-Video/snapshots/*")[0]
 pipe = LTXImageToVideoPipeline.from_pretrained(snap, torch_dtype=torch.bfloat16).to("mps")
 pipe.vae.enable_tiling()

@@ -1,7 +1,7 @@
 # Shorts - Reels: iş akışı (her video için zorunlu)
 
-Kullanıcı: Enes. Dil: Türkçe. YouTube kanalı: @TanerSavaşçı. Her video kendi klasöründe: `/Users/claude/Shorts - Reels/<Konu>/` (araştırma, senaryo, kaynak kod, görseller).
-Teslimler (bitmiş video, .srt, Yayin-paketi.md, kaynak listesi): `outputs/<Konu>/`.
+Kullanıcı: Enes. Dil: Türkçe. YouTube kanalı: @TanerSavaşçı. Her video `cinecode` skill'i tetiklenerek yapılır, aşağıdaki adımlar onun üstüne eklenir. Her video kendi klasöründe: `/Users/claude/Shorts - Reels/<Konu>/` (araştırma, senaryo, kaynak kod, görseller).
+Teslimler (bitmiş video, .srt, Yayin-paketi.md, kaynak listesi, kapak): `/Users/claude/Shorts - Reels/outputs/<Konu>/` (ana klasör, worktree değil). **Teslim dosyaları sohbete EK OLARAK KONMAZ.** Sohbette sadece klasör yolu ve yayın paketinin metni yazılır.
 
 ## Klasör ve kredi kuralları
 - `outputs/` içindeki medya dosyalarını (mp4, wav, mp3, png, jpg) iş yaparken **asla okuma** (Read/görüntüleme yok). QC'yi render sırasında `kaynak/renders/qc` karelerinden yap. Sadece metin dosyalarını okuyabilirsin.
@@ -16,7 +16,7 @@ Teslimler (bitmiş video, .srt, Yayin-paketi.md, kaynak listesi): `outputs/<Konu
 - Bitmiş videolar Google Drive'a YEDEKLENMEZ (Enes istemedi). Sadece GitHub (metin + kod).
 
 ## GitHub senkronu
-Repo: https://github.com/savascitaner/making-shorts-reels (private). Her adım bitince (Adım 1-3, senaryo, teslim) `git add -A && git commit && git push`. Medya ve `araclar/` `.gitignore` ile dışarıda. Bilgisayar değişirse: `KURULUM.md`.
+Repo: https://github.com/savascitaner/making-shorts-reels (private). Ara adımlarda commit/push YOK. Sadece proje sonunda (teslimden sonra) tek seferde handoff: `git add -A && git commit && git push`. Medya ve `araclar/` `.gitignore` ile dışarıda. Bilgisayar değişirse: `KURULUM.md`.
 Bu adımların hiçbiri atlanmaz ve Enes'e hatırlattırılmaz.
 
 ## Adımlar
@@ -25,7 +25,13 @@ Bu adımların hiçbiri atlanmaz ve Enes'e hatırlattırılmaz.
 3. **Fikirler ve kancalar** (3-4 fikir, öneri). 1-3'ü `Adim-1-2-3.md` dosyasına yaz, Enes'e sun. **Fikir seçimini bekle.**
 4. **Senaryo** (`<Konu>-senaryo.md`). Kanca senaryodan önce yazılır ve çok vurucu olur, ses tonuyla da (fısıltı → sessizlik → sert vuruş gibi). **Onay bekle.**
 5. **Ses**: ElevenLabs yalnızca ses için. Sercan Esen (voice_id `dLAxUPEUCZ9cz4KHisnL`), model eleven_v4, tek kayıt (generations_count 1), önce estimate. ElevenLabs'te görsel/video üretme.
-6. **Görseller**: Enes'in o videoda verdiği stil; vermediyse gerçek lisanslı foto + photoreal AI karışımı. Yerel SDXL: `araclar/sd`. Görseller **her zaman** yerel görüntüden-video modeliyle hareketlendirilir (LTX-Video; ilk işte `araclar/ltx/indir.py` ile indir (~28 GB, yarım kaldı, kaldığı yerden devam eder), sonra `gorseller/i2v.py`): figürler yürür, döner, hareket eder. Üstüne kodla buhar/parçacık/kamera eklenir.
+6. **Görseller ve hareket (sabit kombinasyon, hedef toplam ≤1 saat)**:
+   - **Flow / Veo** (Enes'in Google AI üyeliği, `flow` MCP, `~/flow-mcp`; ek ücret yok): en çok hareket isteyen 4-6 kilit sahne (yürüyen, konuşan, oturup kalkan karakter). Veo 3.1 Fast ~20 kredi/klip; önce fiyatı oku, video başına ~100 kredi sınırı. Görsellerin bir kısmı da Flow'un ücretsiz görsel üretiminden. Tarayıcı sadece üretim sırasında açık; iş bitince kapat.
+   - **Yerel SDXL** (`araclar/sd`): kalan ara/atmosfer görselleri (~10 dk).
+   - **Yerel hızlı LTX** (LTX-Video 0.9.8 distilled 2B, `gorseller/i2v.py`, ~8 adım): kalan ~19 sahnenin hareketi (~30-40 dk). Uzun işler `nohup caffeinate` ile oturumdan bağımsız çalışır; her klip bitince şerit kontrolü, bozulan son kareler `CLMAX` ile kırpılır.
+   - Gerçek lisanslı foto/gravür de kullanılabilir. Stil: Enes'in o videoda verdiği; vermediyse photoreal.
+   - Bekleme 1 saati aşacaksa sahneler Flow'a kaydırılır; Enes saatlerce bekletilmez.
+
 7. **Kurgu (cinecode)**: canvas motoru `kaynak/index.html` (örnek: `Diyalektik-Materyalizm/kaynak`), `capture.mjs --video`, müzik kodla, `master_audio.py` ile -14 LUFS.
    - İlk 0-3 sn büyük kanca yazısı (Anton), altyazı o sırada gizli.
    - Altyazı: Nietzsche videosundaki stil. Şerit/kutu YOK; harflerin etrafında kalın koyu kontur + yumuşak gölge (silüet). Okunan kelime altın renk ve bir tık büyük, diğerleri krem. Ekranın orta-altında (y≈1340). Şablonda hazır.
