@@ -25,7 +25,7 @@ Bu adımların hiçbiri atlanmaz ve Enes'e hatırlattırılmaz.
 6. **Görseller**: Enes'in o videoda verdiği stil; vermediyse gerçek lisanslı foto + photoreal AI karışımı. Yerel SDXL: `araclar/sd`. Görseller hareketlendirilir (buhar, parçacık, kamera, döndürme; image-to-video modeli kuruluysa o).
 7. **Kurgu (cinecode)**: canvas motoru `kaynak/index.html` (örnek: `Diyalektik-Materyalizm/kaynak`), `capture.mjs --video`, müzik kodla, `master_audio.py` ile -14 LUFS.
    - İlk 0-3 sn büyük kanca yazısı (Anton), altyazı o sırada gizli.
-   - Altyazı: okunan kelime farklı renk ve bir tık büyük; altında ince, hafif gri şerit.
+   - Altyazı: Nietzsche videosundaki stil. Şerit/kutu YOK; harflerin etrafında kalın koyu kontur + yumuşak gölge (silüet). Okunan kelime altın renk ve bir tık büyük, diğerleri krem. Ekranın orta-altında (y≈1340). Şablonda hazır.
    - Kapanış ekranı: "Daha fazlası için takipte kal" + YouTube simgesi + @TanerSavaşçı.
 8. **Kapak**: Enes'in Canva hesabında (Reels 1080x1920), videodaki görselle. Kaydetmeden önce önizleme göster.
 9. **Yayın paketi**: `outputs/<Konu>/Yayin-paketi.md`: 5 başlık, kaynaklı açıklama, YouTube etiketleri, 18 hashtag, yayın öncesi kontrol listesi. Video ile birlikte, istenmeden teslim edilir.
