@@ -1,0 +1,791 @@
+1
+00:00:00,000 --> 00:00:01,960
+13 Ekim 1806.
+
+2
+00:00:02,200 --> 00:00:04,880
+Jena şehri top sesleriyle sarsılıyordu.
+
+3
+00:00:04,880 --> 00:00:07,740
+Bir adam penceresinden dışarı baktı ve
+
+4
+00:00:07,740 --> 00:00:09,940
+Napolyon'u at üstünde gördü.
+
+5
+00:00:10,060 --> 00:00:12,480
+Aynı gün bir dostuna şöyle yazdı:
+
+6
+00:00:12,700 --> 00:00:13,980
+"İmparatoru gördüm.
+
+7
+00:00:13,980 --> 00:00:15,740
+Bu dünya ruhunu..."
+
+8
+00:00:16,180 --> 00:00:19,580
+Adı Georg Wilhelm Friedrich Hegel'di.
+
+9
+00:00:19,580 --> 00:00:22,140
+Ertesi gün Napolyon savaşı kazandı,
+
+10
+00:00:22,140 --> 00:00:24,460
+Hegel'in kaldığı ev yağmalandı.
+
+11
+00:00:24,460 --> 00:00:27,300
+Ama o günlerde bitirdiği kitap kurtuldu.
+
+12
+00:00:27,300 --> 00:00:29,120
+"Tinin Fenomenolojisi"
+
+13
+00:00:29,120 --> 00:00:31,600
+adıyla basılacak ve iki yüz yıl
+
+14
+00:00:31,600 --> 00:00:34,460
+boyunca dünyayı yerinden oynatacaktı.
+
+15
+00:00:34,850 --> 00:00:37,160
+Bugün Hegel'in en ünlü fikrini,
+
+16
+00:00:37,160 --> 00:00:37,960
+diyalektiği,
+
+17
+00:00:37,960 --> 00:00:39,360
+adım adım çözeceğiz.
+
+18
+00:00:39,360 --> 00:00:41,480
+Ve göreceksin ki bu fikir,
+
+19
+00:00:41,480 --> 00:00:43,600
+sandığından çok daha fazla senin
+
+20
+00:00:43,600 --> 00:00:44,800
+hayatınla ilgili.
+
+21
+00:00:45,820 --> 00:00:48,000
+1770'te Stuttgart'ta doğdu.
+
+22
+00:00:48,000 --> 00:00:51,080
+Tübingen'de şair Hölderlin ve filozof
+
+23
+00:00:51,080 --> 00:00:53,080
+Schelling'le aynı odayı paylaştı;
+
+24
+00:00:53,080 --> 00:00:54,800
+Fransız Devrimi'ni birlikte,
+
+25
+00:00:54,800 --> 00:00:56,260
+coşkuyla izlediler.
+
+26
+00:00:56,260 --> 00:00:57,880
+Sonra uzun,
+
+27
+00:00:57,880 --> 00:00:59,260
+sessiz yıllar geldi:
+
+28
+00:00:59,260 --> 00:01:00,640
+ev öğretmenliği,
+
+29
+00:01:00,640 --> 00:01:01,920
+gazete editörlüğü,
+
+30
+00:01:01,920 --> 00:01:03,060
+lise müdürlüğü.
+
+31
+00:01:03,060 --> 00:01:05,620
+Ancak kırk sekiz yaşında Berlin'de
+
+32
+00:01:05,620 --> 00:01:08,480
+kürsüye çıktı ve kısa sürede Almanya'nın
+
+33
+00:01:08,480 --> 00:01:10,200
+en etkili düşünürü oldu.
+
+34
+00:01:10,380 --> 00:01:13,040
+Öyle ki genç Schopenhauer derslerini
+
+35
+00:01:13,040 --> 00:01:15,320
+bilerek onunla aynı saate koydu.
+
+36
+00:01:15,320 --> 00:01:17,800
+Hegel'in salonu dolarken onunki
+
+37
+00:01:17,800 --> 00:01:19,480
+neredeyse boş kaldı.
+
+38
+00:01:19,900 --> 00:01:22,540
+Hegel diyalektiği deyince çoğumuzun
+
+39
+00:01:22,540 --> 00:01:24,060
+aklına üç kelime gelir:
+
+40
+00:01:24,080 --> 00:01:24,780
+tez,
+
+41
+00:01:24,780 --> 00:01:25,720
+antitez,
+
+42
+00:01:25,720 --> 00:01:26,540
+sentez.
+
+43
+00:01:26,700 --> 00:01:27,680
+Bir fikir,
+
+44
+00:01:27,680 --> 00:01:30,060
+ona karşı çıkan fikir ve ikisinin
+
+45
+00:01:30,060 --> 00:01:31,020
+uzlaşması.
+
+46
+00:01:31,580 --> 00:01:33,720
+Peki sana bir sır vereyim mi?
+
+47
+00:01:33,920 --> 00:01:36,060
+Hegel bu formülü neredeyse hiç
+
+48
+00:01:36,060 --> 00:01:37,020
+kullanmadı.
+
+49
+00:01:37,060 --> 00:01:37,960
+Bu üçlü,
+
+50
+00:01:37,960 --> 00:01:40,160
+Fichte'ye ve Hegel'i ders kitabına
+
+51
+00:01:40,160 --> 00:01:42,600
+sığdırmaya çalışan yorumculara aittir.
+
+52
+00:01:42,740 --> 00:01:45,360
+Hegel ise felsefeyi böyle cansız bir
+
+53
+00:01:45,360 --> 00:01:47,500
+kalıba dökmeyi açıkça eleştirmişti.
+
+54
+00:01:47,800 --> 00:01:50,320
+Onun diyalektiği bir şablon değil,
+
+55
+00:01:50,320 --> 00:01:51,460
+bir hareketti.
+
+56
+00:01:51,460 --> 00:01:53,880
+Ve bu hareketin bir adı vardı:
+
+57
+00:01:53,980 --> 00:01:55,080
+Aufhebung.
+
+58
+00:01:56,260 --> 00:01:57,300
+Almancada "Aufhebung"
+
+59
+00:01:57,300 --> 00:01:59,840
+kelimesi aynı anda üç şey demektir:
+
+60
+00:01:59,840 --> 00:02:01,380
+ortadan kaldırmak,
+
+61
+00:02:01,380 --> 00:02:04,220
+saklamak ve daha yükseğe taşımak.
+
+62
+00:02:04,840 --> 00:02:07,100
+Hegel bunu bir bitkiyle anlatır:
+
+63
+00:02:07,100 --> 00:02:07,980
+Tomurcuk,
+
+64
+00:02:07,980 --> 00:02:09,500
+çiçek açınca kaybolur.
+
+65
+00:02:09,500 --> 00:02:11,100
+Denebilir ki çiçek,
+
+66
+00:02:11,100 --> 00:02:12,300
+tomurcuğu çürütür.
+
+67
+00:02:12,300 --> 00:02:14,720
+Sonra meyve gelir ve çiçeğin de
+
+68
+00:02:14,720 --> 00:02:16,120
+yanlış olduğunu gösterir.
+
+69
+00:02:16,120 --> 00:02:18,680
+Ama hiçbiri gerçekten yok olmaz.
+
+70
+00:02:18,780 --> 00:02:19,540
+Her biri,
+
+71
+00:02:19,540 --> 00:02:21,980
+aynı bütünün zorunlu bir anıdır.
+
+72
+00:02:22,000 --> 00:02:23,660
+Meyvenin içinde çiçek,
+
+73
+00:02:23,660 --> 00:02:26,140
+çiçeğin içinde tomurcuk yaşamaya devam
+
+74
+00:02:26,140 --> 00:02:26,240
+eder.
+
+75
+00:02:26,240 --> 00:02:28,980
+İşte diyalektik budur:
+
+76
+00:02:28,980 --> 00:02:31,440
+Bir şey kendi içindeki çelişkiyle
+
+77
+00:02:31,440 --> 00:02:33,040
+yüzleşir ve aşılır.
+
+78
+00:02:33,040 --> 00:02:35,200
+Ama aşılırken kaybolmaz;
+
+79
+00:02:35,200 --> 00:02:37,180
+saklanır ve yükselir.
+
+80
+00:02:37,540 --> 00:02:40,700
+Hegel bu hareketi en temelden başlatır.
+
+81
+00:02:40,700 --> 00:02:43,260
+Hiçbir özelliği olmayan saf varlığı
+
+82
+00:02:43,260 --> 00:02:44,220
+düşünmeye çalış.
+
+83
+00:02:44,220 --> 00:02:46,500
+Ne rengi var ne biçimi ne
+
+84
+00:02:46,500 --> 00:02:47,020
+sınırı.
+
+85
+00:02:47,020 --> 00:02:48,400
+Elinde ne kaldı?
+
+86
+00:02:48,400 --> 00:02:49,400
+Hiçbir şey.
+
+87
+00:02:49,400 --> 00:02:50,700
+Saf varlık,
+
+88
+00:02:50,700 --> 00:02:52,200
+saf hiçliğe dönüşür.
+
+89
+00:02:52,200 --> 00:02:54,060
+Ama hiçliği düşündüğün an,
+
+90
+00:02:54,060 --> 00:02:55,080
+o da bir şey olur.
+
+91
+00:02:55,080 --> 00:02:57,580
+İkisi durmadan birbirine geçer.
+
+92
+00:02:57,580 --> 00:03:00,380
+Hegel'e göre gerçek olan ne varlıktır
+
+93
+00:03:00,380 --> 00:03:01,300
+ne hiçlik;
+
+94
+00:03:01,300 --> 00:03:03,740
+ikisinin arasındaki bu kesintisiz
+
+95
+00:03:03,740 --> 00:03:04,380
+geçiştir.
+
+96
+00:03:04,380 --> 00:03:05,800
+Yani oluş.
+
+97
+00:03:06,000 --> 00:03:08,340
+Dünyada duran hiçbir şey yoktur.
+
+98
+00:03:08,340 --> 00:03:09,060
+Her şey,
+
+99
+00:03:09,060 --> 00:03:10,480
+olmaktadır.
+
+100
+00:03:10,890 --> 00:03:13,140
+Şimdi Hegel'in en ünlü sahnesine
+
+101
+00:03:13,140 --> 00:03:13,780
+gelelim.
+
+102
+00:03:13,780 --> 00:03:15,480
+İki bilinç karşılaşır.
+
+103
+00:03:15,480 --> 00:03:17,500
+Her biri tek bir şey ister:
+
+104
+00:03:17,540 --> 00:03:19,380
+ötekinin onu tanıması.
+
+105
+00:03:19,380 --> 00:03:20,600
+"Ben varım,
+
+106
+00:03:20,600 --> 00:03:21,690
+ben değerliyim;
+
+107
+00:03:21,840 --> 00:03:23,160
+bunu bana sen söyle."
+
+108
+00:03:23,160 --> 00:03:25,160
+Bu istek,
+
+109
+00:03:25,160 --> 00:03:27,360
+bir ölüm kalım mücadelesine dönüşür.
+
+110
+00:03:27,360 --> 00:03:29,660
+Ölümü göze alan efendi olur.
+
+111
+00:03:29,660 --> 00:03:30,940
+Hayatına tutunan,
+
+112
+00:03:30,940 --> 00:03:31,940
+köle.
+
+113
+00:03:32,540 --> 00:03:34,780
+Hikâye burada bitse kazanan belli
+
+114
+00:03:34,780 --> 00:03:35,360
+olurdu.
+
+115
+00:03:35,360 --> 00:03:37,580
+Ama Hegel ters köşe yapar.
+
+116
+00:03:37,580 --> 00:03:38,400
+Efendi,
+
+117
+00:03:38,400 --> 00:03:40,700
+tanınmayı özgür bir insandan değil,
+
+118
+00:03:40,700 --> 00:03:42,280
+kendi kölesinden alır.
+
+119
+00:03:42,280 --> 00:03:44,400
+Bu tanınmanın değeri yoktur;
+
+120
+00:03:44,400 --> 00:03:45,080
+efendi,
+
+121
+00:03:45,080 --> 00:03:47,280
+kazandığı yerde sıkışıp kalır.
+
+122
+00:03:47,280 --> 00:03:50,260
+Köle ise korkuyla çalışırken taşı
+
+123
+00:03:50,260 --> 00:03:50,760
+yontar,
+
+124
+00:03:50,760 --> 00:03:51,900
+toprağı işler,
+
+125
+00:03:51,900 --> 00:03:53,160
+dünyayı biçimlendirir.
+
+126
+00:03:53,160 --> 00:03:56,240
+Ve dünyayı biçimlendirirken kendini de
+
+127
+00:03:56,240 --> 00:03:57,040
+biçimlendirir.
+
+128
+00:03:57,040 --> 00:03:59,700
+Sonunda özgürlüğe giden yolu bulan
+
+129
+00:03:59,700 --> 00:04:00,620
+efendi değil,
+
+130
+00:04:00,620 --> 00:04:01,760
+köledir.
+
+131
+00:04:02,180 --> 00:04:04,380
+Bugün bir fotoğrafın altındaki
+
+132
+00:04:04,380 --> 00:04:06,820
+beğenileri sayarken aslında aynı şeyi
+
+133
+00:04:06,820 --> 00:04:07,560
+istiyoruz:
+
+134
+00:04:07,560 --> 00:04:08,680
+tanınmak.
+
+135
+00:04:08,980 --> 00:04:11,340
+Hegel iki yüz yıl önce uyarıyordu:
+
+136
+00:04:11,340 --> 00:04:13,680
+Değerini yalnızca başkasının onayına
+
+137
+00:04:13,680 --> 00:04:14,260
+bağlayan,
+
+138
+00:04:14,260 --> 00:04:17,100
+efendi bile olsa özgür değildir.
+
+139
+00:04:17,580 --> 00:04:20,260
+Hegel'e göre bu hareket yalnızca
+
+140
+00:04:20,260 --> 00:04:21,220
+insanlarda değil,
+
+141
+00:04:21,220 --> 00:04:23,160
+tarihin kendisinde de işler.
+
+142
+00:04:23,160 --> 00:04:24,240
+Tarih,
+
+143
+00:04:24,240 --> 00:04:26,600
+insanlığın özgürlüğünün bilincine varma
+
+144
+00:04:26,600 --> 00:04:27,540
+yolculuğudur.
+
+145
+00:04:27,540 --> 00:04:30,240
+Hegel'e göre eski Doğu krallıklarında
+
+146
+00:04:30,240 --> 00:04:32,140
+yalnızca bir kişi özgürdü;
+
+147
+00:04:32,140 --> 00:04:34,200
+Yunan ve Roma'da bazıları;
+
+148
+00:04:34,200 --> 00:04:37,620
+modern dünyada ise ilke olarak herkes.
+
+149
+00:04:37,620 --> 00:04:40,400
+Her çağ kendi çelişkileriyle çöker,
+
+150
+00:04:40,400 --> 00:04:42,980
+ama çöküşü bir sonrakinin tohumunu
+
+151
+00:04:42,980 --> 00:04:43,640
+taşır.
+
+152
+00:04:43,680 --> 00:04:46,440
+Jena'da at üstünde gördüğü Napolyon,
+
+153
+00:04:46,440 --> 00:04:49,140
+Hegel'in gözünde bu yürüyüşün canlı bir
+
+154
+00:04:49,140 --> 00:04:49,940
+anıydı.
+
+155
+00:04:50,480 --> 00:04:53,820
+Hegel 1831'de Berlin'de öldü.
+
+156
+00:04:53,820 --> 00:04:55,540
+Ama fikirleri ölmedi;
+
+157
+00:04:55,540 --> 00:04:56,760
+ikiye bölündü.
+
+158
+00:04:56,760 --> 00:04:59,220
+Genç Hegelciler arasında yetişen Karl
+
+159
+00:04:59,220 --> 00:04:59,720
+Marx,
+
+160
+00:04:59,720 --> 00:05:02,400
+onun diyalektiğini aldı ve şöyle dedi:
+
+161
+00:05:03,000 --> 00:05:04,440
+"Hegel'de diyalektik baş aşağı
+
+162
+00:05:04,440 --> 00:05:04,980
+duruyordu.
+
+163
+00:05:04,980 --> 00:05:07,500
+Ben onu ayakları üstüne çevirdim."
+
+164
+00:05:07,700 --> 00:05:09,740
+Fikirlerin yerine ekonomiyi,
+
+165
+00:05:09,740 --> 00:05:12,000
+Tin'in yerine sınıfları koydu.
+
+166
+00:05:12,240 --> 00:05:14,900
+Kierkegaard ise tam tersine isyan etti:
+
+167
+00:05:14,920 --> 00:05:17,280
+Bu dev sistemin içinde tek bir
+
+168
+00:05:17,280 --> 00:05:19,060
+insanın acısına yer yoktu.
+
+169
+00:05:20,460 --> 00:05:22,660
+Varoluşçuluktan Fukuyama'nın "Tarihin
+
+170
+00:05:22,660 --> 00:05:23,120
+Sonu"
+
+171
+00:05:23,120 --> 00:05:24,700
+tezine kadar pek çok düşünce,
+
+172
+00:05:24,700 --> 00:05:27,140
+ya Hegel'in yolunda yürüdü ya da
+
+173
+00:05:27,140 --> 00:05:29,140
+ona karşı durarak şekillendi.
+
+174
+00:05:29,420 --> 00:05:32,100
+Anlatılır ki Hegel son günlerinde şöyle
+
+175
+00:05:32,100 --> 00:05:32,660
+demiş:
+
+176
+00:05:32,660 --> 00:05:34,960
+"Beni yalnızca bir kişi anladı.
+
+177
+00:05:34,960 --> 00:05:36,720
+O da anlamadı..."
+
+178
+00:05:37,760 --> 00:05:39,980
+Hegel'in en güzel cümlelerinden biri
+
+179
+00:05:39,980 --> 00:05:40,760
+şudur:
+
+180
+00:05:41,060 --> 00:05:42,340
+"Minerva'nın baykuşu,
+
+181
+00:05:42,340 --> 00:05:44,920
+ancak alacakaranlık çökerken kanatlarını
+
+182
+00:05:44,920 --> 00:05:45,640
+açar."
+
+183
+00:05:45,680 --> 00:05:47,980
+Yani bir şeyi gerçekten anlamamız,
+
+184
+00:05:47,980 --> 00:05:50,300
+çoğu zaman o şey bittikten sonra
+
+185
+00:05:50,300 --> 00:05:50,860
+olur.
+
+186
+00:05:51,860 --> 00:05:53,880
+Belki şu an hayatında bir şey
+
+187
+00:05:53,880 --> 00:05:54,420
+yıkılıyor.
+
+188
+00:05:54,420 --> 00:05:55,500
+Bir ilişki,
+
+189
+00:05:55,500 --> 00:05:56,300
+bir iş,
+
+190
+00:05:56,300 --> 00:05:57,280
+bir inanç.
+
+191
+00:05:57,280 --> 00:05:59,560
+Hegel'e göre bu bir son değil.
+
+192
+00:05:59,620 --> 00:06:00,940
+Tomurcuk ölmedi;
+
+193
+00:06:00,940 --> 00:06:02,480
+çiçeğe dönüştü.
+
+194
+00:06:02,540 --> 00:06:03,980
+Sen de kaybolmuyorsun.
+
+195
+00:06:03,980 --> 00:06:05,020
+Aşılıyorsun,
+
+196
+00:06:05,020 --> 00:06:07,460
+saklanıyorsun ve yükseliyorsun.
+
+197
+00:06:08,200 --> 00:06:11,000
+Peki senin hayatındaki en büyük
+
+198
+00:06:11,000 --> 00:06:12,660
+Aufhebung neydi?

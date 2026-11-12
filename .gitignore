@@ -1,0 +1,30 @@
+# tools: reinstall with KURULUM.md (only small scripts kept)
+araclar/*
+!araclar/package.json
+!araclar/sd/
+araclar/sd/*
+!araclar/sd/*.py
+!araclar/sd/*.txt
+
+# media (finished videos live in outputs/, everything heavy stays local)
+*.mp4
+*.mov
+*.webm
+*.wav
+*.mp3
+*.m4a
+*.aac
+*.png
+*.jpg
+*.jpeg
+*.webp
+*.gif
+*.psd
+**/renders/
+**/tmp/
+**/eski-iptal/
+node_modules/
+__pycache__/
+.venv/
+.DS_Store
+*.log
