@@ -6,7 +6,11 @@ Teslimler (bitmiş video, .srt, Yayin-paketi.md, kaynak listesi): `outputs/<Konu
 ## Klasör ve kredi kuralları
 - `outputs/` içindeki medya dosyalarını (mp4, wav, mp3, png, jpg) iş yaparken **asla okuma** (Read/görüntüleme yok). QC'yi render sırasında `kaynak/renders/qc` karelerinden yap. Sadece metin dosyalarını okuyabilirsin.
 - `araclar/` 12 GB: içinde gezinme, sadece bilinen betikleri çalıştır.
-- Az okuma, az adım: bir önceki videonun `kaynak/` klasörünü şablon olarak kopyala.
+- Az okuma, az adım: her şey `_sablon/` + `./uret.sh` ile yapılır. Tek tek görsele/kareye bakma; sadece `gorseller/ai-sheet.jpg` ve `kaynak/renders/qc-sheet.jpg` toplu görsellerine bak (ayarlarla tekil okumalar kapalı).
+- Bir videoya özel olanlar sadece 4 dosya: `video.json` (süre, düzeltmeler, vurgular, boom, QC kareleri), `gorseller/prompts.json`, `kaynak/index.html` (IMG haritası + SH sahne listesi + kartlar), senaryo/ElevenLabs metni.
+
+## Komutlar (`./uret.sh <Konu> <adim>`)
+`yeni` → klasörü kur · `gorsel` → SDXL çizimleri + ai-sheet · (ElevenLabs sesi `<Konu>/ses/vo.mp3`) · `hizala` → kelime zamanları + .srt · `ses` → müzik/miks/-14 LUFS · `qc` → qc-sheet · `render` → outputs'a video + telefon önizlemesi · `git` → commit + push
 
 ## GitHub senkronu
 Repo: https://github.com/savascitaner/making-shorts-reels (private). Her adım bitince (Adım 1-3, senaryo, teslim) `git add -A && git commit && git push`. Medya ve `araclar/` `.gitignore` ile dışarıda. Bilgisayar değişirse: `KURULUM.md`.

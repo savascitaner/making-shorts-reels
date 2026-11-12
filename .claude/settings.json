@@ -2,7 +2,10 @@
   "permissions": {
     "deny": [
       "Read(./outputs/**/*.mp4)", "Read(./outputs/**/*.mov)", "Read(./outputs/**/*.wav)", "Read(./outputs/**/*.mp3)",
-      "Read(./outputs/**/*.png)", "Read(./outputs/**/*.jpg)", "Read(./outputs/**/*.jpeg)", "Read(./outputs/**/*.webp)"
+      "Read(./outputs/**/*.png)", "Read(./outputs/**/*.jpg)", "Read(./outputs/**/*.jpeg)", "Read(./outputs/**/*.webp)",
+      "Read(./*/gorseller/ai/*.jpg)", "Read(./*/kaynak/renders/qc/*.jpg)",
+      "Read(./araclar/node_modules/**)", "Read(./araclar/sd/hf/**)", "Read(./araclar/venv-vahdet/**)",
+      "Read(./araclar/hyperframes/**)", "Read(./araclar/impeccable/**)", "Read(./araclar/hallmark/**)"
     ]
   }
 }
