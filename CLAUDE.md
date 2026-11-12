@@ -27,7 +27,7 @@ Bu adımların hiçbiri atlanmaz ve Enes'e hatırlattırılmaz.
 5. **Ses**: ElevenLabs yalnızca ses için. Sercan Esen (voice_id `dLAxUPEUCZ9cz4KHisnL`), model eleven_v4, tek kayıt (generations_count 1), önce estimate. ElevenLabs'te görsel/video üretme.
 6. **Görseller ve hareket (Flow/Veo + SDXL + kodla hareket, hedef toplam ≤1 saat)**:
    - **Flow / Veo** (Enes'in Google AI üyeliği, `flow` MCP, `~/flow-mcp`; ek ücret yok): en çok hareket isteyen 4-6 kilit sahne (yürüyen, konuşan, oturup kalkan karakter). Veo 3.1 Fast ~20 kredi/klip; önce fiyatı oku, video başına ~100 kredi sınırı. Görsellerin bir kısmı da Flow'un ücretsiz görsel üretiminden. Tarayıcı sadece üretim sırasında açık; iş bitince kapat.
-   - **Yerel SDXL** (`araclar/sd`): kalan ara/atmosfer görselleri (~10 dk).
+   - **Görsel dağılımı (Enes, 2026-11-12):** karakterler ve Veo'ya gidecek kareler Flow'da (Nano Banana, ücretsiz, kare başı ~2-3 dk); mekân, nesne ve atmosfer görsellerinin hepsi yerel SDXL'de (`araclar/sd`, ~1 dk/görsel). Kaliteye göre denge sonradan kaydırılabilir.
    - **LTX devre dışı (2026-11-12, Enes'in kararı):** ağırlıklar ve `i2v.py` silindi (Çöp Sepeti: `LTX-kaldirildi-2026-11-12`). Hareket = Veo kilit sahneler + kalan sahnelerde kodla kamera/ışık/parçacık hareketli fotoğraf. İleride gerekirse LTX-Video yeniden indirilip önce tek klip test edilir (Spinoza'da 30 adımla çalıştı, 8 adımlık distilled ayar gürültü verdi).
    - Gerçek lisanslı foto/gravür de kullanılabilir. Stil: Enes'in o videoda verdiği; vermediyse photoreal.
    - Bekleme 1 saati aşacaksa sahneler Flow'a kaydırılır; Enes saatlerce bekletilmez.
