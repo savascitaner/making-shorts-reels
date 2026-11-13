@@ -51,7 +51,7 @@ Bu adımların hiçbiri atlanmaz ve Enes'e hatırlattırılmaz.
 Kredi kıt: en az adım, tek ses kaydı, yeniden render'ı önlemek için ilk seferde eksiksiz yap.
 
 ## Bilinen tuzaklar (2026-11-13, Marx-Feuerbach videosundan)
-- Gerçek kişi: Enes izleyicinin tanıyacağı yüz istiyor ("kim bu" dedirtme). Gerçek PD fotoğrafı Flow'a referans verip Nano Banana kare üret (ücretsiz, çalışıyor). Ama Veo bu yüzlerin bir kısmını "prominent people" diye reddediyor (kredi düşmez, tekrar denemek işe yaramaz): o replikleri arkadan/omuz üstü ya da B-roll ile çöz.
+- Gerçek kişi: Enes izleyicinin tanıyacağı yüz istiyor ("kim bu" dedirtme). Gerçek PD fotoğrafı Flow'a referans verip Nano Banana kare üret (ücretsiz, çalışıyor). Ama Veo bu yüzlerin bir kısmını "prominent people" diye reddediyor (kredi düşmez, tekrar denemek işe yaramaz): o zaman konuşan planı yan veya üç çeyrek profilden, çene ve dudak hareketi net görünecek şekilde yeniden üret (gerekirse karakteri fotoğraftan değil tarifle çizdir). Tanınmış kişi mutlaka konuşurken görünmeli (Enes, 2026-11-13: yoksa fotoğraf slaytı olur); arkadan/B-roll en fazla tek replik için son çare.
 - Dudak senkronu: konuşan karakter sadece Veo'da tam Türkçe repliği söylerken gösterilir; klibin konuşma aralığı (whisper ile) `klip/<k>/off.txt`'ye yazılır, `index.html` SYNC repliğe eşler. Diğer konuşmalarda dinleyen yüz, ağız kapalı.
 - İki ses istenirse: tek kayıt Sercan + diğer karakterin replikleri ayrı tek kayıt, `logs/birlestir.py` ile birleştir; seviye eşitle.
 - Reels 3 dk: ses 176 sn'yi geçerse atempo ≤1.05 ile sıkıştır.
