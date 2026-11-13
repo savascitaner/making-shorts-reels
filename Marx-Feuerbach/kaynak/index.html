@@ -26,7 +26,7 @@ const BOOM = (D.boom || [])[0] ?? -99;   // hook impact time (video.json "boom")
 // ---------------- clips (Veo/LTX frames) + stills ----------------
 // key: [klip folder name, still]
 const CL = {
-  v1: ['v1', 'flow/k01.jpg'], v2: ['v2', 'flow/k02.jpg'], v3: ['v3', 'flow/k09.jpg'], v4: ['v4', 'flow/k03.jpg'], v5: ['v5', 'flow/k05.jpg'],
+  v1: ['v1', 'flow/k01.jpg'], v2: ['v2', 'flow/k02.jpg'], v3: ['v3', 'flow/k09.jpg'], v4: ['v4', 'flow/k12.jpg'], v5: ['v5', 'flow/k05.jpg'],
   mmum: ['x', 'flow/k01.jpg'], fdinle: ['x', 'flow/k06.jpg'], fkaygi: ['x', 'flow/k07.jpg'], flamba: ['x', 'flow/k08.jpg'], mdinle: ['x', 'flow/k09.jpg'], ikili: ['x', 'flow/k10.jpg'], omuz: ['x', 'flow/k11.jpg'],
   mum: ['x', 'ai/b01_mum_s7.jpg'], fab: ['x', 'ai/b02_fabrika_s7.jpg'], baca: ['x', 'ai/b03_baca_s7.jpg'], rut: ['x', 'ai/b04_rutubet_s7.jpg'], rut2: ['x', 'ai/b04_rutubet_s42.jpg'],
   gok: ['x', 'ai/b05_gok_s42.jpg'], gok2: ['x', 'ai/b05_gok_s7.jpg'], masa: ['x', 'ai/b06_masa_s7.jpg'], yazma: ['x', 'ai/b07_yazma_s7.jpg'], ilac: ['x', 'ai/b08_hasta_ilac_s7.jpg'],
@@ -35,7 +35,7 @@ const CL = {
   g01: ['x', 'gercek/g01-marx-1875.jpg'], g02: ['x', 'gercek/g02-feuerbach.jpg'],
 };
 // speaking clips: Veo speech onset (klip/<k>/off.txt, seconds) is locked to the first word of the line
-const SYNC = { v1: [0, 3], v2: [26, 33], v5: [342, 346] };   // [first word, last word] of the spoken line
+const SYNC = { v1: [0, 3], v2: [26, 33], v4: [272, 279], v5: [342, 346] };   // [first word, last word] of the spoken line
 const OFF = {};
 const CLIP_FPS = 24, BASE = '../gorseller/';
 const CLN = {};            // frames per clip, read from klip/<k>/n.txt
@@ -185,7 +185,7 @@ const SH = [
   [255, 'fab', [0.5, 0.5, 1.0], [0.5, 0.45, 1.1], 'none'],
   [263, 'mum', [0.5, 0.45, 1.12], [0.5, 0.5, 1.0], 'none'],
   [268, 'ayna', [0.5, 0.42, 1.12], [0.5, 0.45, 1.0], 'motes', 'homo'],
-  [272, 'omuz', [0.5, 0.45, 1.0], [0.5, 0.42, 1.15], 'none', 'mistik'],
+  [272, 'v4', [0.6, 0.06, 1.3], [0.6, 0.05, 1.33], 'none', 'mistik'],
   [280, 'flamba', [0.5, 0.45, 1.0], [0.5, 0.42, 1.1], 'none'],
   [286, 'kilise', [0.5, 0.6, 1.0], [0.5, 0.5, 1.12], 'none', 'sevgi'],
   [293, 'matbaa', [0.5, 0.5, 1.0], [0.5, 0.5, 1.12], 'none'],
@@ -250,7 +250,7 @@ function drawCard(c, lt, d, t) {
   if (c === 'kalpsiz') { const l2 = at(174, t); if (l2 > 0) cardText(['KALPSİZ', 'DÜNYANIN RUHU'], l2, { y: 480, size: 120, color: [CREAM, GOLD] }); }
   if (c === 'afyon') { const l2 = at(221, t) + 0.3; if (l2 > 0) cardText(['DİN, HALKIN', 'AFYONUDUR'], l2, { y: 480, size: 120, color: [CREAM, GOLD], sub: 'MARX · 1844' }); }
   if (c === 'homo') { const l2 = at(269, t); if (l2 > 0) cardText(['İNSAN, İNSANIN', 'TANRISIDIR'], l2, { y: 480, size: 110, color: [CREAM, GOLD], sub: 'HOMO HOMINI DEUS' }); }
-  if (c === 'mistik') { const l2 = at(278, t); if (l2 > 0) cardText(['BU MİSTİK', 'OLMUŞ!'], l2, { y: 520, size: 140, color: [CREAM, GOLD], band: 0.3 }); }
+  if (c === 'mistik') { const l2 = at(278, t); if (l2 > 0) cardText(['BU MİSTİK', 'OLMUŞ!'], l2, { y: 1580, size: 140, color: [CREAM, GOLD], band: 0.3 }); }
   if (c === 'sevgi') cardText(['“İNSANLIK SEVGİSİ”'], lt - 0.1, { y: 520, size: 100, color: GOLD, sub: 'YENİ BİR DİN Mİ?' });
   if (c === 'gorev') { const l2 = at(318, t); if (l2 > 0) cardText(['FELSEFENİN', 'GÖREVİ NEDİR?'], l2, { y: 420, size: 110, color: [CREAM, GOLD] }); }
   if (c === 'tez11') { const l2 = at(337, t); if (l2 > 0) cardText(['YORUMLADILAR'], l2, { y: 520, size: 140, color: CREAM, sub: 'TEZ 11 · 1845' }); }
