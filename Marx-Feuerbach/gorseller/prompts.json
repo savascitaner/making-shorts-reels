@@ -1,0 +1,20 @@
+{"style": ", cinematic photorealistic film still, 1840s Europe period drama, chiaroscuro, deep shadows, warm amber highlights and cool blue shadows, 35mm film grain, shallow depth of field, vertical composition, highly detailed",
+"neg": "cartoon, illustration, drawing, painting texture, anime, 3d render, text, letters, watermark, signature, logo, nude, nsfw, baby, child, hands, fingers, deformed hands, extra fingers, extra limbs, blurry, lowres, frame, border, modern objects",
+"items": [
+ ["b01_mum", [7], "macro of a single candle flame burning in total darkness, thin smoke rising, warm glow"],
+ ["b02_fabrika", [7, 42], "gloomy 1840s industrial revolution factory interior, heavy iron machinery, thick steam and smoke, tiny exhausted worker silhouettes far away, dim shafts of light through dirty high windows, desaturated"],
+ ["b03_baca", [7], "1840s english industrial town at dusk, rows of tall brick chimneys belching black smoke into an orange sky, cramped workers houses, wet cobblestone street"],
+ ["b04_rutubet", [7, 42], "cold damp 19th century basement room with peeling plaster walls, a single small barred window letting in pale blue-grey light, an empty wooden table and a stool, melancholic"],
+ ["b05_gok", [7, 42], "dramatic sky with dark storm clouds parting, golden god rays streaming down onto a dark plain, majestic"],
+ ["b06_masa", [7], "1845 philosopher's study at night, antique wooden desk covered with handwritten manuscripts, two porcelain coffee cups, inkwell, burning candle, two empty wooden chairs facing each other, leather-bound books"],
+ ["b07_yazma", [7], "macro of an old handwritten german manuscript page with dense ink script, a wooden dip pen resting on it, candlelight, dust"],
+ ["b08_hasta_ilac", [7], "a small antique brown glass medicine bottle and a red opium poppy flower on a bare wooden table in a dark damp room, cold window light"],
+ ["b09_kilise", [7], "interior of an empty gothic church at dawn, tall stained glass windows, beams of light through incense haze, rows of candles"],
+ ["b10_bakan", [7, 42], "crowd of poor 1840s factory workers seen from behind in silhouette, standing in a smoky street looking up at a bright glowing opening in the clouds"],
+ ["b11_zincir", [7], "broken heavy iron chain lying on a stone floor, a beam of warm light falling on the broken link, dust"],
+ ["b12_ayna", [7], "an old ornate gilded mirror in a dark room reflecting a glowing golden light silhouette of a man instead of a person"],
+ ["b13_hayalet", [7], "foggy narrow 19th century european street at night, faint translucent ghostly human figures fading into the mist under a gas lamp"],
+ ["b14_matbaa", [7], "an old iron hand printing press in a dark workshop, freshly printed pamphlets stacked beside it, single lamp light"],
+ ["b15_bulut_felsefe", [7], "a white marble classical bust of a philosopher floating among soft clouds above the earth, dreamy golden light"],
+ ["b16_sokak_sefalet", [7], "narrow muddy 1840s slum alley, laundry lines, smoke, dim lantern, puddles, poverty, distant figures"]
+]}

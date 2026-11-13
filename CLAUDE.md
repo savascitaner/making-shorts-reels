@@ -49,3 +49,10 @@ Bu adımların hiçbiri atlanmaz ve Enes'e hatırlattırılmaz.
 - Sohbete sadece büyük mp4 dosyaları eklenmez. Senaryo, ses (mp3), yayın paketi ve .srt eklenir.
 
 Kredi kıt: en az adım, tek ses kaydı, yeniden render'ı önlemek için ilk seferde eksiksiz yap.
+
+## Bilinen tuzaklar (2026-11-13, Marx-Feuerbach videosundan)
+- Gerçek kişi: Enes izleyicinin tanıyacağı yüz istiyor ("kim bu" dedirtme). Gerçek PD fotoğrafı Flow'a referans verip Nano Banana kare üret (ücretsiz, çalışıyor). Ama Veo bu yüzlerin bir kısmını "prominent people" diye reddediyor (kredi düşmez, tekrar denemek işe yaramaz): o replikleri arkadan/omuz üstü ya da B-roll ile çöz.
+- Dudak senkronu: konuşan karakter sadece Veo'da tam Türkçe repliği söylerken gösterilir; klibin konuşma aralığı (whisper ile) `klip/<k>/off.txt`'ye yazılır, `index.html` SYNC repliğe eşler. Diğer konuşmalarda dinleyen yüz, ağız kapalı.
+- İki ses istenirse: tek kayıt Sercan + diğer karakterin replikleri ayrı tek kayıt, `logs/birlestir.py` ile birleştir; seviye eşitle.
+- Reels 3 dk: ses 176 sn'yi geçerse atempo ≤1.05 ile sıkıştır.
+- Flow MCP "fetch failed" verirse Studio sunucusu düşmüştür: `cd ~/flow-mcp && nohup node dist/studio.js &` (kuyruk sıfırlanır, işleri yeniden gönder).
