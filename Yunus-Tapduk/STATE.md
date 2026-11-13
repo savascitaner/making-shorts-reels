@@ -1,0 +1,7 @@
+# Yunus-Tapduk STATE
+- 2026-11-13: Adım 1-3 bitti (Adim-1-2-3.md). Enes'in paketi: Enes-uretim-paketi.md. Onay bekleniyor: kanca (A önerildi), 2 ses (Tapduk=Sercan, Yunus=Serkan Yılmaz önerildi), yüz işleme, süre (~100-120 sn önerildi), Yunus son repliği düzeltmesi, final yazısı (Rûmî/Barks yerine "Bir ben vardır bende, benden içeri" önerildi).
+- Kredi harcanmadı.
+- 2026-11-13 16:35 Enes kararları: kanca A+B+C birlikte; yüzler net, dudaklar açık, iki derviş; final yazısı Rûmî adıyla aynen kalır (6 hayır); yayın açıklamasına menkıbe notu YOK (7 hayır).
+- Senaryo yazıldı (Yunus-Tapduk-senaryo.md), onay bekleniyor. Varsayılanlar: 2 ses (Tapduk=Sercan, Yunus=Serkan Yılmaz), Yunus son repliği düzeltilmiş hali, ~2:40, 7 Veo klip (140 kredi, sınır 100) onaya soruldu.
+- 16:36 Final yazısı: "İyinin ve kötünün ötesinde bir yer var. Seninle orada buluşacağız." Rûmî (Enes'in metni).
+- 2026-11-13 teslim: outputs/Yunus-Tapduk/ (107.8 sn). Ses: Tapduk Sercan 530 kr (ses/tapduk.mp3), Yunus Serkan Yılmaz 692 kr (ses/yunus.mp3), birleştirme logs/birlestir.py. Flow projesi 95c9bc76-ca00-4812-864a-d40a12b5c9b5, Tapduk karakteri asset:Tapduk, Yunus portresi ~/flow-mcp-out/YT-cast/scene-01.jpeg (flow_character Yunus için 3 kez zaman aşımı verdi). Veo 7 klip 140 kredi, hepsi Türkçe replik doğru. Müzik kodla sentez ney (logs/sesler.py; Commons'ta CC0 ney bulunamadı). Kapak Canva DAHa0VHd6pQ (taslak, kayıt Enes onayına bağlı), kaynak/kapak.html.
