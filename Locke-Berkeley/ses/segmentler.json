@@ -1,0 +1,68 @@
+[
+{
+"ad": "kanca",
+"bas": 0.0,
+"son": 5.36,
+"kaynak_bas": 0
+},
+{
+"ad": "L1",
+"bas": 6.06,
+"son": 15.72,
+"kaynak_bas": 0
+},
+{
+"ad": "B1",
+"bas": 16.07,
+"son": 23.81,
+"kaynak_bas": 5.5
+},
+{
+"ad": "L2",
+"bas": 24.16,
+"son": 36.83,
+"kaynak_bas": 10.6
+},
+{
+"ad": "B2",
+"bas": 37.18,
+"son": 50.95,
+"kaynak_bas": 13.65
+},
+{
+"ad": "L3",
+"bas": 51.3,
+"son": 59.53,
+"kaynak_bas": 23.9
+},
+{
+"ad": "B3",
+"bas": 59.88,
+"son": 72.85,
+"kaynak_bas": 27.5
+},
+{
+"ad": "agac",
+"bas": 73.65,
+"son": 78.9,
+"kaynak_bas": 0
+},
+{
+"ad": "L4",
+"bas": 79.6,
+"son": 86.42,
+"kaynak_bas": 32.8
+},
+{
+"ad": "B4",
+"bas": 86.87,
+"son": 101.01,
+"kaynak_bas": 40.7
+},
+{
+"ad": "kapanis",
+"bas": 101.91,
+"son": 119.45,
+"kaynak_bas": 55.4
+}
+]

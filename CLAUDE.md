@@ -56,3 +56,9 @@ Kredi kıt: en az adım, tek ses kaydı, yeniden render'ı önlemek için ilk se
 - İki ses istenirse: tek kayıt Sercan + diğer karakterin replikleri ayrı tek kayıt, `logs/birlestir.py` ile birleştir; seviye eşitle.
 - Reels 3 dk: ses 176 sn'yi geçerse atempo ≤1.05 ile sıkıştır.
 - Flow MCP "fetch failed" verirse Studio sunucusu düşmüştür: `cd ~/flow-mcp && nohup node dist/studio.js &` (kuyruk sıfırlanır, işleri yeniden gönder).
+
+## Bilinen tuzaklar (2026-11-13, Locke-Berkeley videosundan)
+- Whisper "ikincil/birincil + nitelik" gibi l+n birleşimlerini "ikinci/birinci" diye yazar; ses doğru olabilir. Yeniden kayıt almadan önce kısa parçayı `initial_prompt` ile tekrar transkribe et (gereksiz yama 100 kredi yaktı). Yazımı `duzelt` ile düzelt.
+- `birlestir.py` ile kesitte bir karakterin son parçasının sonunu `None` bırak; sabit saniye son kelimeyi ("oldu?") kesti.
+- Veo, gerçek portreden üretilmiş Locke/Berkeley yüzlerini önden reddetmedi (6/6 klip geçti). Veo replik başını bazen değiştirir ("Bay Lok" → "Hayır"); SYNC yine oturur.
+- Enes birden çok kanca seçeneğini birlikte isteyebilir: biri sesli kanca, diğerleri ekran yazısı ve videonun ortasına sesli ara olarak girer.
