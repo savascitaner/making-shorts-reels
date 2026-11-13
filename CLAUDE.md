@@ -62,3 +62,9 @@ Kredi kıt: en az adım, tek ses kaydı, yeniden render'ı önlemek için ilk se
 - `birlestir.py` ile kesitte bir karakterin son parçasının sonunu `None` bırak; sabit saniye son kelimeyi ("oldu?") kesti.
 - Veo, gerçek portreden üretilmiş Locke/Berkeley yüzlerini önden reddetmedi (6/6 klip geçti). Veo replik başını bazen değiştirir ("Bay Lok" → "Hayır"); SYNC yine oturur.
 - Enes birden çok kanca seçeneğini birlikte isteyebilir: biri sesli kanca, diğerleri ekran yazısı ve videonun ortasına sesli ara olarak girer.
+
+## Bilinen tuzaklar (2026-11-13, Yunus-Tapduk videosundan)
+- Flow görsel kuyruğu kare başı ~5-7 dk sürdü (insan benzeri bekleme). Önce yalnızca Veo'ya gidecek kareleri kuyruğa al, Veo'yu hemen arkasına koy; ara sahne görsellerini SDXL'e kaydır, Flow'a en fazla 1-2 ek kare.
+- `flow_character` bazen `waitForURL` zaman aşımıyla düşüyor; tekrar denemek yerine karakter portresini `type: image` ile üret, sonraki karelerde dosya yolunu `reference_images` olarak ver (tutarlılık iyi çıktı).
+- Commons'ta CC0/PD ney kaydı yok; ney müziği `logs/sesler.py` içinde kodla sentezlendi (Hicaz/Uşşak taksim + dem + yaylı).
+- Menkıbe karakterleri (gerçek portresi olmayan) için Veo 7/7 klipte Türkçe repliği birebir söyledi, hiç reddetmedi.
