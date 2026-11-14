@@ -1,0 +1,19 @@
+{
+"style": ", cinematic photorealistic film still, 1920s-1930s European period atmosphere, warm tungsten light with deep shadows, teal and amber grade, 35mm film grain, shallow depth of field, vertical composition, highly detailed",
+"neg": "cartoon, illustration, drawing, anime, 3d render, text, letters, numbers, equations, writing, watermark, signature, logo, nude, nsfw, people, person, face, hands, fingers, deformed, blurry, lowres, frame, border",
+"items": [
+ ["a01_kapi", [7], "a tall heavy wooden door slightly open in a dark corridor, a blade of bright golden light coming through the gap, dust in the beam"],
+ ["a02_para", [7,42], "macro shot of an antique silver coin spinning on its edge on a dark polished table, motion blur, rim light, black background"],
+ ["a03_zar", [7,42], "a single ivory die frozen in mid air above an old wooden desk at night, a brass desk lamp glowing, papers and a fountain pen, dark background"],
+ ["a04_kutu", [7,42], "an antique brass and glass box hanging from a long coiled spring scale with a pointer, a small clock mechanism visible inside the box, dark 1930s laboratory, warm lamp light, black background"],
+ ["a05_saat", [7], "an antique brass pocket clock floating in darkness, its face glowing softly, golden light bending around it"],
+ ["a06_satranc", [7,42], "close-up of an old wooden chessboard, a black king toppled on its side next to a standing white king, dramatic side light, dark background"],
+ ["a07_dunya", [7,42], "planet earth horizon seen from orbit at night, thin blue atmosphere glow, a single small bright cyan point of light hovering above the horizon, stars"],
+ ["a08_uzak", [7], "deep space with a distant spiral galaxy, a single small bright magenta point of light glowing in the foreground, stars, black void"],
+ ["a09_lab", [7,42], "modern quantum optics laboratory, an optical table with precision mirrors and lenses, thin violet and blue laser beams crossing in the dark, reflections"],
+ ["a10_otel", [7], "elegant 1920s grand hotel breakfast room in Brussels at early morning, empty white tablecloth table with coffee cups and croissants, tall windows with soft light"],
+ ["a11_salon", [7], "an empty 1920s scientific conference hall with long wooden tables, chairs and a large blackboard, sunlight beams from tall windows, dust motes"],
+ ["a12_tahta", [7,42], "an empty old professor study at night, a large dark blackboard with a faint simple chalk sketch of a box hanging on a spring, a single lamp, dust in the air"],
+ ["a13_bulut", [7], "a glowing translucent cloud of tiny blue and golden light particles floating in darkness, ethereal, volumetric"]
+]
+}

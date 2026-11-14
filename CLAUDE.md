@@ -68,3 +68,11 @@ Kredi kıt: en az adım, tek ses kaydı, yeniden render'ı önlemek için ilk se
 - `flow_character` bazen `waitForURL` zaman aşımıyla düşüyor; tekrar denemek yerine karakter portresini `type: image` ile üret, sonraki karelerde dosya yolunu `reference_images` olarak ver (tutarlılık iyi çıktı).
 - Commons'ta CC0/PD ney kaydı yok; ney müziği `logs/sesler.py` içinde kodla sentezlendi (Hicaz/Uşşak taksim + dem + yaylı).
 - Menkıbe karakterleri (gerçek portresi olmayan) için Veo 7/7 klipte Türkçe repliği birebir söyledi, hiç reddetmedi.
+
+## Bilinen tuzaklar (2026-11-14, Bohr-Einstein videosundan)
+- Veo, replik metninde tanınmış kişinin adı geçince ("Einstein...") klibi "prominent people" diye reddetti (kredi düşmez). Repliği isimsiz yaz; yüz aynı kalsa da geçti. Gerçek PD portreden üretilmiş Einstein/Bohr kareleri Veo'da sorunsuz konuştu.
+- ElevenLabs'te IPA'lı isim (Einstein /ˈaɪnʃtaɪn/) Tarkan sesinde kelimeyi iki kez okuttu: IPA'yı kaldır, düz yaz.
+- Premium kütüphane sesleri (ör. Tarkan 5WzTv66bK7WWszHUzwZ5) Sercan'ın ~2,2 katı kredi tüketir: önce estimate_only ile fiyatı gör.
+- Whisper uzun kayıtta bir cümleyi tamamen atlayabilir: kısa kesiti vad'sız, condition_on_previous_text=False ile yeniden transkribe edip words-raw.json'a elle yama.
+- Veo bazen bir kelimeyi iki kez söyler: SYNC başlangıcını (off.txt) ikinci tekrardan başlat.
+- Fizik anlatımında kodla tebeşir diyagramı (kelimelere bağlı çizim) + skor tabelası güçlü çalıştı; kredisiz.
