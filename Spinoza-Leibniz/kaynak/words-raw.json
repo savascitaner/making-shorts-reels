@@ -1,0 +1,1367 @@
+[
+{
+"w": "Bu",
+"s": 0.0,
+"e": 0.14,
+"p": 0.84,
+"kim": "anlatici+spinoza"
+},
+{
+"w": "videoyu",
+"s": 0.14,
+"e": 0.58,
+"p": 0.999,
+"kim": "anlatici+spinoza"
+},
+{
+"w": "açmaya",
+"s": 0.58,
+"e": 1.1,
+"p": 1.0,
+"kim": "anlatici+spinoza"
+},
+{
+"w": "sen",
+"s": 1.1,
+"e": 1.96,
+"p": 0.98,
+"kim": "anlatici+spinoza"
+},
+{
+"w": "mi",
+"s": 1.96,
+"e": 2.16,
+"p": 0.999,
+"kim": "anlatici+spinoza"
+},
+{
+"w": "karar",
+"s": 2.16,
+"e": 2.54,
+"p": 1.0,
+"kim": "anlatici+spinoza"
+},
+{
+"w": "verdin?",
+"s": 2.54,
+"e": 2.9,
+"p": 1.0,
+"kim": "anlatici+spinoza"
+},
+{
+"w": "Spinoza",
+"s": 3.76,
+"e": 4.58,
+"p": 0.993,
+"kim": "anlatici+spinoza"
+},
+{
+"w": "'ya",
+"s": 4.58,
+"e": 4.68,
+"p": 1.0,
+"kim": "anlatici+spinoza"
+},
+{
+"w": "göre",
+"s": 4.68,
+"e": 4.98,
+"p": 0.998,
+"kim": "anlatici+spinoza"
+},
+{
+"w": "hayır.",
+"s": 4.98,
+"e": 5.56,
+"p": 0.953,
+"kim": "anlatici+spinoza"
+},
+{
+"w": "Lahey,",
+"s": 7.04,
+"e": 7.86,
+"p": 0.825,
+"kim": "anlatici+spinoza"
+},
+{
+"w": "1676,",
+"s": 7.86,
+"e": 8.68,
+"p": 1.0,
+"kim": "anlatici+spinoza"
+},
+{
+"w": "cemaatinden",
+"s": 9.1,
+"e": 10.06,
+"p": 0.997,
+"kim": "anlatici+spinoza"
+},
+{
+"w": "atılmış",
+"s": 10.06,
+"e": 10.5,
+"p": 0.999,
+"kim": "anlatici+spinoza"
+},
+{
+"w": "bir",
+"s": 10.5,
+"e": 10.8,
+"p": 1.0,
+"kim": "anlatici+spinoza"
+},
+{
+"w": "mercek",
+"s": 10.8,
+"e": 11.22,
+"p": 0.995,
+"kim": "anlatici+spinoza"
+},
+{
+"w": "ustası.",
+"s": 11.22,
+"e": 11.78,
+"p": 1.0,
+"kim": "anlatici+spinoza"
+},
+{
+"w": "Üç",
+"s": 11.8,
+"e": 12.24,
+"p": 0.86,
+"kim": "anlatici+spinoza"
+},
+{
+"w": "ay",
+"s": 12.24,
+"e": 12.38,
+"p": 1.0,
+"kim": "anlatici+spinoza"
+},
+{
+"w": "sonra",
+"s": 12.38,
+"e": 12.64,
+"p": 1.0,
+"kim": "anlatici+spinoza"
+},
+{
+"w": "ölecek.",
+"s": 12.64,
+"e": 13.14,
+"p": 0.999,
+"kim": "anlatici+spinoza"
+},
+{
+"w": "Kapısını",
+"s": 13.28,
+"e": 14.0,
+"p": 1.0,
+"kim": "anlatici+spinoza"
+},
+{
+"w": "Avrupa",
+"s": 14.0,
+"e": 14.56,
+"p": 0.999,
+"kim": "anlatici+spinoza"
+},
+{
+"w": "'nın",
+"s": 14.56,
+"e": 14.66,
+"p": 1.0,
+"kim": "anlatici+spinoza"
+},
+{
+"w": "en",
+"s": 14.66,
+"e": 14.98,
+"p": 1.0,
+"kim": "anlatici+spinoza"
+},
+{
+"w": "parlak",
+"s": 14.98,
+"e": 15.54,
+"p": 1.0,
+"kim": "anlatici+spinoza"
+},
+{
+"w": "genç",
+"s": 15.54,
+"e": 15.82,
+"p": 1.0,
+"kim": "anlatici+spinoza"
+},
+{
+"w": "zihni",
+"s": 15.82,
+"e": 16.08,
+"p": 0.997,
+"kim": "anlatici+spinoza"
+},
+{
+"w": "çalıyor.",
+"s": 16.08,
+"e": 16.48,
+"p": 0.999,
+"kim": "anlatici+spinoza"
+},
+{
+"w": "Leibniz.",
+"s": 16.74,
+"e": 17.34,
+"p": 0.984,
+"kim": "anlatici+spinoza"
+},
+{
+"w": "Havaya",
+"s": 18.23,
+"e": 18.64,
+"p": 0.995,
+"kim": "anlatici+spinoza"
+},
+{
+"w": "atılan",
+"s": 18.64,
+"e": 19.02,
+"p": 1.0,
+"kim": "anlatici+spinoza"
+},
+{
+"w": "bir",
+"s": 19.02,
+"e": 19.2,
+"p": 1.0,
+"kim": "anlatici+spinoza"
+},
+{
+"w": "taş,",
+"s": 19.2,
+"e": 19.46,
+"p": 1.0,
+"kim": "anlatici+spinoza"
+},
+{
+"w": "uçarken",
+"s": 19.66,
+"e": 20.34,
+"p": 1.0,
+"kim": "anlatici+spinoza"
+},
+{
+"w": "bilinç",
+"s": 20.34,
+"e": 20.88,
+"p": 1.0,
+"kim": "anlatici+spinoza"
+},
+{
+"w": "kazansaydı",
+"s": 20.88,
+"e": 21.58,
+"p": 1.0,
+"kim": "anlatici+spinoza"
+},
+{
+"w": "ne",
+"s": 21.58,
+"e": 22.2,
+"p": 0.926,
+"kim": "anlatici+spinoza"
+},
+{
+"w": "düşünürdü?",
+"s": 22.2,
+"e": 22.92,
+"p": 0.999,
+"kim": "anlatici+spinoza"
+},
+{
+"w": "Kendi",
+"s": 23.61,
+"e": 24.02,
+"p": 1.0,
+"kim": "anlatici+spinoza"
+},
+{
+"w": "isteğiyle",
+"s": 24.02,
+"e": 24.54,
+"p": 1.0,
+"kim": "anlatici+spinoza"
+},
+{
+"w": "uçtuğunu",
+"s": 24.54,
+"e": 24.94,
+"p": 1.0,
+"kim": "anlatici+spinoza"
+},
+{
+"w": "sanırdı.",
+"s": 24.94,
+"e": 25.48,
+"p": 1.0,
+"kim": "anlatici+spinoza"
+},
+{
+"w": "Onu",
+"s": 25.5,
+"e": 25.96,
+"p": 0.997,
+"kim": "anlatici+spinoza"
+},
+{
+"w": "atan",
+"s": 25.96,
+"e": 26.36,
+"p": 0.94,
+"kim": "anlatici+spinoza"
+},
+{
+"w": "eli",
+"s": 26.36,
+"e": 26.66,
+"p": 0.987,
+"kim": "anlatici+spinoza"
+},
+{
+"w": "bilmezdi.",
+"s": 26.66,
+"e": 27.26,
+"p": 1.0,
+"kim": "anlatici+spinoza"
+},
+{
+"w": "İnsan",
+"s": 27.26,
+"e": 28.3,
+"p": 0.937,
+"kim": "anlatici+spinoza"
+},
+{
+"w": "da",
+"s": 28.3,
+"e": 28.36,
+"p": 1.0,
+"kim": "anlatici+spinoza"
+},
+{
+"w": "böyle.",
+"s": 28.36,
+"e": 28.66,
+"p": 0.999,
+"kim": "anlatici+spinoza"
+},
+{
+"w": "Arzularını",
+"s": 29.0,
+"e": 29.78,
+"p": 1.0,
+"kim": "anlatici+spinoza"
+},
+{
+"w": "bilir,",
+"s": 29.78,
+"e": 30.22,
+"p": 1.0,
+"kim": "anlatici+spinoza"
+},
+{
+"w": "o",
+"s": 30.22,
+"e": 30.58,
+"p": 1.0,
+"kim": "anlatici+spinoza"
+},
+{
+"w": "arzuları",
+"s": 30.58,
+"e": 31.24,
+"p": 1.0,
+"kim": "anlatici+spinoza"
+},
+{
+"w": "doğuran",
+"s": 31.24,
+"e": 31.6,
+"p": 0.999,
+"kim": "anlatici+spinoza"
+},
+{
+"w": "sebepleri",
+"s": 31.6,
+"e": 32.28,
+"p": 1.0,
+"kim": "anlatici+spinoza"
+},
+{
+"w": "bilmez.",
+"s": 32.28,
+"e": 32.7,
+"p": 1.0,
+"kim": "anlatici+spinoza"
+},
+{
+"w": "Bu",
+"s": 33.1,
+"e": 33.28,
+"p": 0.954,
+"kim": "leibniz"
+},
+{
+"w": "bir",
+"s": 33.28,
+"e": 33.46,
+"p": 0.985,
+"kim": "leibniz"
+},
+{
+"w": "hapishane",
+"s": 33.46,
+"e": 34.16,
+"p": 0.993,
+"kim": "leibniz"
+},
+{
+"w": "Spinoza!",
+"s": 34.16,
+"e": 34.7,
+"p": 0.973,
+"kim": "leibniz"
+},
+{
+"w": "O",
+"s": 34.8,
+"e": 35.24,
+"p": 0.994,
+"kim": "leibniz"
+},
+{
+"w": "zaman",
+"s": 35.24,
+"e": 35.5,
+"p": 0.999,
+"kim": "leibniz"
+},
+{
+"w": "iyiliğin",
+"s": 35.5,
+"e": 35.94,
+"p": 0.998,
+"kim": "leibniz"
+},
+{
+"w": "ne",
+"s": 35.94,
+"e": 36.08,
+"p": 0.999,
+"kim": "leibniz"
+},
+{
+"w": "değeri",
+"s": 36.08,
+"e": 36.44,
+"p": 0.998,
+"kim": "leibniz"
+},
+{
+"w": "kalır?",
+"s": 36.44,
+"e": 36.74,
+"p": 0.999,
+"kim": "leibniz"
+},
+{
+"w": "Bir",
+"s": 37.46,
+"e": 37.82,
+"p": 0.994,
+"kim": "leibniz"
+},
+{
+"w": "annenin",
+"s": 37.82,
+"e": 38.3,
+"p": 0.994,
+"kim": "leibniz"
+},
+{
+"w": "çocuğuna",
+"s": 38.3,
+"e": 38.8,
+"p": 0.996,
+"kim": "leibniz"
+},
+{
+"w": "duyduğu",
+"s": 38.8,
+"e": 39.14,
+"p": 0.999,
+"kim": "leibniz"
+},
+{
+"w": "sevgiyle",
+"s": 39.14,
+"e": 39.64,
+"p": 0.981,
+"kim": "leibniz"
+},
+{
+"w": "yere",
+"s": 39.64,
+"e": 40.12,
+"p": 0.898,
+"kim": "leibniz"
+},
+{
+"w": "düşen",
+"s": 40.12,
+"e": 40.52,
+"p": 1.0,
+"kim": "leibniz"
+},
+{
+"w": "bir",
+"s": 40.52,
+"e": 40.62,
+"p": 0.994,
+"kim": "leibniz"
+},
+{
+"w": "taş",
+"s": 40.62,
+"e": 40.84,
+"p": 0.999,
+"kim": "leibniz"
+},
+{
+"w": "arasında",
+"s": 40.84,
+"e": 41.28,
+"p": 0.997,
+"kim": "leibniz"
+},
+{
+"w": "ne",
+"s": 41.28,
+"e": 41.48,
+"p": 0.997,
+"kim": "leibniz"
+},
+{
+"w": "fark",
+"s": 41.48,
+"e": 41.7,
+"p": 0.999,
+"kim": "leibniz"
+},
+{
+"w": "var?",
+"s": 41.7,
+"e": 41.94,
+"p": 0.997,
+"kim": "leibniz"
+},
+{
+"w": "Hiçbir",
+"s": 42.36,
+"e": 42.94,
+"p": 0.975,
+"kim": "leibniz"
+},
+{
+"w": "şey",
+"s": 42.94,
+"e": 43.16,
+"p": 0.999,
+"kim": "leibniz"
+},
+{
+"w": "sebepsiz",
+"s": 43.16,
+"e": 43.7,
+"p": 0.998,
+"kim": "leibniz"
+},
+{
+"w": "olmaz,",
+"s": 43.7,
+"e": 43.9,
+"p": 0.999,
+"kim": "leibniz"
+},
+{
+"w": "evet.",
+"s": 44.06,
+"e": 44.26,
+"p": 0.999,
+"kim": "leibniz"
+},
+{
+"w": "Ama",
+"s": 44.44,
+"e": 44.88,
+"p": 0.999,
+"kim": "leibniz"
+},
+{
+"w": "Tanrı",
+"s": 44.88,
+"e": 45.32,
+"p": 0.916,
+"kim": "leibniz"
+},
+{
+"w": "'nın",
+"s": 45.32,
+"e": 45.4,
+"p": 0.999,
+"kim": "leibniz"
+},
+{
+"w": "aklı",
+"s": 45.4,
+"e": 45.88,
+"p": 0.999,
+"kim": "leibniz"
+},
+{
+"w": "var.",
+"s": 45.88,
+"e": 46.0,
+"p": 1.0,
+"kim": "leibniz"
+},
+{
+"w": "Tartar",
+"s": 46.14,
+"e": 46.84,
+"p": 0.999,
+"kim": "leibniz"
+},
+{
+"w": "ve",
+"s": 46.84,
+"e": 46.96,
+"p": 1.0,
+"kim": "leibniz"
+},
+{
+"w": "seçer.",
+"s": 46.96,
+"e": 47.4,
+"p": 0.998,
+"kim": "leibniz"
+},
+{
+"w": "İyi",
+"s": 48.57,
+"e": 48.96,
+"p": 0.999,
+"kim": "spinoza"
+},
+{
+"w": "ve",
+"s": 48.96,
+"e": 49.2,
+"p": 1.0,
+"kim": "spinoza"
+},
+{
+"w": "kötü.",
+"s": 49.2,
+"e": 49.58,
+"p": 0.999,
+"kim": "spinoza"
+},
+{
+"w": "İnsanın",
+"s": 49.72,
+"e": 50.38,
+"p": 0.999,
+"kim": "spinoza"
+},
+{
+"w": "kendi",
+"s": 50.38,
+"e": 50.8,
+"p": 1.0,
+"kim": "spinoza"
+},
+{
+"w": "işine",
+"s": 50.8,
+"e": 51.24,
+"p": 1.0,
+"kim": "spinoza"
+},
+{
+"w": "göre",
+"s": 51.24,
+"e": 51.42,
+"p": 1.0,
+"kim": "spinoza"
+},
+{
+"w": "koyduğu",
+"s": 51.42,
+"e": 51.9,
+"p": 1.0,
+"kim": "spinoza"
+},
+{
+"w": "adlar.",
+"s": 51.9,
+"e": 52.24,
+"p": 0.999,
+"kim": "spinoza"
+},
+{
+"w": "Doğa",
+"s": 52.4,
+"e": 52.96,
+"p": 0.999,
+"kim": "spinoza"
+},
+{
+"w": "bu",
+"s": 52.96,
+"e": 53.14,
+"p": 0.998,
+"kim": "spinoza"
+},
+{
+"w": "adları",
+"s": 53.14,
+"e": 53.5,
+"p": 1.0,
+"kim": "spinoza"
+},
+{
+"w": "bilmez.",
+"s": 53.5,
+"e": 53.92,
+"p": 1.0,
+"kim": "spinoza"
+},
+{
+"w": "Yağmur,",
+"s": 54.18,
+"e": 54.86,
+"p": 1.0,
+"kim": "spinoza"
+},
+{
+"w": "tarlayı",
+"s": 54.86,
+"e": 55.42,
+"p": 0.999,
+"kim": "spinoza"
+},
+{
+"w": "yeşertmek",
+"s": 55.42,
+"e": 55.92,
+"p": 1.0,
+"kim": "spinoza"
+},
+{
+"w": "için",
+"s": 55.92,
+"e": 56.18,
+"p": 1.0,
+"kim": "spinoza"
+},
+{
+"w": "yağmaz.",
+"s": 56.18,
+"e": 56.64,
+"p": 1.0,
+"kim": "spinoza"
+},
+{
+"w": "Yağması",
+"s": 56.84,
+"e": 57.48,
+"p": 0.999,
+"kim": "spinoza"
+},
+{
+"w": "gerektiği",
+"s": 57.48,
+"e": 58.06,
+"p": 1.0,
+"kim": "spinoza"
+},
+{
+"w": "için",
+"s": 58.06,
+"e": 58.24,
+"p": 1.0,
+"kim": "spinoza"
+},
+{
+"w": "yağar.",
+"s": 58.24,
+"e": 58.72,
+"p": 0.999,
+"kim": "spinoza"
+},
+{
+"w": "Tanrı",
+"s": 59.16,
+"e": 59.94,
+"p": 1.0,
+"kim": "spinoza"
+},
+{
+"w": "bir",
+"s": 59.94,
+"e": 60.14,
+"p": 0.879,
+"kim": "spinoza"
+},
+{
+"w": "amaç",
+"s": 60.14,
+"e": 60.52,
+"p": 1.0,
+"kim": "spinoza"
+},
+{
+"w": "için",
+"s": 60.52,
+"e": 60.74,
+"p": 1.0,
+"kim": "spinoza"
+},
+{
+"w": "yaratsaydı",
+"s": 60.74,
+"e": 61.52,
+"p": 0.998,
+"kim": "spinoza"
+},
+{
+"w": "bir",
+"s": 61.52,
+"e": 61.92,
+"p": 0.505,
+"kim": "spinoza"
+},
+{
+"w": "şeye",
+"s": 61.92,
+"e": 62.16,
+"p": 1.0,
+"kim": "spinoza"
+},
+{
+"w": "ihtiyacı",
+"s": 62.16,
+"e": 62.78,
+"p": 1.0,
+"kim": "spinoza"
+},
+{
+"w": "olurdu.",
+"s": 62.78,
+"e": 63.16,
+"p": 1.0,
+"kim": "spinoza"
+},
+{
+"w": "Eksik",
+"s": 63.3,
+"e": 63.94,
+"p": 1.0,
+"kim": "spinoza"
+},
+{
+"w": "olan",
+"s": 63.94,
+"e": 64.14,
+"p": 1.0,
+"kim": "spinoza"
+},
+{
+"w": "Tanrı",
+"s": 64.14,
+"e": 64.8,
+"p": 0.961,
+"kim": "spinoza"
+},
+{
+"w": "olabilir",
+"s": 64.8,
+"e": 65.08,
+"p": 1.0,
+"kim": "spinoza"
+},
+{
+"w": "mi?",
+"s": 65.08,
+"e": 65.34,
+"p": 1.0,
+"kim": "spinoza"
+},
+{
+"w": "Senin",
+"s": 66.9,
+"e": 67.62,
+"p": 0.957,
+"kim": "leibniz"
+},
+{
+"w": "Tanrın",
+"s": 67.62,
+"e": 68.18,
+"p": 0.885,
+"kim": "leibniz"
+},
+{
+"w": "kusursuz",
+"s": 68.18,
+"e": 68.84,
+"p": 0.999,
+"kim": "leibniz"
+},
+{
+"w": "ama",
+"s": 68.84,
+"e": 69.34,
+"p": 0.937,
+"kim": "leibniz"
+},
+{
+"w": "soğuk.",
+"s": 69.34,
+"e": 69.84,
+"p": 1.0,
+"kim": "leibniz"
+},
+{
+"w": "Ne",
+"s": 69.96,
+"e": 70.46,
+"p": 0.999,
+"kim": "leibniz"
+},
+{
+"w": "duayı",
+"s": 70.46,
+"e": 70.82,
+"p": 0.996,
+"kim": "leibniz"
+},
+{
+"w": "duyar",
+"s": 70.82,
+"e": 71.28,
+"p": 1.0,
+"kim": "leibniz"
+},
+{
+"w": "ne",
+"s": 71.28,
+"e": 71.58,
+"p": 0.779,
+"kim": "leibniz"
+},
+{
+"w": "gözyaşını",
+"s": 71.58,
+"e": 72.16,
+"p": 0.995,
+"kim": "leibniz"
+},
+{
+"w": "görür.",
+"s": 72.16,
+"e": 72.48,
+"p": 0.999,
+"kim": "leibniz"
+},
+{
+"w": "Bir",
+"s": 72.86,
+"e": 73.22,
+"p": 0.998,
+"kim": "leibniz"
+},
+{
+"w": "senfonide",
+"s": 73.22,
+"e": 73.74,
+"p": 0.972,
+"kim": "leibniz"
+},
+{
+"w": "karanlık",
+"s": 73.74,
+"e": 74.24,
+"p": 1.0,
+"kim": "leibniz"
+},
+{
+"w": "notalar",
+"s": 74.24,
+"e": 74.56,
+"p": 0.999,
+"kim": "leibniz"
+},
+{
+"w": "olmasa",
+"s": 74.56,
+"e": 75.14,
+"p": 1.0,
+"kim": "leibniz"
+},
+{
+"w": "o",
+"s": 75.14,
+"e": 75.44,
+"p": 0.989,
+"kim": "leibniz"
+},
+{
+"w": "müzik",
+"s": 75.44,
+"e": 75.7,
+"p": 0.999,
+"kim": "leibniz"
+},
+{
+"w": "tamamlanmaz.",
+"s": 75.7,
+"e": 76.38,
+"p": 1.0,
+"kim": "leibniz"
+},
+{
+"w": "İnsanı",
+"s": 76.68,
+"e": 77.4,
+"p": 0.999,
+"kim": "leibniz"
+},
+{
+"w": "insan",
+"s": 77.4,
+"e": 77.72,
+"p": 0.999,
+"kim": "leibniz"
+},
+{
+"w": "yapan,",
+"s": 77.72,
+"e": 78.18,
+"p": 1.0,
+"kim": "leibniz"
+},
+{
+"w": "seçebilmesidir.",
+"s": 78.32,
+"e": 79.4,
+"p": 0.997,
+"kim": "leibniz"
+},
+{
+"w": "Anlamı",
+"s": 80.42,
+"e": 81.2,
+"p": 0.993,
+"kim": "spinoza"
+},
+{
+"w": "dışarıda",
+"s": 81.2,
+"e": 81.7,
+"p": 1.0,
+"kim": "spinoza"
+},
+{
+"w": "arama.",
+"s": 81.7,
+"e": 82.02,
+"p": 1.0,
+"kim": "spinoza"
+},
+{
+"w": "Sen",
+"s": 82.18,
+"e": 82.68,
+"p": 0.999,
+"kim": "spinoza"
+},
+{
+"w": "doğanın",
+"s": 82.68,
+"e": 83.34,
+"p": 0.99,
+"kim": "spinoza"
+},
+{
+"w": "kendisisin.",
+"s": 83.34,
+"e": 84.24,
+"p": 0.998,
+"kim": "spinoza"
+},
+{
+"w": "Hayır,",
+"s": 84.68,
+"e": 85.36,
+"p": 0.955,
+"kim": "leibniz"
+},
+{
+"w": "sen",
+"s": 85.5,
+"e": 86.04,
+"p": 0.994,
+"kim": "leibniz"
+},
+{
+"w": "seçebilen",
+"s": 86.04,
+"e": 86.88,
+"p": 0.995,
+"kim": "leibniz"
+},
+{
+"w": "bir",
+"s": 86.88,
+"e": 87.0,
+"p": 0.999,
+"kim": "leibniz"
+},
+{
+"w": "ruhsun.",
+"s": 87.0,
+"e": 87.34,
+"p": 0.994,
+"kim": "leibniz"
+},
+{
+"w": "Spinoza",
+"s": 88.48,
+"e": 89.26,
+"p": 0.998,
+"kim": "anlatici"
+},
+{
+"w": "üç",
+"s": 89.26,
+"e": 89.6,
+"p": 0.559,
+"kim": "anlatici"
+},
+{
+"w": "ay",
+"s": 89.6,
+"e": 89.82,
+"p": 1.0,
+"kim": "anlatici"
+},
+{
+"w": "sonra",
+"s": 89.82,
+"e": 90.06,
+"p": 1.0,
+"kim": "anlatici"
+},
+{
+"w": "öldü.",
+"s": 90.06,
+"e": 90.62,
+"p": 1.0,
+"kim": "anlatici"
+},
+{
+"w": "Leibniz",
+"s": 90.9,
+"e": 91.32,
+"p": 0.996,
+"kim": "anlatici"
+},
+{
+"w": "ona",
+"s": 91.32,
+"e": 91.6,
+"p": 0.985,
+"kim": "anlatici"
+},
+{
+"w": "cevabını",
+"s": 91.6,
+"e": 92.2,
+"p": 1.0,
+"kim": "anlatici"
+},
+{
+"w": "30",
+"s": 92.2,
+"e": 92.58,
+"p": 0.818,
+"kim": "anlatici"
+},
+{
+"w": "yıl",
+"s": 92.58,
+"e": 92.92,
+"p": 1.0,
+"kim": "anlatici"
+},
+{
+"w": "boyunca",
+"s": 92.92,
+"e": 93.32,
+"p": 1.0,
+"kim": "anlatici"
+},
+{
+"w": "yazdı.",
+"s": 93.32,
+"e": 93.72,
+"p": 1.0,
+"kim": "anlatici"
+},
+{
+"w": "Tanrı",
+"s": 93.84,
+"e": 94.52,
+"p": 1.0,
+"kim": "anlatici"
+},
+{
+"w": "sayısız",
+"s": 94.52,
+"e": 95.18,
+"p": 0.96,
+"kim": "anlatici"
+},
+{
+"w": "dünya",
+"s": 95.18,
+"e": 95.56,
+"p": 1.0,
+"kim": "anlatici"
+},
+{
+"w": "arasından",
+"s": 95.56,
+"e": 96.02,
+"p": 1.0,
+"kim": "anlatici"
+},
+{
+"w": "en",
+"s": 96.02,
+"e": 96.44,
+"p": 1.0,
+"kim": "anlatici"
+},
+{
+"w": "iyisini",
+"s": 96.44,
+"e": 96.76,
+"p": 0.923,
+"kim": "anlatici"
+},
+{
+"w": "seçmişti.",
+"s": 96.76,
+"e": 97.44,
+"p": 1.0,
+"kim": "anlatici"
+},
+{
+"w": "Sence",
+"s": 97.88,
+"e": 98.44,
+"p": 0.998,
+"kim": "anlatici"
+},
+{
+"w": "sen",
+"s": 98.44,
+"e": 98.92,
+"p": 1.0,
+"kim": "anlatici"
+},
+{
+"w": "hangisisin?",
+"s": 98.92,
+"e": 99.78,
+"p": 0.998,
+"kim": "anlatici"
+},
+{
+"w": "Atılan",
+"s": 99.82,
+"e": 100.36,
+"p": 1.0,
+"kim": "anlatici"
+},
+{
+"w": "taş",
+"s": 100.36,
+"e": 100.64,
+"p": 1.0,
+"kim": "anlatici"
+},
+{
+"w": "mı,",
+"s": 100.64,
+"e": 100.88,
+"p": 1.0,
+"kim": "anlatici"
+},
+{
+"w": "seçen",
+"s": 100.98,
+"e": 101.64,
+"p": 1.0,
+"kim": "anlatici"
+},
+{
+"w": "ruh",
+"s": 101.64,
+"e": 101.88,
+"p": 1.0,
+"kim": "anlatici"
+},
+{
+"w": "mu?",
+"s": 101.88,
+"e": 102.04,
+"p": 1.0,
+"kim": "anlatici"
+},
+{
+"w": "Cevabını",
+"s": 102.16,
+"e": 102.88,
+"p": 0.999,
+"kim": "anlatici"
+},
+{
+"w": "yorumlara",
+"s": 102.88,
+"e": 103.34,
+"p": 1.0,
+"kim": "anlatici"
+},
+{
+"w": "yaz.",
+"s": 103.34,
+"e": 103.54,
+"p": 1.0,
+"kim": "anlatici"
+}
+]

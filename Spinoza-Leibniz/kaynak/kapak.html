@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="tr"><head><meta charset="utf-8"><title>Kapak</title>
+<style>
+@font-face{font-family:Anton;src:url(fonts/Anton-Regular.ttf)}
+@font-face{font-family:Cinzel;font-weight:900;src:url(fonts/cinzel-latin-900.woff2) format('woff2');unicode-range:U+0000-00FF,U+2000-206F}
+@font-face{font-family:Cinzel;font-weight:900;src:url(fonts/cinzel-latin-ext-900.woff2) format('woff2');unicode-range:U+0100-024F,U+1E00-1EFF}
+@font-face{font-family:Cinzel;font-weight:700;src:url(fonts/cinzel-latin-700.woff2) format('woff2');unicode-range:U+0000-00FF,U+2000-206F}
+@font-face{font-family:Cinzel;font-weight:700;src:url(fonts/cinzel-latin-ext-700.woff2) format('woff2');unicode-range:U+0100-024F,U+1E00-1EFF}
+html,body{margin:0;background:#000}canvas{display:block;width:360px;height:640px}
+</style></head><body><canvas id="c" width="1080" height="1920"></canvas>
+<script>
+const W = 1080, H = 1920, cv = document.getElementById('c'), ctx = cv.getContext('2d');
+const AMBER = '#E9B45A', CREAM = '#F4EBD9', PRISM = ['rgba(255,90,60,', 'rgba(255,214,120,', 'rgba(110,170,255,'];
+const load = s => new Promise((ok, no) => { const im = new Image(); im.onload = () => ok(im); im.onerror = no; im.src = '../gorseller/' + s; });
+function drawImg(im, u, v, z, rx, ry, rw, rh, filter = 'none') {
+  const s = Math.max(rw / im.width, rh / im.height) * z, dw = im.width * s, dh = im.height * s;
+  const ox = Math.max(0, Math.min(u * dw - rw / 2, dw - rw)), oy = Math.max(0, Math.min(v * dh - rh / 2, dh - rh));
+  ctx.save(); ctx.beginPath(); ctx.rect(rx, ry, rw, rh); ctx.clip(); ctx.filter = filter; ctx.drawImage(im, rx - ox, ry - oy, dw, dh); ctx.restore();
+}
+function glow(x, y, r, a) { const g = ctx.createRadialGradient(x, y, 0, x, y, r); g.addColorStop(0, `rgba(255,222,160,${a})`); g.addColorStop(0.5, `rgba(255,180,90,${a * 0.3})`); g.addColorStop(1, 'rgba(0,0,0,0)'); ctx.save(); ctx.globalCompositeOperation = 'screen'; ctx.fillStyle = g; ctx.fillRect(x - r, y - r, r * 2, r * 2); ctx.restore(); }
+function anton(s, y, size, color) {
+  ctx.save(); ctx.textAlign = 'center'; ctx.lineJoin = 'round'; ctx.font = `${size}px Anton`; let sz = size; const mw = ctx.measureText(s).width; if (mw > 980) { sz = Math.floor(size * 980 / mw); ctx.font = `${sz}px Anton`; }
+  ctx.lineWidth = sz * 0.11; ctx.strokeStyle = 'rgba(6,5,10,0.95)'; ctx.shadowColor = 'rgba(0,0,0,0.8)'; ctx.shadowBlur = 40; ctx.strokeText(s, W / 2, y); ctx.shadowBlur = 0;
+  ctx.fillStyle = color; ctx.shadowColor = 'rgba(233,180,90,0.5)'; ctx.shadowBlur = 50; ctx.fillText(s, W / 2, y); ctx.restore();
+}
+function cinzel(s, y, size, color, sp) { ctx.save(); ctx.textAlign = 'center'; ctx.font = `900 ${size}px Cinzel`; ctx.letterSpacing = sp + 'px'; ctx.lineJoin = 'round'; ctx.lineWidth = size * 0.14; ctx.strokeStyle = 'rgba(6,5,10,0.9)'; ctx.strokeText(s, W / 2 + sp / 2, y); ctx.fillStyle = color; ctx.fillText(s, W / 2 + sp / 2, y); ctx.restore(); }
+async function draw() {
+  const sp = await load('flow/f09_spinoza_tas_yakin.jpg'), lb = await load('flow/f02_leibniz_yumusak.jpg');
+  ctx.fillStyle = '#000'; ctx.fillRect(0, 0, W, H);
+  drawImg(sp, 0.6, 0.3, 1.05, 0, 0, W / 2 - 5, H, 'contrast(1.06)');
+  drawImg(lb, 0.5, 0.3, 1.0, W / 2 + 5, 0, W / 2 - 5, H, 'contrast(1.06)');
+  ctx.save(); ctx.globalCompositeOperation = 'soft-light'; ctx.fillStyle = 'rgba(255,170,80,0.2)'; ctx.fillRect(0, 0, W, H); ctx.restore();
+  // ortadaki prizmatik ışık çizgisi
+  ctx.save(); ctx.globalCompositeOperation = 'lighter';
+  [[-14, 0], [0, 1], [14, 2]].forEach(([o, c]) => { const g = ctx.createLinearGradient(W / 2 + o - 22, 0, W / 2 + o + 22, 0); g.addColorStop(0, PRISM[c] + '0)'); g.addColorStop(0.5, PRISM[c] + (c === 1 ? 0.9 : 0.5) + ')'); g.addColorStop(1, PRISM[c] + '0)'); ctx.fillStyle = g; ctx.fillRect(W / 2 + o - 22, 0, 44, H); });
+  ctx.restore(); glow(W / 2, 1420, 380, 0.5);
+  // metin bölgesi gölgesi (4:5 güvenli alan: y 285-1635)
+  const g = ctx.createLinearGradient(0, 820, 0, 1720); g.addColorStop(0, 'rgba(4,4,10,0)'); g.addColorStop(0.3, 'rgba(4,4,10,0.62)'); g.addColorStop(0.75, 'rgba(4,4,10,0.62)'); g.addColorStop(1, 'rgba(4,4,10,0)'); ctx.fillStyle = g; ctx.fillRect(0, 820, W, 900);
+  const g2 = ctx.createLinearGradient(0, 1700, 0, 1900); g2.addColorStop(0, 'rgba(4,4,10,0)'); g2.addColorStop(0.5, 'rgba(4,4,10,0.55)'); g2.addColorStop(1, 'rgba(4,4,10,0)'); ctx.fillStyle = g2; ctx.fillRect(0, 1700, W, 200);
+  anton('SEN Mİ', 1110, 250, CREAM);
+  anton('SEÇTİN?', 1370, 285, AMBER);
+  cinzel('SPİNOZA  ×  LEIBNIZ', 1500, 70, CREAM, 6);
+  ctx.fillStyle = AMBER; ctx.fillRect(W / 2 - 200, 1535, 400, 4);
+  cinzel('LAHEY, 1676', 1600, 44, AMBER, 12);
+  const v = ctx.createRadialGradient(W / 2, H / 2, H * 0.38, W / 2, H / 2, H * 0.8); v.addColorStop(0, 'rgba(0,0,0,0)'); v.addColorStop(1, 'rgba(6,8,20,0.55)'); ctx.fillStyle = v; ctx.fillRect(0, 0, W, H);
+}
+window.captureFrame = async (f, type = 'image/png', q = 0.95) => cv.toDataURL(type, q);
+window.READY = (async () => { await Promise.all(['260px Anton', '900 40px Cinzel'].map(f => document.fonts.load(f, 'ŞİĞÜÖÇışğüöç×'))); await draw(); return { frames: 1, fps: 1, width: W, height: H, renderer: 'canvas' }; })();
+</script></body></html>

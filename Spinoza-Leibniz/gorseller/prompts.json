@@ -1,0 +1,14 @@
+{
+"style": ", ultra realistic cinematic film still, 17th century Dutch Golden Age interior mood, Rembrandt chiaroscuro, single warm candlelight with deep black shadows, amber and umber palette, shallow depth of field, 85mm lens, natural film grain, vertical composition, highly detailed",
+"neg": "people, face, person, hands, cartoon, illustration, painting, 3d render, text, letters, watermark, signature, logo, modern objects, electric light, blurry, lowres, frame, border",
+"items": [
+ ["a01_sokak", [11,23], "a narrow rainy canal street in The Hague at night in 1676, wet cobblestones reflecting a single oil lantern, dark brick gabled houses, a heavy wooden door with a faint warm glow under it, rain falling"],
+ ["a02_mum", [11,23], "macro close-up of a single tallow candle flame burning in total darkness, soft glow, tiny wisps of smoke"],
+ ["a03_mercek", [11,23], "macro close-up of a hand-polished round glass optical lens standing on a dark oak table, candlelight passing through it and refracting into a thin golden beam of light across the dark room, floating dust particles in the beam"],
+ ["a04_tas", [11,23], "a small smooth grey pebble frozen in mid-air against a pitch black background, lit by warm candlelight from the side, slight motion blur, dust specks"],
+ ["a05_elyazma", [11,23], "old parchment manuscripts with latin handwriting, a goose quill, an inkwell and a brass compass on a dark oak table lit by a candle, glass lenses and a lens grinding tool nearby"],
+ ["a06_tarla", [11,23], "heavy rain falling on a dry cracked farm field at dusk, dark stormy sky, a single thin ray of light breaking through clouds, Dutch flat landscape"],
+ ["a07_son", [11,23], "a freshly extinguished candle with a single curl of white smoke rising in total darkness, a tiny point of golden light still glowing inside a glass lens beside it"],
+ ["a08_pencere", [11,23], "rain streaks running down an old leaded glass window at night, reflection of a candle flame in the wet glass, darkness outside"]
+]
+}

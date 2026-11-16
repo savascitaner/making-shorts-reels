@@ -5,8 +5,11 @@ Kısa dizin. Kurallar `CLAUDE.md`'de, her reels'in ayrıntısı kendi `<Konu>/ST
 ## Reels
 | Konu | Durum | Not |
 |---|---|---|
+| Zaman Ötesi Meclis | Teslim edildi 2026-11-16 (2:48, çizgi film) | `Zaman-Otesi-Meclis/STATE.md` |
+| Seneca-Nietzsche | İPTAL 2026-11-16 (senaryo v1'de durdu, kredi harcanmadı) | `Seneca-Nietzsche/STATE.md` |
 | Marcus Aurelius | Teslim edildi 2026-11-16 (2:56, çizgi film) | `Marcus-Aurelius/STATE.md` |
 | Bohr-Einstein, Yunus-Tapduk, Locke-Berkeley, Marx-Feuerbach, Leibniz-Merkez-Efendi, Spinoza, Nietzsche, Hegel, Doğa Filozofları, Diyalektik Materyalizm | Teslim edildi; klasörleri 2026-11-16'da Enes'in isteğiyle silindi | Metin ve kodları git geçmişinde |
+| Spinoza-Leibniz | TESLİM EDİLDİ (2026-11-17) | "Sen mi seçtin?" sinematik, 1:52, 4 Veo konuşan klip; ayrıntı `Spinoza-Leibniz/STATE.md` |
 
 ## Genel açık işler
 - Çöp Sepeti (~36 GB): Enes boşaltacak.

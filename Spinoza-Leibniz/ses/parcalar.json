@@ -1,0 +1,51 @@
+[
+ {
+  "kim": "anlatici+spinoza",
+  "kaynak": "vo-sercan.mp3",
+  "kaynak_bas": 0.0,
+  "bas": 0.0,
+  "son": 33.1
+ },
+ {
+  "kim": "leibniz",
+  "kaynak": "vo-orhan.mp3",
+  "kaynak_bas": 0.0,
+  "bas": 33.1,
+  "son": 48.4
+ },
+ {
+  "kim": "spinoza",
+  "kaynak": "vo-sercan.mp3",
+  "kaynak_bas": 33.1,
+  "bas": 48.4,
+  "son": 65.6
+ },
+ {
+  "kim": "leibniz",
+  "kaynak": "vo-orhan.mp3",
+  "kaynak_bas": 15.3,
+  "bas": 65.6,
+  "son": 80.2
+ },
+ {
+  "kim": "spinoza",
+  "kaynak": "vo-sercan.mp3",
+  "kaynak_bas": 50.3,
+  "bas": 80.2,
+  "son": 84.5
+ },
+ {
+  "kim": "leibniz",
+  "kaynak": "vo-orhan.mp3",
+  "kaynak_bas": 29.9,
+  "bas": 84.5,
+  "son": 88.24
+ },
+ {
+  "kim": "anlatici",
+  "kaynak": "vo-sercan.mp3",
+  "kaynak_bas": 54.6,
+  "bas": 88.24,
+  "son": 103.96
+ }
+]
