@@ -1,4 +1,0 @@
-0|https://thumb.wikimedia.org/wikipedia/commons/thumb/3/33/Campfire_Close_Up_-_Red_Flames.jpg/3840px-Campfire_Close_Up_-_Red_Flames.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail|File:Campfire Close Up - Red Flames.jpg|CC BY-SA 4.0
-1|https://upload.wikimedia.org/wikipedia/commons/2/2a/FIRE_01.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled|File:FIRE 01.JPG|CC BY-SA 3.0
-2|https://upload.wikimedia.org/wikipedia/commons/d/d2/Flames%2C_closeup.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled|File:Flames, closeup.jpg|CC BY-SA 3.0
-3|https://upload.wikimedia.org/wikipedia/commons/4/4d/J%C3%A4tk%C3%A4nkynttil%C3%A4_%285332127663%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled|File:Jätkänkynttilä (5332127663).jpg|CC BY-SA 2.0

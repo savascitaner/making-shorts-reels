@@ -1,4 +1,0 @@
-silence_start: 1.796562
-silence_end: 2.976062
-silence_start: 4.754542
-silence_end: 5.076833
