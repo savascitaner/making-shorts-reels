@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "flow": {
+      "command": "/Users/claude-eng/.local/node/bin/node",
+      "args": ["/Users/claude-eng/flow-mcp/dist/index.js"],
+      "env": { "PATH": "/Users/claude-eng/.local/node/bin:/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin" }
+    }
+  }
+}

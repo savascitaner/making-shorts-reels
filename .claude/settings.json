@@ -1,11 +1,29 @@
 {
   "permissions": {
     "deny": [
-      "Read(./outputs/**/*.mp4)", "Read(./outputs/**/*.mov)", "Read(./outputs/**/*.wav)", "Read(./outputs/**/*.mp3)",
-      "Read(./outputs/**/*.png)", "Read(./outputs/**/*.jpg)", "Read(./outputs/**/*.jpeg)", "Read(./outputs/**/*.webp)",
-      "Read(./*/gorseller/ai/*.jpg)", "Read(./*/kaynak/renders/qc/*.jpg)",
-      "Read(./araclar/node_modules/**)", "Read(./araclar/sd/hf/**)", "Read(./araclar/venv-vahdet/**)",
-      "Read(./araclar/hyperframes/**)", "Read(./araclar/impeccable/**)", "Read(./araclar/hallmark/**)"
+      "Read(./outputs/**/*.mp4)",
+      "Read(./outputs/**/*.mov)",
+      "Read(./outputs/**/*.wav)",
+      "Read(./outputs/**/*.mp3)",
+      "Read(./outputs/**/*.png)",
+      "Read(./outputs/**/*.jpg)",
+      "Read(./outputs/**/*.jpeg)",
+      "Read(./outputs/**/*.webp)",
+      "Read(./*/gorseller/ai/*.jpg)",
+      "Read(./*/kaynak/renders/qc/*.jpg)",
+      "Read(./araclar/node_modules/**)",
+      "Read(./araclar/sd/hf/**)",
+      "Read(./araclar/venv-vahdet/**)",
+      "Read(./araclar/hyperframes/**)",
+      "Read(./araclar/impeccable/**)",
+      "Read(./araclar/hallmark/**)"
     ]
+  },
+  "enableAllProjectMcpServers": true,
+  "enabledMcpjsonServers": [
+    "flow"
+  ],
+  "env": {
+    "PATH": "/Users/claude-eng/.local/node/bin:/Users/claude-eng/Shorts - Reels/araclar/audio-video-sync/.venv/lib/python3.12/site-packages/static_ffmpeg/bin/darwin_arm64:/Users/claude-eng/.local/bin:/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
   }
 }

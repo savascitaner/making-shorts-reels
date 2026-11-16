@@ -26,7 +26,7 @@ case "$A" in
          uv run -q --with numpy --with scipy python "$CC/master_audio.py" audio/mix.wav audio/master.wav | tail -1 ;;
   qc)    serve; cd "$P/kaynak"; rm -rf renders/qc; F=$(cfg "['qc_kareleri']" | tr -d '[] ')
          node "$CC/capture.mjs" --url "http://127.0.0.1:8765/$K/kaynak/index.html" --out renders/qc --frames "$F" --format jpeg | tail -1
-         ffmpeg -v error -y -pattern_type glob -i 'renders/qc/*.jpg' -vf "scale=216:384,tile=6x2" -frames:v 1 renders/qc-sheet.jpg; echo "bak: $P/kaynak/renders/qc-sheet.jpg" ;;
+         ffmpeg -v error -y -pattern_type glob -i 'renders/qc/*.jpg' -vf "scale=216:384,tile=7x4" -frames:v 1 renders/qc-sheet.jpg; echo "bak: $P/kaynak/renders/qc-sheet.jpg" ;;
   render) serve; cd "$P/kaynak"; O="$ROOT/outputs/$K"; mkdir -p "$O"
          node "$CC/capture.mjs" --url "http://127.0.0.1:8765/$K/kaynak/index.html" --video renders/picture.mp4 --workers 3 --crf 17 --maxrate 12M > renders/capture.log 2>&1
          ffmpeg -v error -y -i renders/picture.mp4 -i audio/master.wav -map 0:v -map 1:a -c:v copy -c:a aac -b:a 256k -shortest -movflags +faststart "$O/$K-Reels-9x16.mp4"

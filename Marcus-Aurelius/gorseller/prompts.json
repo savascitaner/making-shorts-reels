@@ -1,0 +1,15 @@
+{
+"style": ", high-end stylized painted graphic novel illustration in the style of Arcane animation, painterly brush textures, dramatic chiaroscuro lighting, volumetric light, rich contrast, palette of Roman gold, deep crimson and midnight blue marble shadows, cinematic vertical composition, highly detailed, hand-painted",
+"neg": "photo, photorealistic, 3d render, text, letters, watermark, signature, logo, nude, nsfw, deformed hands, extra fingers, blurry, lowres, frame, border, modern objects, metal tools",
+"items": [
+ ["s03_tuna", [7,42], "wide landscape of the frozen Danube river frontier in a night blizzard, a Roman timber and stone fort with glowing campfires on the far bank, snow-covered pine forest, cold blue-grey storm, no people in foreground"],
+ ["s05_sandik", [7,42], "top-down view into an open iron-bound wooden chest overflowing with rolled parchment letters, dozens of crimson wax seals, one small oil lamp glowing gold beside it on a dark marble floor"],
+ ["s11_terazi", [7,42], "a great ornate bronze balance scale floating in darkness, one pan heaped with gold coins, a jeweled crown and a laurel wreath, the other pan holding a single small glowing golden flame that weighs it down"],
+ ["s14_veba", [7,42], "an empty ancient Roman street at dusk during a plague, sickly green-grey fog, shuttered wooden doors, small oil lamps in doorways, abandoned cart, oppressive silence"],
+ ["s16_kulube", [7,42], "interior of a small wooden frontier hut by the Danube at night, a rough table with an open small codex, reed pen and ink pot, a single oil lamp glowing gold, frost on the window, snow outside, empty stool"],
+ ["s17_sutunlar", [7,42], "a long Roman marble colonnade at dawn, first warm golden sunlight streaming between the columns, cold blue shadows, empty polished floor"],
+ ["s23_kodeks", [7,42], "an ancient leather-bound codex with handwritten Greek pages lying open on a modern wooden desk beside a smartphone, warm morning sunlight, the old pages glowing gold"],
+ ["s21_kul", [7,42], "dying embers of a bonfire in the snow at night, burnt parchment fragments curling into ash, glowing gold sparks floating upward into darkness"],
+ ["s06_heykel_fon", [7], "dark midnight sky behind the Capitoline hill in Rome, faint marble buildings, dramatic gold rim light, empty plinth in the center foreground"]
+]
+}

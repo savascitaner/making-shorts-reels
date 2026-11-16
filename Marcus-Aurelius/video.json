@@ -1,0 +1,62 @@
+{
+  "konu": "Marcus-Aurelius",
+  "sure": 176.0,
+  "whisper_ipucu": "Marcus Aurelius, Avidius Cassius, Hadrianus, Verissimus, Zenon, Stoa, Epiktetos, Rusticus, Lucius, Sezarlaşma, hilekâr.",
+  "duzelt": {
+    "hala": "hâlâ",
+    "Epictetus.": "Epiktetos.",
+    "Epictetus'un": "Epiktetos'un",
+    "Erdem'di.": "erdemdi.",
+    "hilekar": "hilekâr",
+    "sezarlaşma.": "Sezarlaşma.",
+    "doğudaki": "Doğu'daki",
+    "Doğudan": "Doğu'dan",
+    "Doğan": "Doğan",
+    "güneşe": "güneşe"
+  },
+  "zaman_duzelt": [],
+  "vurgu": [],
+  "bolum_sinirlari": [
+    5.36,
+    35.4,
+    55.0,
+    98.3,
+    118.2,
+    136.7,
+    164.4
+  ],
+  "boom": [
+    35.5
+  ],
+  "gecis": [],
+  "qc_kareleri": [
+    3,
+    137,
+    175,
+    427,
+    762,
+    876,
+    1095,
+    1220,
+    1420,
+    1546,
+    1737,
+    2074,
+    2381,
+    2578,
+    2875,
+    3053,
+    3375,
+    3728,
+    3855,
+    4064,
+    4216,
+    4372,
+    4615,
+    4714,
+    4871,
+    5023,
+    5110,
+    5244
+  ]
+}
