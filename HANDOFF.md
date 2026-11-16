@@ -6,7 +6,6 @@ Kısa dizin. Kurallar `CLAUDE.md`'de, her reels'in ayrıntısı kendi `<Konu>/ST
 | Konu | Durum | Not |
 |---|---|---|
 | Marcus Aurelius | Teslim edildi 2026-11-16 (2:56, çizgi film) | `Marcus-Aurelius/STATE.md` |
-| Göbeklitepe | Teslim edildi 2026-11-16 (2:35) | `Gobeklitepe/STATE.md` |
 | Bohr-Einstein, Yunus-Tapduk, Locke-Berkeley, Marx-Feuerbach, Leibniz-Merkez-Efendi, Spinoza, Nietzsche, Hegel, Doğa Filozofları, Diyalektik Materyalizm | Teslim edildi; klasörleri 2026-11-16'da Enes'in isteğiyle silindi | Metin ve kodları git geçmişinde |
 
 ## Genel açık işler
@@ -22,8 +21,8 @@ Kısa dizin. Kurallar `CLAUDE.md`'de, her reels'in ayrıntısı kendi `<Konu>/ST
 ## Ses motoru
 - `sfx/` (claude-motion sound-design motoru) proje kökünde; `python3 -m sfx --list`. Ayrıntı CLAUDE.md araçlar bölümü.
 
-## Kalıcı dersler (Göbeklitepe)
+## Kalıcı dersler
 - Veo, Neolitik sahnelere metal murç/saplı çekiç ekliyor ve ağır taşları havaya zıplatıyor: her Veo klibini kare kare kontrol et; gerekirse yalnızca temiz saniyeleri kullan ya da Flow karesi + kodla hareket.
-- SDXL Göbeklitepe T dikilitaşlarını bilmiyor (Moai, Mısır dikilitaşı, tekerlek, at çiziyor): dikilitaşlı sahneler Flow'da gerçek kareyi referans vererek üretilir.
+- SDXL özgün arkeolojik nesneleri (T dikilitaş) bilmiyor (Moai, Mısır dikilitaşı, tekerlek, at çiziyor): dikilitaşlı sahneler Flow'da gerçek kareyi referans vererek üretilir.
 - Kısmi ses değişikliğinde whisper'ı tüm kayıtta değil yalnızca yeni parçada çalıştır; tümünü yeniden çalıştırmak kelime sayısını kaydırıp kartları yanlış kelimeye düşürdü.
 - Üst üste büyük yazılarda alt satırın konturu üst satırın Ç/virgül kuyruğunu örtebilir: satır aralığını kontrol et.

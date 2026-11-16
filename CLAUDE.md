@@ -17,7 +17,7 @@ Kredi ve bağlam küçük kalsın diye proje "doküman + thread" yapısında yü
 - **Proje dokümanı bu dosyadır** (her oturum otomatik okur). Kalıcı kurallar SADECE buraya yazılır; sohbet geçmişine güvenilmez.
 - **Her reels = ayrı oturum.** Yeni reels: yeni oturum aç, `./uret.sh <Konu> yeni`, adım 0'dan başla. Aynı oturumda ikinci reels yapılmaz.
 - **Durum dosyası `<Konu>/STATE.md`** (şablon `_sablon/STATE.md`): aşama, alınan kararlar (Enes'in sözleriyle), harcanan krediler, açık işler, "Sıradaki adım". Her onay kapısında ve oturum sonunda güncellenir.
-- **Devam eden reels:** yeni oturum yalnızca `<Konu>/STATE.md`'yi ve gerekirse senaryoyu okuyarak devam eder ("Gobeklitepe/STATE.md'den devam et"). Eski thread'e dönülmez.
+- **Devam eden reels:** yeni oturum yalnızca `<Konu>/STATE.md`'yi ve gerekirse senaryoyu okuyarak devam eder ("<Konu>/STATE.md'den devam et"). Eski thread'e dönülmez.
 - **Oturum uzarsa** (çok mesaj, büyük görseller): STATE.md'yi güncelle, kalan işi `STATE.md'den devam et` notuyla yeni oturuma devret.
 - **Reels bitince:** STATE.md "TESLİM EDİLDİ" olur, `HANDOFF.md` reels dizinine bir satır eklenir, `./uret.sh <Konu> git` (GitHub Desktop ile push), oturum Enes'in onayıyla "tamamlandı" işaretlenir.
 - `HANDOFF.md` artık kısa bir dizindir (reels listesi + açık genel işler); ayrıntı her reels'in kendi STATE.md'sindedir.
@@ -28,7 +28,8 @@ Kredi ve bağlam küçük kalsın diye proje "doküman + thread" yapısında yü
 - **sfx ses motoru** (sound-design skill'inin motoru, `whaleyxbt/claude-motion`): proje kökünde `sfx/` (saf Python, 48 kHz, -14 LUFS master). `python3 -m sfx --list` üreteçleri gösterir (whoosh, impact, riser, scratch, chime, pad, pop, click...). Reels için cue sheet: `<Konu>/kaynak/cues.py` (TIMELINE yerine words.json zamanları), `python3 -m sfx <Konu>/kaynak/cues.py`. Ses dalgası/ses yüksekliği: `scripts-motion/wave.mjs`, kare panosu: `scripts-motion/sheet.mjs`. Kaynak depo: `araclar/claude-motion` (motion-design, sound-design, review-loop, web-sims skill'lerinin örnekleri burada).
 - node/ffmpeg/ffprobe/uv PATH'i `.claude/settings.json` → env.PATH içinde; ayrıca `export PATH` gerekmez.
 
-## Her reels eşsiz (Enes, 2026-11-16: "neden her şeyde Göbeklitepe'ye bakıyorsun... her reels kendine özeldir, sen eşsiz bir şey yapmalısın")
+## Her reels eşsiz (Enes, 2026-11-16: "her reels kendine özeldir, sen eşsiz bir şey yapmalısın")
+- **Eski bir reels'in klasörü, motoru, kapağı ya da müziği hiçbir yeni çalışmada açılmaz, örnek alınmaz ve Enes'e anılmaz** (Enes, 2026-11-16: o videonun adını bir daha hiçbir reels çalışmasında duymak/görmek istemiyor). Teknik altyapı yalnızca `_sablon/` ve bu dosyadaki kurallardan gelir.
 - Önceki videonun kartlarını, geçişlerini, efekt katmanlarını, kapanış/kapak düzenini, müzik şablonunu KOPYALAMA. Ortak olan yalnızca zorunlu kurallar (ilk 3 sn kanca, altyazı stili, kapanış bilgileri, -14 LUFS).
 - Her videoda konunun kendi nesnesinden doğan bir imza dili kur (geçiş, tipografi, renk, ses motifi) ve bunu `motion-design`, `design-motion-principles`, `sound-design`, `cinecode` (references: motion, camera-moves, finish, motion-design, sound) skill'leriyle tasarla. Motorun teknik altyapısı (kare = zaman fonksiyonu, klip açma, senkron) yeniden kullanılabilir; görünüş ve ses kullanılamaz.
 
@@ -93,9 +94,9 @@ Kredi kıt: en az adım, tek ses kaydı, yeniden render'ı önlemek için ilk se
 - Commons'ta CC0/PD ney kaydı yok; ney müziği `logs/sesler.py` içinde kodla sentezlendi (Hicaz/Uşşak taksim + dem + yaylı).
 - Menkıbe karakterleri (gerçek portresi olmayan) için Veo 7/7 klipte Türkçe repliği birebir söyledi, hiç reddetmedi.
 
-## Bilinen tuzaklar (2026-11-16, Göbeklitepe videosundan)
+## Bilinen tuzaklar (2026-11-16, tarih öncesi video)
 - Tarih öncesi sahnelerde Veo metal murç/saplı çekiç ekliyor ve ağır taşları havaya zıplatıyor (Enes iki kez yakaladı). Her Veo klibini kare kare kontrol et; temiz değilse yalnızca temiz saniyeleri kullan ya da Flow karesi + kodla hareket. Promptta aleti açıkça tarif et ("yalnızca elde tutulan yuvarlak taş, keski/murç/sap yok"), fiziği yaz ("taban yuvada kalır, iplerle döndürülerek dikilir").
-- SDXL özgün arkeolojik nesneleri (Göbeklitepe T dikilitaşı) bilmiyor; Moai, Mısır dikilitaşı, tekerlek, at çiziyor. Bu sahneler Flow'da gerçek kareyi `reference_images` vererek üretilir (ücretsiz, ~1 dk). SDXL yalnızca nesnesiz atmosfer (ateş, gökyüzü, buğday, kitap) için.
+- SDXL özgün arkeolojik nesneleri (ör. T biçimli dikilitaş) bilmiyor; Moai, Mısır dikilitaşı, tekerlek, at çiziyor. Bu sahneler Flow'da gerçek kareyi `reference_images` vererek üretilir (ücretsiz, ~1 dk). SDXL yalnızca nesnesiz atmosfer (ateş, gökyüzü, buğday, kitap) için.
 - Kanca kelimesi döneme uymalı ("ekmek" tarım öncesinde takıldı → "açlık"). Kapak vurucu ve adressiz; adresler yalnızca kapanışta.
 - Kısmi ses değişikliğinde whisper'ı yalnızca yeni parçada çalıştır (`logs/kapanis.py` + `kapanis_birlestir.py` kalıbı); tüm kaydı yeniden hizalamak kelime sayısını kaydırıp kartları yanlış kelimeye düşürdü. Kapanış kartlarını kelime numarasıyla değil adıyla bağla (`IDX('Bunu')`).
 - Üst üste büyük Anton satırlarında alt satırın konturu üst satırın Ç/virgül kuyruğunu örtebilir; kanca kartını büyük kırpıp kontrol et.
@@ -103,6 +104,6 @@ Kredi kıt: en az adım, tek ses kaydı, yeniden render'ı önlemek için ilk se
 
 ## Bilinen tuzaklar (2026-11-16, Marcus Aurelius videosundan)
 - Flow Veo: gerçek büst/foto referanslı yüz + promptta kişinin adı → "prominent people" reddi (kredi düşmez). Veo promptlarında isim YAZMA ("the bearded old Roman emperor"); aynı kare isimsiz promptla geçti.
-- Flow "Target crashed": Flow sekmesi bellek doldu (aynı Flow projesinde Göbeklitepe+Marcus 60+ görsel, 10+ video, Chrome 6,5 saat açık). Her reels YENİ Flow projesinde üretilir; 20+ işten sonra sekme yenilenir. Çöken işler `./flow.sh retry '{"job_ids":[...]}'` ile geri gelir.
+- Flow "Target crashed": Flow sekmesi bellek doldu (aynı Flow projesinde iki reels, 60+ görsel, 10+ video, Chrome 6,5 saat açık). Her reels YENİ Flow projesinde üretilir; 20+ işten sonra sekme yenilenir. Çöken işler `./flow.sh retry '{"job_ids":[...]}'` ile geri gelir.
 - Veo klibinin sonuna doğru bozulma (alevde harfler, yüz dağılması) olabilir: kare panosuyla bak, `rate`/`off` ile yalnız temiz aralığı kullan.
 - Konuşan klipte konuşma başı whisper `vad_filter` ile ölçülür (0.0 dönerse silencedetect ile doğrula); replik plan başından sonra geliyorsa negatif `off` ile ilk kare dondurulur.
