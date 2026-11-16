@@ -1,7 +1,7 @@
 # Shorts - Reels: iş akışı (her video için zorunlu)
 
-Kullanıcı: Enes. Dil: Türkçe. YouTube kanalı: @TanerSavaşçı. Her video `cinecode` skill'i tetiklenerek yapılır, aşağıdaki adımlar onun üstüne eklenir. Her video kendi klasöründe: `/Users/claude/Shorts - Reels/<Konu>/` (araştırma, senaryo, kaynak kod, görseller).
-Teslimler (bitmiş video, .srt, Yayin-paketi.md, kaynak listesi, kapak): `/Users/claude/Shorts - Reels/outputs/<Konu>/` (ana klasör, worktree değil). **Büyük mp4 dosyaları sohbete EK OLARAK KONMAZ** (sadece klasör yolu). Metin dosyaları (senaryo, Adim-1-2-3.md, Yayin-paketi.md, .srt) ve küçük dosyalar sohbete eklenebilir/yazılabilir.
+Kullanıcı: Enes. Dil: Türkçe. YouTube kanalı: @TanerSavaşçı. Her video `cinecode` skill'i tetiklenerek yapılır, aşağıdaki adımlar onun üstüne eklenir. Her video kendi klasöründe: `/Users/claude-eng/Shorts - Reels/<Konu>/` (araştırma, senaryo, kaynak kod, görseller).
+Teslimler (bitmiş video, .srt, Yayin-paketi.md, kaynak listesi, kapak): `/Users/claude-eng/Shorts - Reels/outputs/<Konu>/` (ana klasör, worktree değil). **Büyük mp4 dosyaları sohbete EK OLARAK KONMAZ** (sadece klasör yolu). Metin dosyaları (senaryo, Adim-1-2-3.md, Yayin-paketi.md, .srt) ve küçük dosyalar sohbete eklenebilir/yazılabilir.
 
 ## Klasör ve kredi kuralları
 - `outputs/` içindeki medya dosyalarını (mp4, wav, mp3, png, jpg) iş yaparken **asla okuma** (Read/görüntüleme yok). QC'yi render sırasında `kaynak/renders/qc` karelerinden yap. Sadece metin dosyalarını okuyabilirsin.
@@ -20,6 +20,9 @@ Repo: https://github.com/savascitaner/making-shorts-reels (private). Ara adımla
 Bu adımların hiçbiri atlanmaz ve Enes'e hatırlattırılmaz.
 
 ## Adımlar
+0. **Stil sorusu (2026-11-14, Enes'in kararı):** Enes reels istediğinde, ADIM 1'den ÖNCE sor: "Sinematik mi, çizgi film (hareketli 2D çizgi sahneler) formatında mı?" Cevaba göre ilerle:
+   - **Sinematik:** mevcut akış (gerçek arşiv görselleri + fotogerçekçi AI, Flow/Veo kilit sahneler, kodla hareketli fotoğraf).
+   - **Çizgi film:** 2D animasyon / çizgi roman tarzı hareketli sahneler; kilit sahneler Flow/Veo'da aynı çizgi stilinde (başlangıç karesi Flow'da çizilir), kalanlar çizgi görsel + hafif hareket (kamera, katman, parçacık). Tüm sahneler tek stil ve tek palet. Videoya özel stil istisnaları (ör. Diyalektik/Spinoza graphic novel) geçerli kalır.
 1. **Araştırma** (konunun en ilgi çeken kavramları, kaynaklar)
 2. **Rakip analizi** (Türkçe ve İngilizce, tutan kanca kalıpları, boşluk)
 3. **Fikirler ve kancalar** (3-4 fikir, öneri). 1-3'ü `Adim-1-2-3.md` dosyasına yaz, Enes'e sun. **Fikir seçimini bekle.**
