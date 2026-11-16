@@ -1,0 +1,11 @@
+275 + 41 kelime; kuyruk: Sence neden yaptılar? Düşüncelerini ve varsa sorularını yorumlara yaz. Cevap, bugün pek çok yerde dile getirilenlerden biri mi? Yoksa Murat Avcıoğlu 'nun bu soruya nitelikçe farklı bir temellendirmesi mi var? Bunu öğrenmek istiyorsan Avcıoğlu 'nu ve bu kanalı takip etmeyi unutma.
+309 words 132 chunks
+kelime 309 sure 154.83 boom [13.62] ilk 8: Önce açlık mı geldi yoksa Tanrı mı? 11.000
+309 words 132 chunks
+peak 0.6323358416557312
+OK
+bak: /Users/claude-eng/Shorts - Reels/Gobeklitepe/kaynak/renders/qc-sheet.jpg
+6815 Gobeklitepe-altyazi.srt
+2313790 Kapak-Reels-9x16.png
+22504397 Onizleme-telefon.mp4
+4209 Yayin-paketi.md

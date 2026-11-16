@@ -1,0 +1,77 @@
+{
+  "konu": "Gobeklitepe",
+  "sure": 154.83,
+  "whisper_ipucu": "Göbeklitepe, Klaus Schmidt, Stonehenge, Mısır piramitleri, çakmaktaşı, avcı-toplayıcı, dikilitaş, akbabalar, kaldıraçlar, Tanrı.",
+  "duzelt": {
+    "hala": "hâlâ",
+    "Hala": "Hâlâ",
+    "Göbetli": "Göbekli",
+    "hikaye": "hikâye",
+    "tanrıyı": "Tanrı'yı",
+    "sordu?": "sordu:"
+  },
+  "zaman_duzelt": [],
+  "vurgu": [
+    "Tanrı",
+    "Göbekli",
+    "tapınak",
+    "merak",
+    "neden",
+    "Tanrı'yı",
+    "varım?",
+    "inanç"
+  ],
+  "bolum_sinirlari": [
+    3.84,
+    15.08,
+    30.1,
+    44.9,
+    60.54,
+    72.64,
+    86.18,
+    98.16,
+    106.34,
+    115.32,
+    125.84
+  ],
+  "boom": [
+    13.62
+  ],
+  "gecis": [
+    3.84,
+    16.4,
+    30.1,
+    44.9,
+    60.54,
+    72.64,
+    86.18,
+    98.16,
+    106.34,
+    115.32,
+    125.84
+  ],
+  "qc_kareleri": [
+    0,
+    45,
+    100,
+    312,
+    420,
+    589,
+    858,
+    1012,
+    1113,
+    1510,
+    1573,
+    1861,
+    2229,
+    2490,
+    2732,
+    2884,
+    3125,
+    3257,
+    3436,
+    3741,
+    4008,
+    4584
+  ]
+}

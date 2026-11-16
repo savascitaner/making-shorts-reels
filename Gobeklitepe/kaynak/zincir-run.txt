@@ -1,0 +1,7 @@
+285 words; last: [{'w': 'yaptı?', 's': np.float64(135.28), 'e': np.float64(135.9), 'p': np.float64(1.0)}, {'w': 'Cevabını', 's': np.float64(136.18), 'e': np.float64(136.8), 'p': np.float64(1.0)}, {'w': 'yorumlara', 's': np.float64(136.8), 'e': np.float64(137.46), 'p': np.float64(1.0)}, {'w': 'yaz.', 's': np.float64(137.46), 'e': np.float64(137.68), 'p': np.float64(1.0)}]
+279 words 120 chunks
+kelime 279 sure 143.58 boom [13.62] ilk 8: Önce açlık mı geldi yoksa Tanrı mı? 11.000
+279 words 120 chunks
+peak 0.6340180039405823
+OK
+bak: /Users/claude-eng/Shorts - Reels/Gobeklitepe/kaynak/renders/qc-sheet.jpg

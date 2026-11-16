@@ -1,5 +1,5 @@
 import torch, sys, os, time, glob, json
-HF = "/Users/claude/Shorts - Reels/araclar/sd/hf"
+HF = "/Users/claude-eng/Shorts - Reels/araclar/sd/hf"
 from diffusers import StableDiffusionXLPipeline, AutoencoderKL, DPMSolverMultistepScheduler
 cfg = json.load(open(sys.argv[1])); out = sys.argv[2]; os.makedirs(out, exist_ok=True)
 vae = AutoencoderKL.from_pretrained(glob.glob(HF+"/hub/models--madebyollin--sdxl-vae-fp16-fix/snapshots/*")[0], torch_dtype=torch.float16)

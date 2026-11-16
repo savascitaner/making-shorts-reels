@@ -12,6 +12,16 @@ Teslimler (bitmiş video, .srt, Yayin-paketi.md, kaynak listesi, kapak): `/Users
 ## Komutlar (`./uret.sh <Konu> <adim>`)
 `yeni` → klasörü kur · `gorsel` → SDXL çizimleri + ai-sheet · (ElevenLabs sesi `<Konu>/ses/vo.mp3`) · `hizala` → kelime zamanları + .srt · `ses` → müzik/miks/-14 LUFS · `qc` → qc-sheet · `render` → outputs'a video + telefon önizlemesi · `git` → commit + push
 
+## Oturum (thread) düzeni (Enes, 2026-11-16)
+Kredi ve bağlam küçük kalsın diye proje "doküman + thread" yapısında yürür:
+- **Proje dokümanı bu dosyadır** (her oturum otomatik okur). Kalıcı kurallar SADECE buraya yazılır; sohbet geçmişine güvenilmez.
+- **Her reels = ayrı oturum.** Yeni reels: yeni oturum aç, `./uret.sh <Konu> yeni`, adım 0'dan başla. Aynı oturumda ikinci reels yapılmaz.
+- **Durum dosyası `<Konu>/STATE.md`** (şablon `_sablon/STATE.md`): aşama, alınan kararlar (Enes'in sözleriyle), harcanan krediler, açık işler, "Sıradaki adım". Her onay kapısında ve oturum sonunda güncellenir.
+- **Devam eden reels:** yeni oturum yalnızca `<Konu>/STATE.md`'yi ve gerekirse senaryoyu okuyarak devam eder ("Gobeklitepe/STATE.md'den devam et"). Eski thread'e dönülmez.
+- **Oturum uzarsa** (çok mesaj, büyük görseller): STATE.md'yi güncelle, kalan işi `STATE.md'den devam et` notuyla yeni oturuma devret.
+- **Reels bitince:** STATE.md "TESLİM EDİLDİ" olur, `HANDOFF.md` reels dizinine bir satır eklenir, `./uret.sh <Konu> git` (GitHub Desktop ile push), oturum Enes'in onayıyla "tamamlandı" işaretlenir.
+- `HANDOFF.md` artık kısa bir dizindir (reels listesi + açık genel işler); ayrıntı her reels'in kendi STATE.md'sindedir.
+
 ## Yedek
 - Bitmiş videolar Google Drive'a YEDEKLENMEZ (Enes istemedi). Sadece GitHub (metin + kod).
 
@@ -38,8 +48,8 @@ Bu adımların hiçbiri atlanmaz ve Enes'e hatırlattırılmaz.
 7. **Kurgu (cinecode)**: canvas motoru `kaynak/index.html` (örnek: `Diyalektik-Materyalizm/kaynak`), `capture.mjs --video`, müzik kodla, `master_audio.py` ile -14 LUFS.
    - İlk 0-3 sn büyük kanca yazısı (Anton), altyazı o sırada gizli.
    - Altyazı: Nietzsche videosundaki stil. Şerit/kutu YOK; harflerin etrafında kalın koyu kontur + yumuşak gölge (silüet). Okunan kelime altın renk ve bir tık büyük, diğerleri krem. Ekranın orta-altında (y≈1340). Şablonda hazır.
-   - Kapanış ekranı: "Daha fazlası için takipte kal" + YouTube simgesi + @TanerSavaşçı.
-8. **Kapak**: Enes'in Canva hesabında (Reels 1080x1920), videodaki ana karakter görseliyle. Önizlemeyi göster, sonra kaydet (commit) ve PNG olarak `outputs/<Konu>/Kapak-Reels-9x16.png`'ye indir.
+   - Kapanış (Enes, 2026-11-16): önce son soru kartı ("Sence ...? Cevabını yorumlara yaz"), sonra "Daha fazlası için takipte kal" + YouTube simgesi @TanerSavaşçı + Instagram @sevgiliinsann + www.sevgiliinsan.com. Adresler SADECE burada.
+8. **Kapak**: Enes'in Canva hesabında (Reels 1080x1920), videodaki ana karakter görseliyle. Giriş kapağı vurucu ve tıklatıcı olur: kanca sorusu + konu adı, büyük ve 4:5 güvenli alanda; kapakta ADRES YOK (Enes, 2026-11-16). Önizlemeyi göster, sonra kaydet (commit) ve PNG olarak `outputs/<Konu>/Kapak-Reels-9x16.png`'ye indir.
 9. **Yayın paketi**: `outputs/<Konu>/Yayin-paketi.md`: 5 başlık, kaynaklı açıklama, YouTube etiketleri, 18 hashtag, yayın öncesi kontrol listesi. Video ile birlikte, istenmeden teslim edilir.
 10. **QC ve teslim**: ilk 15 sn ve her sahneden kare, başı/sonu dinle, süre ≤3 dk (Reels). Tam dosya 20 MB'tan büyükse telefona 720p önizleme de gönder.
 
@@ -71,3 +81,11 @@ Kredi kıt: en az adım, tek ses kaydı, yeniden render'ı önlemek için ilk se
 - `flow_character` bazen `waitForURL` zaman aşımıyla düşüyor; tekrar denemek yerine karakter portresini `type: image` ile üret, sonraki karelerde dosya yolunu `reference_images` olarak ver (tutarlılık iyi çıktı).
 - Commons'ta CC0/PD ney kaydı yok; ney müziği `logs/sesler.py` içinde kodla sentezlendi (Hicaz/Uşşak taksim + dem + yaylı).
 - Menkıbe karakterleri (gerçek portresi olmayan) için Veo 7/7 klipte Türkçe repliği birebir söyledi, hiç reddetmedi.
+
+## Bilinen tuzaklar (2026-11-16, Göbeklitepe videosundan)
+- Tarih öncesi sahnelerde Veo metal murç/saplı çekiç ekliyor ve ağır taşları havaya zıplatıyor (Enes iki kez yakaladı). Her Veo klibini kare kare kontrol et; temiz değilse yalnızca temiz saniyeleri kullan ya da Flow karesi + kodla hareket. Promptta aleti açıkça tarif et ("yalnızca elde tutulan yuvarlak taş, keski/murç/sap yok"), fiziği yaz ("taban yuvada kalır, iplerle döndürülerek dikilir").
+- SDXL özgün arkeolojik nesneleri (Göbeklitepe T dikilitaşı) bilmiyor; Moai, Mısır dikilitaşı, tekerlek, at çiziyor. Bu sahneler Flow'da gerçek kareyi `reference_images` vererek üretilir (ücretsiz, ~1 dk). SDXL yalnızca nesnesiz atmosfer (ateş, gökyüzü, buğday, kitap) için.
+- Kanca kelimesi döneme uymalı ("ekmek" tarım öncesinde takıldı → "açlık"). Kapak vurucu ve adressiz; adresler yalnızca kapanışta.
+- Kısmi ses değişikliğinde whisper'ı yalnızca yeni parçada çalıştır (`logs/kapanis.py` + `kapanis_birlestir.py` kalıbı); tüm kaydı yeniden hizalamak kelime sayısını kaydırıp kartları yanlış kelimeye düşürdü. Kapanış kartlarını kelime numarasıyla değil adıyla bağla (`IDX('Bunu')`).
+- Üst üste büyük Anton satırlarında alt satırın konturu üst satırın Ç/virgül kuyruğunu örtebilir; kanca kartını büyük kırpıp kontrol et.
+- Metin değişikliği önce yazılı olarak Enes'e onaylatılır, sonra kayıt alınır (Enes: "önce yaz ve bana onaylat").

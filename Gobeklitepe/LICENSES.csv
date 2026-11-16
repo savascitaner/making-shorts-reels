@@ -1,0 +1,11 @@
+dosya,kaynak,lisans,yazar,not
+videos/Gobeklitepe [K8PYc9m4_lI].mp4,YouTube K8PYc9m4_lI,Kamu malı / telifsiz (Enes beyanı),,Enes sağladı
+videos/Göbeklitepe Drone [lrxqa7XHFY0].mp4,YouTube lrxqa7XHFY0,Kamu malı / telifsiz (Enes beyanı),,Enes sağladı
+gorseller/arsiv/akbaba-tasi.jpg,https://commons.wikimedia.org/wiki/File:Vulture_Stone,_Gobekli_Tepe,_Sanliurfa,_South-east_Anatolia,_Turkey_(cropped).jpg,CC BY-SA 2.0,Sue Fleckney,Dikilitaş 43
+gorseller/arsiv/kol-tilki.jpg,https://commons.wikimedia.org/wiki/File:Göbekli_Tepe_Pilar_Arm_and_Fox.JPG,CC BY-SA 3.0,Guérin Nicolas,kol ve tilki kabartması
+gorseller/arsiv/av-sahnesi.jpg,https://commons.wikimedia.org/wiki/File:Animal_hunting_scene._Gobekli_Tepe.jpg,CC BY-SA 4.0,Dosseman,hayvan kabartmaları
+ses/vo.mp3,ElevenLabs (Sercan Esen, eleven_v4),Enes'in ElevenLabs hesabı,,anlatım
+gorseller/ai/*,Yerel SDXL (stable-diffusion-xl-base-1.0),CreativeML Open RAIL++-M,,üretildi
+müzik ve efektler,kaynak/music.py,kodla üretildi,,lisans gerekmez
+gorseller/flow/*,Google Flow (Nano Banana) · Enes'in Google AI üyeliği,üretildi,,Sapiens kareleri ve düzeltilmiş görseller
+gorseller/veo/*,Google Flow (Veo 3.1 Fast) · Enes'in Google AI üyeliği,üretildi,,Sapiens klipleri

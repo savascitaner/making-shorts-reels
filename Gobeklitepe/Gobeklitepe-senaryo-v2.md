@@ -1,9 +1,9 @@
-# Göbeklitepe: Önce Ekmek mi, Tanrı mı? (Senaryo v2, onay bekliyor)
+# Göbeklitepe: Önce Açlık mı, Tanrı mı? (Senaryo v2, onaylandı; kanca 2026-11-16 değişti)
 
 - Format: 9:16, hedef ~2:45 (13 bölüm, kapanış ekranı dahil)
 - Ses: Sercan Esen, eleven_v4
 - Stil: sinematik, ultra gerçekçi. Bol Flow/Veo canlı sahne (7 sahne) + ücretsiz Göbeklitepe drone videoları + gerçek arşiv fotoğrafları.
-- Kanca: B ("Önce ekmek mi, Tanrı mı?"), ilk 3 sn'de A'nın yanan kitap görseli.
+- Kanca: B ("Önce açlık mı, Tanrı mı?"), ilk 3 sn'de A'nın yanan kitap görseli.
 - Vurgu: avcı-toplayıcılardı, henüz yerleşik tarım düzenine geçmemişlerdi (tarla, evcil hayvan yok). Bu cümle doğrulanmış kısmı söyler; "tek ev yoktu" gibi kazıyla çelişen ifade kullanılmadı.
 - Olgu düzeltmeleri uygulandı: 10 ton, yandaki kayadan (kilometrelerce değil), çakmaktaşı, alanın onda biri, "tapınak şehri doğurdu" Schmidt'e atfedildi, gömme soru olarak.
 
@@ -12,8 +12,8 @@ Telaffuz: Göbeklitepe (tek kelime), Stonehenge → "Stonhenç", Klaus Schmidt �
 ---
 
 ### 1. Kanca (00:00-00:04)
-**Ses:** "Önce ekmek mi geldi... yoksa Tanrı mı?"
-**Ekran:** ÖNCE EKMEK Mİ, TANRI MI?
+**Ses:** "Önce açlık mı geldi... yoksa Tanrı mı?"
+**Ekran:** ÖNCE AÇLIK MI, TANRI MI?
 **Görsel:** Veo #1. Eski deri kitabın sayfaları rüzgârla açılıyor, alev alıyor, küller karanlığa yükseliyor (okunur yazı yok).
 
 ### 2. Cevap taşta (00:04-00:13)
@@ -67,8 +67,8 @@ Telaffuz: Göbeklitepe (tek kelime), Stonehenge → "Stonhenç", Klaus Schmidt �
 **Görsel:** Gerçek yıldız timelapse (Pexels/Pixabay) + Flow dikilitaş silueti, bulutlar ve yıldızlar akıyor, taş sabit.
 
 ### 12. Final soruları (02:22-02:40)
-**Ses:** "O taşlar hâlâ susuyor. Ama sana bir soru bırakıyor: Seni başkalarıyla bir araya getiren inanç ne? Sence onlar Göbeklitepe'yi neden yaptı? Cevabını yorumlara yaz."
-**Ekran:** SENCE NEDEN YAPTILAR?
+**Ses:** "O taşlar hâlâ susuyor. Ama sana bir soru bırakıyor: Seni başkalarıyla bir araya getiren inanç ne? Sence neden yaptılar? Düşüncelerini ve varsa sorularını yorumlara yaz. Cevap, bugün pek çok yerde dile getirilenlerden biri mi? Yoksa Murat Avcıoğlu'nun bu soruya nitelikçe farklı bir temellendirmesi mi var? Bunu öğrenmek istiyorsan, Avcıoğlu'nu ve bu kanalı takip etmeyi unutma."
+**Ekran:** SENCE NEDEN YAPTILAR? · YORUMLARA YAZ, ardından BİLİNEN CEVAPLAR MI? YOKSA BAMBAŞKA BİR TEMELLENDİRME Mİ? (MURAT AVCIOĞLU)
 **Görsel:** Gerçek arşiv: Dikilitaş 18'in taşa oyulmuş kolları ve elleri → kamera karanlığa çekiliyor.
 
 ### 13. Kapanış ekranı (02:40-02:45)

@@ -1,0 +1,1 @@
+window.VEO_CLIPS={"v_avci": 235, "v_mesale": 235};

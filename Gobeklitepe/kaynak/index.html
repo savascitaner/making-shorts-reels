@@ -1,0 +1,413 @@
+<!doctype html>
+<html lang="tr"><head><meta charset="utf-8"><title>Göbeklitepe 9x16</title>
+<style>
+@font-face{font-family:Anton;src:url(fonts/Anton-Regular.ttf)}
+@font-face{font-family:Cinzel;font-weight:900;src:url(fonts/cinzel-latin-900.woff2) format('woff2');unicode-range:U+0000-00FF,U+2000-206F}
+@font-face{font-family:Cinzel;font-weight:900;src:url(fonts/cinzel-latin-ext-900.woff2) format('woff2');unicode-range:U+0100-024F,U+1E00-1EFF}
+@font-face{font-family:Cinzel;font-weight:700;src:url(fonts/cinzel-latin-700.woff2) format('woff2');unicode-range:U+0000-00FF,U+2000-206F}
+@font-face{font-family:Cinzel;font-weight:700;src:url(fonts/cinzel-latin-ext-700.woff2) format('woff2');unicode-range:U+0100-024F,U+1E00-1EFF}
+@font-face{font-family:Alegreya Sans;font-weight:800;src:url(fonts/alegreya-sans-latin-800.woff2) format('woff2');unicode-range:U+0000-00FF,U+2000-206F}
+@font-face{font-family:Alegreya Sans;font-weight:800;src:url(fonts/alegreya-sans-latin-ext-800.woff2) format('woff2');unicode-range:U+0100-024F,U+1E00-1EFF}
+html,body{margin:0;background:#000}canvas{display:block;width:360px;height:640px}
+</style></head><body><canvas id="c" width="1080" height="1920"></canvas>
+<script src="words.js"></script>
+<script src="veo.js"></script>
+<script>
+// Göbeklitepe: "Önce açlık mı, Tanrı mı?"  Canvas engine, frames are pure functions of time.
+const W = 1080, H = 1920, FPS = 30, DUR = window.DATA.duration, FRAMES = Math.round(DUR * FPS);
+const cv = document.getElementById('c'), ctx = cv.getContext('2d');
+const D = window.DATA, WD = D.words;
+// Palette: sun-baked limestone and firelight against a night sky (the film moves from fire to stars).
+const GOLD = '#F0B24A', CREAM = '#F4ECDC', EMBER = '#FF8A3D', STONE = '#D9C7A3';
+const clamp = (x, a, b) => Math.max(a, Math.min(b, x));
+const ease = x => { x = clamp(x, 0, 1); return x * x * (3 - 2 * x); };
+const lerp = (a, b, k) => a + (b - a) * k;
+function rng(seed) { let a = seed >>> 0; return () => { a = (a + 0x6D2B79F5) >>> 0; let t = a; t = Math.imul(t ^ (t >>> 15), t | 1); t ^= t + Math.imul(t ^ (t >>> 7), t | 61); return ((t ^ (t >>> 14)) >>> 0) / 4294967296; }; }
+const wt = i => WD[i].s, we = i => WD[i].e;
+const LAST = WD.length - 1;
+const IDX = (word, from = 0) => { const i = WD.findIndex((x, j) => j >= from && x.w.replace(/[.,?!:;]/g, '') === word); if (i < 0) throw new Error('word not found: ' + word); return i; };
+const SENCE = IDX('Sence', 250), CEVAP = IDX('Cevap', SENCE), YOKSA2 = IDX('Yoksa', CEVAP), CTA = IDX('Bunu', CEVAP);
+
+// ---------------- media ----------------
+if (new URLSearchParams(location.search).has('eksik')) window.ALLOW_MISSING = true;
+const IMG = {
+  kitap: 'ai/s01a_kitap_s7.jpg', alev: 'ai/s01b_kitap_alev_s7.jpg', dikilitasAI: 'ai/s02a_dikilitas_s42.jpg',
+  koy: 'ai/s03a_koy_s7.jpg', saban: 'ai/s03b_saban_s7.jpg', avcilar: 'ai/s04a_avcilar_s42.jpg', tahil: 'ai/s04b_tahil_s7.jpg',
+  oymaF: 'flow/v4/scene-02.jpeg', kaldirmaF: 'flow/v5/scene-01-v2.jpeg',   // Veo made the pillar jump up: the still of the pull instead
+  kabartmaF: 'flow/v4/scene-03.jpeg',   // stone strikes stone, no chisel
+  ocak: 'ai/s05a_ocak_s7.jpg', kaldirma: 'ai/s05b_kaldirma_s7.jpg', cakmak: 'ai/s05c_cakmak_s7.jpg', mesale: 'ai/s06a_mesaleler_s7.jpg',
+  kabartmaAI: 'ai/s07a_kabartma_s7.jpg', gomulu: 'ai/s08a_gomulu_s7.jpg', siluet: 'ai/s09a_siluet_s7.jpg', ates: 'ai/s10a_ates_s7.jpg',
+  tasgok: 'ai/s11a_tas_gok_s7.jpg', eller: 'ai/s12a_eller_s7.jpg', karanlik: 'ai/s13a_karanlik_s7.jpg',
+  akbaba: 'arsiv/akbaba-tasi.jpg', koltilki: 'arsiv/kol-tilki.jpg', av: 'arsiv/av-sahnesi.jpg',
+};
+// Flow (Nano Banana, with the real pillars as reference) replaces the stills SDXL drew wrong (no T pillars, wheels, horses)
+Object.assign(IMG, { dikilitasAI: 'flow/v3/scene-01.jpeg', kaldirma: 'flow/v3/scene-02.jpeg', gomulu: 'flow/v3/scene-03.jpeg',
+  eller: 'flow/v3/scene-04.jpeg', cakmak: 'flow/v3/scene-05.jpeg', saban: 'flow/v3/scene-06.jpeg' });
+Object.assign(IMG, window.PICK || {});
+// real footage, unpacked to 30 fps JPEG frames: gorseller/klip/<name>/0001.jpg ... (count = frames)
+const CLIP = { daire: 300, kazi: 256, dikilitas: 346, kabartma: 570, cati: 480, hava: 435, dikey: 312, ...(window.VEO_CLIPS || {}) };
+// Veo key scenes: until a clip is unpacked the shot uses the still it was made from
+const VEO_FALLBACK = { v_oyma: 'oymaF', v_kaldirma: 'kaldirmaF', v_avci: 'avcilar', v_mesale: 'mesale', v_kabartma: 'kabartmaF' };
+const G = {};
+function loadImg(src) { return new Promise((ok, no) => { const im = new Image(); im.onload = () => ok(im); im.onerror = () => no(new Error('missing ' + src)); im.src = '../gorseller/' + src; }); }
+const cache = new Map();
+async function clipFrame(k, i) {
+  const p = `klip/${k}/${String(i).padStart(4, '0')}.jpg`;
+  if (cache.has(p)) return cache.get(p);
+  const im = await loadImg(p); cache.set(p, im);
+  if (cache.size > 30) cache.delete(cache.keys().next().value);
+  return im;
+}
+async function prep() {
+  const MISSING = window.ALLOW_MISSING ? [] : null;   // preview only: ?eksik=1 draws a grey card for stills not made yet
+  await Promise.all(Object.entries(IMG).map(async ([k, s]) => { try { G[k] = await loadImg(s); } catch (e) { if (!MISSING) throw e; MISSING.push(k); const c = document.createElement('canvas'); c.width = 768; c.height = 1344; const x = c.getContext('2d'); x.fillStyle = '#3a3128'; x.fillRect(0, 0, 768, 1344); x.fillStyle = '#d9c7a3'; x.font = '60px sans-serif'; x.fillText('EKSIK: ' + k, 40, 680); G[k] = c; } }));
+  G.grain = [0, 1, 2, 3].map(s => { const c = document.createElement('canvas'); c.width = 540; c.height = 960; const x = c.getContext('2d'); const d = x.createImageData(540, 960); const r = rng(77 + s);
+    for (let i = 0; i < d.data.length; i += 4) { const v = 128 + (r() - 0.5) * 255; d.data[i] = d.data[i + 1] = d.data[i + 2] = v; d.data[i + 3] = 255; } x.putImageData(d, 0, 0); return c; });
+  const p = document.createElement('canvas'); p.width = p.height = 128; const px = p.getContext('2d'); const g = px.createRadialGradient(64, 64, 0, 64, 64, 64);
+  g.addColorStop(0, 'rgba(235,215,185,0.5)'); g.addColorStop(0.5, 'rgba(215,190,160,0.16)'); g.addColorStop(1, 'rgba(200,180,150,0)'); px.fillStyle = g; px.fillRect(0, 0, 128, 128); G.puff = p;
+}
+// cover-crop view (u,v = centre 0..1, z = zoom)
+function drawImg(im, u, v, z, rot = 0, filter = 'none') {
+  const iw = im.naturalWidth || im.width, ih = im.naturalHeight || im.height;
+  const s = Math.max(W / iw, H / ih) * z;
+  ctx.save(); ctx.filter = filter; ctx.translate(W / 2, H / 2); if (rot) ctx.rotate(rot);
+  const dw = iw * s, dh = ih * s; const ox = clamp(u * dw - W / 2, 0, dw - W), oy = clamp(v * dh - H / 2, 0, dh - H);
+  ctx.drawImage(im, -W / 2 - ox, -H / 2 - oy, dw, dh); ctx.restore(); ctx.filter = 'none';
+}
+
+// ---------------- motion layers ----------------
+const EMB = (() => { const r = rng(451), a = []; for (let i = 0; i < 150; i++) a.push({ x: r(), p: r(), s: r(), w: r() * 6.28 }); return a; })();
+function embers(t, amt, cx = 0.5, spread = 0.9, y0 = 0.95, speed = 1) {
+  if (amt <= 0) return; ctx.save(); ctx.globalCompositeOperation = 'lighter';
+  for (const e of EMB) { const life = (2.4 + e.s * 2.2) / speed, ph = ((t / life + e.p) % 1);
+    const x = (cx + (e.x - 0.5) * spread + Math.sin(t * 1.3 + e.w) * 0.05 * ph) * W, y = (y0 - ph * (0.55 + e.s * 0.5)) * H, r = 2 + e.s * 5;
+    ctx.globalAlpha = amt * Math.sin(Math.PI * ph) * (0.55 + 0.45 * Math.sin(t * 11 + e.w * 3));
+    const g = ctx.createRadialGradient(x, y, 0, x, y, r * 3); g.addColorStop(0, 'rgba(255,228,170,1)'); g.addColorStop(0.3, 'rgba(255,140,50,0.85)'); g.addColorStop(1, 'rgba(255,70,10,0)');
+    ctx.fillStyle = g; ctx.fillRect(x - r * 3, y - r * 3, r * 6, r * 6); }
+  ctx.restore();
+}
+const flick = t => 0.55 + 0.25 * Math.sin(t * 13.1) + 0.12 * Math.sin(t * 29.7 + 1.3) + 0.08 * Math.sin(t * 7.3 + 2.1);
+function fireGlow(t, amt, cx = 0.5, cy = 1.0, rad = 1.1) {   // breathing warm light from a fire below
+  ctx.save(); ctx.globalCompositeOperation = 'screen'; const k = amt * flick(t);
+  const g = ctx.createRadialGradient(cx * W, cy * H, 0, cx * W, cy * H, rad * H); g.addColorStop(0, `rgba(255,150,60,${0.55 * k})`); g.addColorStop(0.5, `rgba(255,90,30,${0.18 * k})`); g.addColorStop(1, 'rgba(255,80,20,0)');
+  ctx.fillStyle = g; ctx.fillRect(0, 0, W, H); ctx.restore();
+}
+function torch(t, amt) {    // flickering torchlight: warm wash that breathes, shadows that breathe darker
+  ctx.save(); ctx.globalCompositeOperation = 'multiply'; ctx.fillStyle = `rgba(${Math.round(150 + 60 * flick(t))},${Math.round(95 + 40 * flick(t + 0.3))},60,${0.35 * amt})`; ctx.fillRect(0, 0, W, H); ctx.restore();
+  fireGlow(t, 0.6 * amt, 0.15, 0.35, 0.9);
+}
+const PUFFS = (() => { const r = rng(100), a = []; for (let i = 0; i < 90; i++) a.push({ x: r(), d: r(), p: r(), s: 0.6 + r() * 1.4, w: r() * 6.28 }); return a; })();
+function smoke(t, amt, cx = 0.5, cy = 0.55, spread = 0.5, speed = 0.5) {
+  if (amt <= 0) return; ctx.save(); ctx.globalCompositeOperation = 'screen';
+  for (const f of PUFFS) { const life = 3.2 / speed, ph = ((t / life + f.p) % 1);
+    const y = (cy - ph * (0.75 + f.d * 0.3)) * H, x = (cx + (f.x - 0.5) * spread * (0.4 + ph * 1.4) + Math.sin(t * 0.9 + f.w) * 0.03 * ph) * W;
+    const r = (80 + 260 * ph) * f.s; ctx.globalAlpha = amt * Math.sin(Math.PI * ph) * 0.6; ctx.drawImage(G.puff, x - r, y - r, r * 2, r * 2); }
+  ctx.restore();
+}
+const MOTES = (() => { const r = rng(33), a = []; for (let i = 0; i < 130; i++) a.push({ x: r(), y: r(), s: r(), p: r() * 6.28 }); return a; })();
+function motes(t, amt, col = '255,214,150', wind = 0.004) {
+  ctx.save(); ctx.globalCompositeOperation = 'screen';
+  for (const m of MOTES) { const x = ((m.x + Math.sin(t * 0.2 + m.p) * 0.03 + t * wind * (0.5 + m.s)) % 1 + 1) % 1 * W, y = ((m.y - t * 0.01 * (0.3 + m.s)) % 1 + 1) % 1 * H, r = 1.5 + m.s * 3.5;
+    ctx.globalAlpha = amt * (0.3 + 0.7 * (0.5 + 0.5 * Math.sin(t * 2 + m.p))); ctx.fillStyle = `rgb(${col})`; ctx.beginPath(); ctx.arc(x, y, r, 0, 6.283); ctx.fill(); }
+  ctx.restore();
+}
+const STREAK = (() => { const r = rng(808), a = []; for (let i = 0; i < 70; i++) a.push({ y: r(), p: r(), s: r(), l: r() }); return a; })();
+function dustStorm(t, amt) {   // wind-blown dust sweeping across the hill
+  ctx.save(); ctx.globalCompositeOperation = 'screen'; ctx.filter = 'blur(14px)';   // soft drifting veils, never hard bars
+  for (const d of STREAK) { const sp = 0.18 + d.s * 0.35, x = (((d.p + t * sp) % 1.4) - 0.2) * W, y = (0.35 + d.y * 0.65) * H + Math.sin(t * 2 + d.p * 9) * 18, l = 260 + d.l * 560, h = 30 + d.s * 70;
+    const g = ctx.createLinearGradient(x - l, y, x, y); g.addColorStop(0, 'rgba(210,180,140,0)'); g.addColorStop(0.6, `rgba(220,190,150,${0.13 * amt * (0.4 + d.s)})`); g.addColorStop(1, 'rgba(220,190,150,0)');
+    ctx.fillStyle = g; ctx.beginPath(); ctx.ellipse(x - l / 2, y, l / 2, h / 2, 0, 0, 6.283); ctx.fill(); }
+  ctx.filter = 'none'; ctx.restore(); motes(t, 0.6 * amt, '225,200,165', 0.03);
+}
+const ASH = (() => { const r = rng(55), a = []; for (let i = 0; i < 120; i++) a.push({ x: r(), p: r(), s: r(), w: r() * 6.28 }); return a; })();
+function ash(t, amt) {
+  ctx.save();
+  for (const f of ASH) { const ph = ((t * (0.08 + f.s * 0.1) + f.p) % 1), x = (f.x + Math.sin(t * 0.8 + f.w) * 0.03) * W, y = ph * H, r = 2 + f.s * 6;
+    ctx.globalAlpha = amt * (0.35 + 0.5 * f.s); ctx.fillStyle = f.s > 0.8 ? 'rgba(255,150,70,1)' : 'rgba(190,185,180,1)';
+    ctx.save(); ctx.translate(x, y); ctx.rotate(t * (1 + f.s * 3) + f.w); ctx.fillRect(-r, -r * 0.4, r * 2, r * 0.8); ctx.restore(); }
+  ctx.restore();
+}
+const CHIPS = (() => { const r = rng(96), a = []; for (let i = 0; i < 40; i++) a.push({ a: r(), v: r(), s: r() }); return a; })();
+function chips(t, amt, cx = 0.5, cy = 0.55, period = 0.9) {   // stone chips jumping at every flint strike
+  const lt = t % period; ctx.save();
+  for (const c of CHIPS) { const ang = -Math.PI / 2 + (c.a - 0.5) * 2.4, sp = 500 + c.v * 900, x = cx * W + Math.cos(ang) * sp * lt, y = cy * H + Math.sin(ang) * sp * lt + 1400 * lt * lt;
+    ctx.globalAlpha = amt * clamp(1 - lt / period, 0, 1); ctx.fillStyle = c.s > 0.5 ? '#EFE6D2' : '#C9B994'; const r = 2 + c.s * 5; ctx.fillRect(x - r, y - r, r * 2, r * 1.5); }
+  ctx.restore(); if (lt < 0.06) { ctx.fillStyle = `rgba(255,240,210,${0.18 * amt * (1 - lt / 0.06)})`; ctx.fillRect(0, 0, W, H); }
+}
+const LIGHTS = (() => { const r = rng(1848), a = []; for (let i = 0; i < 260; i++) a.push({ x: r(), y: 0.45 + r() * 0.5, on: r(), s: r() }); return a; })();
+function cityLights(t, k) {
+  ctx.save(); ctx.globalCompositeOperation = 'screen';
+  for (const L of LIGHTS) { if (L.on > k) continue; const fl = 0.75 + 0.25 * Math.sin(t * 7 + L.s * 40); const x = L.x * W, y = L.y * H, r = 8 + L.s * 20;
+    const g = ctx.createRadialGradient(x, y, 0, x, y, r); g.addColorStop(0, `rgba(255,214,140,${0.85 * fl})`); g.addColorStop(1, 'rgba(255,180,90,0)'); ctx.fillStyle = g; ctx.fillRect(x - r, y - r, r * 2, r * 2); }
+  ctx.restore();
+}
+function godRays(t, amt, cx = 0.75, cy = 0.02) {
+  ctx.save(); ctx.globalCompositeOperation = 'screen'; ctx.translate(cx * W, cy * H);
+  for (let i = 0; i < 7; i++) { const a = 0.35 + i * 0.13 + Math.sin(t * 0.3 + i) * 0.03; const g = ctx.createLinearGradient(0, 0, Math.cos(a + 1.2) * 1800, Math.sin(a + 1.2) * 1800);
+    g.addColorStop(0, `rgba(255,205,130,${0.15 * amt})`); g.addColorStop(1, 'rgba(255,205,130,0)'); ctx.fillStyle = g; ctx.beginPath(); ctx.moveTo(0, 0);
+    ctx.lineTo(Math.cos(a + 1.2 - 0.04) * 2200, Math.sin(a + 1.2 - 0.04) * 2200); ctx.lineTo(Math.cos(a + 1.2 + 0.04) * 2200, Math.sin(a + 1.2 + 0.04) * 2200); ctx.fill(); }
+  ctx.restore();
+}
+// 3D sky: a star sphere with a Milky Way band, turning slowly, projected through a pinhole camera
+const STARS = (() => { const r = rng(9600), a = [];
+  for (let i = 0; i < 1500; i++) { const th = r() * 6.283, ph = Math.acos(2 * r() - 1); a.push({ x: Math.sin(ph) * Math.cos(th), y: Math.cos(ph), z: Math.sin(ph) * Math.sin(th), m: r(), b: 0 }); }
+  for (let i = 0; i < 2600; i++) { const th = r() * 6.283, ph = Math.PI / 2 + (r() + r() + r() - 1.5) * 0.16; a.push({ x: Math.sin(ph) * Math.cos(th), y: Math.cos(ph), z: Math.sin(ph) * Math.sin(th), m: r() * 0.7, b: 1 }); }
+  return a; })();
+function stars(t, amt, pitch = 0.35, horizon = 0.62, yaw0 = 0) {
+  const yaw = yaw0 + t * 0.012, cy = Math.cos(yaw), sy = Math.sin(yaw), roll = 0.75, cr = Math.cos(roll), sr = Math.sin(roll), cp = Math.cos(pitch), sp = Math.sin(pitch), f = 820;
+  ctx.save(); ctx.globalCompositeOperation = 'screen';
+  for (const s of STARS) {
+    let x = s.x * cy - s.z * sy, z = s.x * sy + s.z * cy, y = s.y;
+    const x1 = x * cr - y * sr, y1 = x * sr + y * cr; const y2 = y1 * cp - z * sp, z2 = y1 * sp + z * cp;
+    if (z2 <= 0.08) continue; const px = W / 2 + x1 / z2 * f, py = H * 0.4 + y2 / z2 * f;
+    if (px < -4 || px > W + 4 || py < -4 || py > H * horizon) continue;
+    const fade = clamp((H * horizon - py) / 160, 0, 1), tw = 0.65 + 0.35 * Math.sin(t * (2 + s.m * 3) + s.m * 50), r = (s.b ? 1.1 : 1.6) + s.m * 2.2;
+    ctx.globalAlpha = amt * fade * tw * (0.3 + 0.7 * s.m); ctx.fillStyle = s.b ? '#D6DEFF' : '#FFF4E2'; ctx.fillRect(px - r / 2, py - r / 2, r, r);
+  }
+  ctx.restore();
+}
+
+// ---------------- text ----------------
+function cardText(lines, lt, { y = 520, size = 130, color = CREAM, sub = null, subColor = GOLD, font = 'Anton', fade = 0.3, band = 0.42, slam = false } = {}) {
+  if (lt < 0) return; const a = fade ? ease(lt / fade) : 1; const sc = slam ? lerp(1.6, 1, ease(lt / 0.14)) : 1;
+  if (band) { const g = ctx.createLinearGradient(0, y - size * 1.9, 0, y + size * (lines.length + 0.6)); g.addColorStop(0, 'rgba(6,5,4,0)'); g.addColorStop(0.3, `rgba(6,5,4,${band * a})`); g.addColorStop(0.7, `rgba(6,5,4,${band * a})`); g.addColorStop(1, 'rgba(6,5,4,0)'); ctx.fillStyle = g; ctx.fillRect(0, y - size * 1.9, W, size * (lines.length + 2.5)); }
+  ctx.save(); ctx.globalAlpha = slam ? Math.min(1, ease(lt / 0.1)) : a; ctx.textAlign = 'center'; ctx.textBaseline = 'alphabetic'; ctx.lineJoin = 'round';
+  ctx.translate(W / 2, y); ctx.scale(sc, sc);
+  lines.forEach((s, i) => { let sz = size; ctx.font = `${font === 'Anton' ? '' : '900 '}${sz}px ${font}`; const mw = ctx.measureText(s).width; if (mw > 960) { sz = Math.floor(sz * 960 / mw); ctx.font = `${font === 'Anton' ? '' : '900 '}${sz}px ${font}`; }
+    const yy = i * size * 1.08 + (fade && !slam ? (1 - a) * 20 : 0); ctx.lineWidth = sz * 0.1; ctx.strokeStyle = 'rgba(8,6,4,0.92)'; ctx.strokeText(s, 0, yy);
+    ctx.fillStyle = Array.isArray(color) ? color[i] : color; ctx.shadowColor = 'rgba(240,160,70,0.45)'; ctx.shadowBlur = 34; ctx.fillText(s, 0, yy); ctx.shadowBlur = 0; });
+  if (sub) { ctx.font = '700 42px Cinzel'; ctx.fillStyle = subColor; ctx.lineWidth = 6; ctx.strokeStyle = 'rgba(8,6,4,0.85)'; ctx.strokeText(sub, 0, -size * 1.0); ctx.fillText(sub, 0, -size * 1.0); ctx.fillRect(-70, -size * 1.0 + 22, 140, 3); }
+  ctx.restore();
+}
+const at = (t, i, lead = 0.1) => t - wt(i) + lead;
+function stamp(word, lt, y, color = CREAM, size = 150) {   // "TARLA YOK" with a red strike that slams in
+  if (lt < 0) return; const k = ease(lt / 0.12), sc = lerp(1.5, 1, k);
+  ctx.save(); ctx.translate(W / 2, y); ctx.scale(sc, sc); ctx.globalAlpha = Math.min(1, lt / 0.08); ctx.textAlign = 'center'; ctx.lineJoin = 'round';
+  ctx.font = `${size}px Anton`; ctx.lineWidth = size * 0.107; ctx.strokeStyle = 'rgba(8,6,4,0.92)'; ctx.strokeText(word, -70, 0); ctx.fillStyle = color; ctx.fillText(word, -70, 0);
+  const ww = ctx.measureText(word).width; ctx.font = `${Math.round(size * 0.73)}px Anton`; ctx.strokeText('YOK', ww / 2 + 40, -6); ctx.fillStyle = '#E2533F'; ctx.fillText('YOK', ww / 2 + 40, -6);
+  const sk = ease((lt - 0.15) / 0.18); if (sk > 0) { ctx.strokeStyle = '#E2533F'; ctx.lineWidth = 12; ctx.beginPath(); ctx.moveTo(-70 - ww / 2 - 10, -50); ctx.lineTo(-70 - ww / 2 - 10 + (ww + 20) * sk, -50); ctx.stroke(); }
+  ctx.restore();
+}
+function timeline(t, lt) {   // vertical time axis: Göbeklitepe at the top, the rest far below
+  const a = ease(lt / 0.4); ctx.fillStyle = `rgba(5,4,3,${0.58 * a})`; ctx.fillRect(0, 0, W, H);
+  const y0 = 330, y1 = 1180, X = 250, yr = Y => y0 + (Y + 9600) / (9600 + 2026) * (y1 - y0);
+  const grow = ease((lt - 0.2) / 2.2);
+  ctx.save(); ctx.globalAlpha = a; ctx.strokeStyle = 'rgba(240,178,74,0.9)'; ctx.lineWidth = 6; ctx.beginPath(); ctx.moveTo(X, y0); ctx.lineTo(X, y0 + (y1 - y0) * grow); ctx.stroke();
+  const M = [[-9600, 'GÖBEKLİTEPE', 'MÖ 9600', -1, y0, GOLD], [-2560, 'MISIR PİRAMİTLERİ', 'MÖ 2560', 18, 900, CREAM], [-3000, 'STONEHENGE', 'MÖ 3000', 21, 770, CREAM], [2026, 'BUGÜN', '', 21, 1180, STONE]];
+  for (const [Y, name, sub, wi, ly, col] of M) {
+    const l2 = wi < 0 ? lt : t - wt(wi) + (Y === 2026 ? -0.6 : 0.05); if (l2 < 0) continue; const k = ease(l2 / 0.3); const dy = yr(Y);
+    ctx.globalAlpha = a * k; ctx.fillStyle = col; ctx.beginPath(); ctx.arc(X, dy, 16 * k, 0, 6.283); ctx.fill();
+    ctx.strokeStyle = 'rgba(244,236,220,0.5)'; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(X + 20, dy); ctx.lineTo(X + 60, ly - 20); ctx.stroke();
+    ctx.textAlign = 'left'; ctx.font = `${name.length > 12 ? 70 : 92}px Anton`; ctx.lineWidth = 10; ctx.strokeStyle = 'rgba(8,6,4,0.9)'; ctx.strokeText(name, X + 70 + (1 - k) * 30, ly); ctx.fillText(name, X + 70 + (1 - k) * 30, ly);
+    if (sub) { ctx.font = '700 40px Cinzel'; ctx.fillStyle = GOLD; ctx.fillText(sub, X + 72, ly + 52); }
+  }
+  // the gap itself: a bracket that reads "7.000 YIL"
+  const gk = ease((t - wt(19)) / 0.5); if (gk > 0) { ctx.globalAlpha = a * gk; ctx.strokeStyle = GOLD; ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(X - 40, y0); ctx.lineTo(X - 60, y0); ctx.lineTo(X - 60, yr(-2560)); ctx.lineTo(X - 40, yr(-2560)); ctx.stroke();
+    ctx.save(); ctx.translate(X - 90, (y0 + yr(-2560)) / 2); ctx.rotate(-Math.PI / 2); ctx.textAlign = 'center'; ctx.font = '700 44px Cinzel'; ctx.fillStyle = GOLD; ctx.fillText('7.000 YIL', 0, 0); ctx.restore(); }
+  ctx.restore();
+}
+function ytIcon(x, y, s, a) {
+  ctx.save(); ctx.globalAlpha = a; ctx.fillStyle = '#FF0033'; const w = s * 1.42, h = s; const r = h * 0.28;
+  ctx.beginPath(); ctx.moveTo(x - w / 2 + r, y - h / 2); ctx.arcTo(x + w / 2, y - h / 2, x + w / 2, y + h / 2, r); ctx.arcTo(x + w / 2, y + h / 2, x - w / 2, y + h / 2, r); ctx.arcTo(x - w / 2, y + h / 2, x - w / 2, y - h / 2, r); ctx.arcTo(x - w / 2, y - h / 2, x + w / 2, y - h / 2, r); ctx.fill();
+  ctx.fillStyle = '#fff'; ctx.beginPath(); ctx.moveTo(x - h * 0.17, y - h * 0.24); ctx.lineTo(x + h * 0.27, y); ctx.lineTo(x - h * 0.17, y + h * 0.24); ctx.fill(); ctx.restore();
+}
+function igIcon(x, y, s, a) {
+  ctx.save(); ctx.globalAlpha = a; const g = ctx.createLinearGradient(x - s / 2, y + s / 2, x + s / 2, y - s / 2); g.addColorStop(0, '#F9CE34'); g.addColorStop(0.5, '#EE2A7B'); g.addColorStop(1, '#6228D7');
+  ctx.strokeStyle = g; ctx.lineWidth = s * 0.11; const r = s * 0.28; ctx.beginPath(); ctx.moveTo(x - s / 2 + r, y - s / 2); ctx.arcTo(x + s / 2, y - s / 2, x + s / 2, y + s / 2, r); ctx.arcTo(x + s / 2, y + s / 2, x - s / 2, y + s / 2, r); ctx.arcTo(x - s / 2, y + s / 2, x - s / 2, y - s / 2, r); ctx.arcTo(x - s / 2, y - s / 2, x + s / 2, y - s / 2, r); ctx.stroke();
+  ctx.beginPath(); ctx.arc(x, y, s * 0.22, 0, 6.283); ctx.stroke(); ctx.fillStyle = g; ctx.beginPath(); ctx.arc(x + s * 0.26, y - s * 0.26, s * 0.06, 0, 6.283); ctx.fill(); ctx.restore();
+}
+function endCard(lt) {
+  cardText(['DAHA FAZLASI İÇİN'], lt, { y: 560, size: 88, band: 0 });
+  cardText(['TAKİPTE KAL'], lt - 0.25, { y: 720, size: 170, color: GOLD, band: 0 });
+  const a2 = ease((lt - 0.7) / 0.5); if (a2 <= 0) return; const pulse = 1 + 0.05 * Math.sin((lt - 0.7) * 5);
+  ctx.save(); ctx.translate(W / 2, 930); ctx.scale(pulse, pulse); ytIcon(0, 0, 120, a2); ctx.restore();
+  ctx.save(); ctx.globalAlpha = a2; ctx.textAlign = 'center'; ctx.lineJoin = 'round'; ctx.font = '800 92px "Alegreya Sans"'; ctx.lineWidth = 8; ctx.strokeStyle = 'rgba(8,6,4,0.9)'; ctx.strokeText('@TanerSavaşçı', W / 2, 1110);
+  ctx.fillStyle = CREAM; ctx.fillText('@TanerSavaşçı', W / 2, 1110); ctx.font = '700 40px Cinzel'; ctx.fillStyle = GOLD; ctx.fillText('YOUTUBE', W / 2, 1176); ctx.restore();
+  const a3 = ease((lt - 1.3) / 0.5); if (a3 <= 0) return;
+  igIcon(W / 2 - 250, 1300, 64, a3);
+  ctx.save(); ctx.globalAlpha = a3; ctx.textAlign = 'left'; ctx.font = '800 62px "Alegreya Sans"'; ctx.lineWidth = 7; ctx.strokeStyle = 'rgba(8,6,4,0.9)'; ctx.strokeText('@sevgiliinsann', W / 2 - 200, 1322); ctx.fillStyle = CREAM; ctx.fillText('@sevgiliinsann', W / 2 - 200, 1322);
+  ctx.textAlign = 'center'; ctx.font = '700 46px Cinzel'; ctx.fillStyle = GOLD; ctx.strokeText('www.sevgiliinsan.com', W / 2, 1430); ctx.fillText('www.sevgiliinsan.com', W / 2, 1430); ctx.restore();
+}
+
+// ---------------- shot list ----------------
+// [startWord, key, from[u,v,z], to[u,v,z], fx, card, {off: clip seconds, rate}]
+// key: still name, 'c:<clip>' real footage, 'v_<name>' Veo scene (falls back to its still until unpacked)
+const SH = [
+  [0, 'kitap', [0.5, 0.55, 1.04], [0.5, 0.5, 1.28], 'fire'],                       // Önce açlık mı geldi...
+  [4, 'alev', [0.5, 0.52, 1.12], [0.5, 0.42, 1.38], 'fire2'],                      // yoksa Tanrı mı?
+  [7, 'c:hava', [0.15, 0.5, 1.0], [0.6, 0.5, 1.0], 'dust', null, { off: 0 }],        // 11.000 yıl önce Anadolu'da bir tepe
+  [13, 'dikilitasAI', [0.5, 0.62, 1.0], [0.5, 0.5, 1.2], 'rays'],                  // taşla cevap verdi
+  [18, 'dikilitasAI', [0.5, 0.45, 1.22], [0.5, 0.4, 1.32], 'timeline'],            // piramitler, Stonehenge
+  [25, 'c:dikey', [0.5, 0.5, 1.0], [0.5, 0.5, 1.1], 'boom', 'baslik'],             // GÖBEKLİ TEPE.
+  [30, 'koy', [0.5, 0.62, 1.0], [0.45, 0.55, 1.2], 'dust'],                        // ...boyunca bize aynı hikâye anlatıldı
+  [35, 'saban', [0.55, 0.5, 1.18], [0.45, 0.5, 1.02], 'dust', 'ezber'],            // İnsan önce tarlayı sürdü
+  [39, 'koy', [0.25, 0.7, 1.35], [0.4, 0.6, 1.15], 'smoke'],                       // köy kurdu, karnını doyurdu
+  [43, 'koy', [0.75, 0.36, 1.7], [0.75, 0.33, 2.0], 'rays'],                       // Tanrılar, tapınaklar, rahipler
+  [50, 'koy', [0.5, 0.5, 1.12], [0.5, 0.5, 1.0], 'ash'],                           // Din, karnı tok bir toplumun lüksüydü.
+  [56, 'avcilar', [0.3, 0.5, 1.15], [0.62, 0.5, 1.15], 'dust', 'yok'],             // Ama ... ne tarla, ne yazı, ne metal
+  [75, 'v_avci', [0.5, 0.5, 1.0], [0.5, 0.5, 1.08], 'dust', 'yok2'],               // Henüz yerleşik tarım düzenine...
+  [82, 'tahil', [0.5, 0.58, 1.05], [0.5, 0.45, 1.25], 'seeds'],                    // yabani tahılı toplayan
+  [86, 'c:kazi', [0.25, 0.5, 1.0], [0.6, 0.5, 1.0], 'dust'],                       // Yine de yüzlerce insan bir araya geldi.
+  [93, 'ocak', [0.5, 0.62, 1.05], [0.5, 0.5, 1.25], 'dust'],                       // Yanı başlarındaki kayadan
+  [96, 'cakmak', [0.5, 0.5, 1.2], [0.5, 0.5, 1.45], 'chips'],                      // yalnızca çakmak taşıyla
+  [98, 'v_oyma', [0.42, 0.4, 1.12], [0.4, 0.36, 1.3], 'strike', 'ton'],                 // 10 tona varan dev taşlar oydular
+  [104, 'v_kaldirma', [0.5, 0.62, 1.05], [0.5, 0.45, 1.28], 'dust'],                   // Halatlarla, kaldıraçlarla...
+  [111, 'kaldirma', [0.5, 0.38, 1.32], [0.5, 0.45, 1.05], 'rays', 'degil'],        // Karınlarını doyurmak için değil.
+  [115, 'c:daire', [0.5, 0.5, 1.0], [0.5, 0.5, 1.15], 'none', 'schmidt'],          // Kazıyı yöneten Klaus Schmidt
+  [121, 'c:dikilitas', [0.5, 0.5, 1.0], [0.5, 0.5, 1.08], 'none', 'tapinak'],      // Önce tapınak geldi, şehir sonra.
+  [126, 'v_mesale', [0.5, 0.5, 1.0], [0.5, 0.5, 1.1], 'nightFire'],                // İnsanları ilk kez bir araya getiren
+  [136, 'mesale', [0.5, 0.62, 1.3], [0.5, 0.45, 1.05], 'nightFire'],               // görünmeyene duyulan merak
+  [141, 'akbaba', [0.5, 0.25, 1.22], [0.5, 0.62, 1.38], 'torch'],                  // akrepler, yılanlar, akbabalar
+  [146, 'koltilki', [0.5, 0.3, 1.15], [0.5, 0.55, 1.35], 'torch'],                 // kolları olan, kemer takan
+  [151, 'c:dikilitas', [0.5, 0.45, 1.25], [0.5, 0.32, 1.42], 'torchLow', null, { off: 6 }], // yüzü olmayan insansı devler
+  [156, 'v_kabartma', [0.55, 0.45, 1.05], [0.6, 0.42, 1.25], 'strikeTorch', 'dil'], // Yazının icadından 6000 yıl önce (only the first 1.4 s: the hand still holds a stone)
+  [161, 'c:kabartma', [0.35, 0.5, 1.0], [0.62, 0.5, 1.05], 'torchLow', null, { off: 3 }], // taşın diliyle bir şey anlatıyorlardı
+  [166, 'gomulu', [0.5, 0.42, 1.0], [0.5, 0.55, 1.2], 'storm'],                    // toprağın altında kayboldu
+  [173, 'gomulu', [0.5, 0.4, 1.3], [0.55, 0.45, 1.5], 'storm', 'gomdu'],           // gömdüler mi, doğa mı örttü?
+  [181, 'c:cati', [0.3, 0.5, 1.0], [0.62, 0.5, 1.0], 'none'],                      // Hâlâ tartışılıyor.
+  [183, 'c:hava', [0.5, 0.5, 1.0], [0.5, 0.5, 1.25], 'none', 'onda', { off: 6 }],  // alanın yalnızca onda biri kazıldı
+  [191, 'siluet', [0.5, 0.78, 1.12], [0.5, 0.36, 1.0], 'stars'],                   // Şimdi bütün teorileri bir kenara bırak.
+  [197, 'tasgok', [0.5, 0.62, 1.0], [0.5, 0.42, 1.15], 'stars', 'neden'],          // ... bu taşları neden dikti?
+  [209, 'ates', [0.5, 0.5, 1.0], [0.45, 0.45, 1.2], 'campfire', 'tanri'],          // Tanrı'yı mı arıyorlardı? Ölülerini mi?
+  [219, 'siluet', [0.5, 0.42, 1.3], [0.5, 0.3, 1.55], 'stars', 'ben'],             // Ben neden varım?
+  [229, 'koy', [0.5, 0.55, 1.22], [0.5, 0.5, 1.0], 'lights'],                      // Ya tarım, köyler, şehirler?
+  [233, 'tasgok', [0.5, 0.48, 1.32], [0.5, 0.38, 1.08], 'stars'],                  // hepsi o merakın yan ürünü ise?
+  [239, 'c:cati', [0.35, 0.5, 1.0], [0.6, 0.5, 1.12], 'none', 'medeniyet', { off: 8 }], // bugün yaşadığımız her şey...
+  [254, 'c:dikilitas', [0.5, 0.45, 1.05], [0.5, 0.42, 1.22], 'none', null, { off: 2 }], // O taşlar hâlâ susuyor.
+  [258, 'eller', [0.5, 0.45, 1.0], [0.5, 0.52, 1.22], 'torch'],                    // Ama sana bir soru bırakıyor.
+  [263, 'av', [0.25, 0.5, 1.0], [0.72, 0.5, 1.0], 'torchLow'],                     // Seni başkalarıyla bir araya getiren inanç ne?
+  [270, 'c:daire', [0.5, 0.5, 1.3], [0.5, 0.5, 1.0], 'none', 'sence', { off: 4 }], // Sence onlar Göbeklitepe'yi neden yaptı?
+  [CEVAP, 'c:dikey', [0.5, 0.5, 1.0], [0.5, 0.5, 1.14], 'dust', 'avcioglu', { off: 1 }], // Cevap ... Murat Avcıoğlu'nun ... temellendirmesi mi var?
+  [CTA, 'karanlik', [0.5, 0.5, 1.15], [0.5, 0.5, 1.0], 'end', 'end'],               // Bunu öğrenmek istiyorsan ... takip etmeyi unutma + kapanış
+];
+const SHOTS = SH.map((s, i) => {
+  const o = s[6] || {}; let k = s[1], clip = null;
+  if (k.startsWith('c:')) clip = k.slice(2);
+  else if (k.startsWith('v_')) { if (CLIP[k]) clip = k; else k = VEO_FALLBACK[k]; }
+  return { i, t0: i === 0 ? 0 : wt(s[0]) - 0.1, k, clip, a: s[2], b: s[3], fx: s[4], card: s[5], off: o.off || 0, rate: o.rate || 1, w0: s[0] };
+});
+SHOTS.forEach((s, i) => s.t1 = i + 1 < SHOTS.length ? SHOTS[i + 1].t0 : DUR + 0.5);
+const BOOM = SHOTS.find(s => s.fx === 'boom').t0 + 0.1;
+const HOOK_END = wt(7) - 0.15, END0 = wt(CTA) - 0.1, XF = 0.35;
+const frameOf = (s, t) => clamp(Math.floor((s.off + Math.max(0, t - s.t0) * s.rate) * 30), 0, CLIP[s.clip] - 1) + 1;
+const shotAt = t => { let i = SHOTS.findIndex(s => t >= s.t0 && t < s.t1); return i < 0 ? SHOTS.length - 1 : i; };
+
+function drawShot(s, t) {
+  const lt = t - s.t0, d = s.t1 - s.t0, e = ease((lt + 0.3) / (d + 0.6));
+  const u = lerp(s.a[0], s.b[0], e), v = lerp(s.a[1], s.b[1], e), z = lerp(s.a[2], s.b[2], e);
+  let filt = 'none';
+  if (s.fx === 'ash') filt = `saturate(${lerp(1, 0.12, ease(lt / d))}) brightness(${lerp(1, 0.72, ease(lt / d))})`;
+  if (s.fx === 'stars' || s.fx === 'nightFire') filt = 'saturate(0.9) contrast(1.05)';
+  if (s.fx === 'torchLow') filt = 'sepia(0.35) saturate(1.1) brightness(0.8) contrast(1.12)';
+  if (s.fx === 'end') filt = 'brightness(0.55)';
+  let shake = 0; if (s.fx === 'boom') shake = Math.max(0, 1 - (t - BOOM) / 0.7) * (t >= BOOM ? 30 : 0);
+  if (s.fx === 'fire2') shake = Math.max(0, 1 - (t - wt(5)) / 0.5) * (t >= wt(5) ? 16 : 0);
+  if (shake) { ctx.save(); ctx.translate(Math.sin(t * 90) * shake, Math.cos(t * 77) * shake); }
+  drawImg(s.clip ? s.cur : G[s.k], u, v, z, 0, filt);
+  if (shake) ctx.restore();
+  // motion layers
+  switch (s.fx) {
+    case 'fire': fireGlow(t, 0.9, 0.5, 0.75, 0.9); embers(t, 1, 0.5, 0.8, 0.85, 1.2); smoke(t, 0.25, 0.5, 0.55, 0.5, 0.35); break;
+    case 'fire2': fireGlow(t, 1.1, 0.5, 0.8, 1.0); embers(t, 1, 0.5, 1.0, 1.0, 1.6); break;
+    case 'dust': motes(t, 0.65, '240,215,170', 0.006); break;
+    case 'rays': godRays(t, 1); motes(t, 0.6); break;
+    case 'timeline': godRays(t, 0.5); timeline(t, lt); break;
+    case 'boom': motes(t, 0.5); break;
+    case 'smoke': smoke(t, 0.4, 0.3, 0.75, 0.6, 0.4); motes(t, 0.4); break;
+    case 'ash': ash(t, ease(lt / 1.2)); break;
+    case 'seeds': motes(t, 1, '255,226,160', 0.02); break;
+    case 'chips': chips(t, 1, 0.5, 0.5, 0.75); break;
+    case 'strike': chips(t, 1, 0.45, 0.42, 0.62); motes(t, 0.6, '240,225,200', 0.004); break;
+    case 'strikeTorch': torch(t, 0.8); chips(t, 0.8, 0.42, 0.42, 0.7); break;
+    case 'nightFire': embers(t, 0.6, 0.5, 1.2, 1.0, 0.7); fireGlow(t, 0.4, 0.5, 0.7, 0.8); break;
+    case 'torch': torch(t, 1); embers(t, 0.35, 0.12, 0.3, 1.0, 0.8); break;
+    case 'torchLow': torch(t, 0.7); break;
+    case 'storm': dustStorm(t, 1); break;
+    case 'stars': stars(t, ease(lt / 0.8), lerp(0.28, 0.42, e), 0.6, s.i * 0.7); break;
+    case 'campfire': fireGlow(t, 0.8, 0.45, 0.95, 0.9); embers(t, 0.7, 0.45, 0.3, 0.95, 0.8); stars(t, 0.6, 0.3, 0.45, 2.0); break;
+    case 'lights': cityLights(t, ease((lt - 0.4) / Math.max(1, d - 1.2))); motes(t, 0.4); break;
+    case 'end': embers(t, 0.45, 0.5, 1.2, 1.05, 0.5); break;
+  }
+  if (s.card) drawCard(s, lt, d, t);
+}
+function drawCard(s, lt, d, t) {
+  switch (s.card) {
+    case 'baslik': { const l2 = t - BOOM; if (l2 >= 0) { cardText(['GÖBEKLİTEPE'], l2, { y: 860, size: 196, color: CREAM, slam: true, band: 0.35 });
+      cardText(['11.500 YIL ÖNCE'], l2 - 0.35, { y: 1010, size: 78, color: GOLD, band: 0, font: 'Cinzel' }); } break; }
+    case 'ezber': cardText(['ÖNCE TARLA,', 'SONRA TANRI'], lt, { y: 470, size: 140, color: [CREAM, GOLD], sub: 'YÜZYILLIK EZBER' }); break;
+    case 'yok': stamp('TARLA', at(t, 62), 470); stamp('YAZI', at(t, 69), 650); stamp('METAL', at(t, 71), 830); break;
+    case 'yok2': stamp('TARLA', 1, 420, CREAM, 120); stamp('YAZI', 1, 560, CREAM, 120); stamp('METAL', 1, 700, CREAM, 120); stamp('YERLEŞİK DÜZEN', at(t, 76), 860, GOLD, 108); break;
+    case 'ton': cardText(['10 TONLUK DEVLER'], at(t, 98), { y: 420, size: 120, color: GOLD, sub: 'SADECE ÇAKMAKTAŞIYLA' }); break;
+    case 'degil': cardText(['AÇLIK İÇİN', 'DEĞİL.'], lt, { y: 470, size: 150, color: [CREAM, GOLD] }); break;
+    case 'schmidt': cardText(['KLAUS SCHMIDT'], at(t, 117), { y: 440, size: 130, sub: 'KAZI BAŞKANI' }); break;
+    case 'tapinak': cardText(['ÖNCE TAPINAK,', 'SONRA ŞEHİR'], lt, { y: 450, size: 140, color: [GOLD, CREAM] }); break;
+    case 'dil': cardText(['YAZIDAN', 'ÖNCEKİ DİL'], at(t, 156), { y: 430, size: 150, color: [CREAM, GOLD] }); break;
+    case 'gomdu': cardText(['GÖMDÜLER Mİ,', 'GÖMÜLDÜ MÜ?'], lt, { y: 450, size: 140, color: [CREAM, GOLD] }); break;
+    case 'onda': cardText(['ALANIN', 'ONDA BİRİ', 'KAZILDI'], at(t, 186), { y: 420, size: 130, color: [CREAM, GOLD, CREAM] }); break;
+    case 'neden': { const l2 = at(t, 207, 0.05); if (l2 >= 0) cardText(['NEDEN?'], l2, { y: 800, size: 300, color: GOLD, slam: true, band: 0.3 }); break; }
+    case 'tanri': cardText(['TANRI\'YI MI ARIYORLARDI,', 'KENDİLERİNİ Mİ?'], at(t, 213), { y: 430, size: 104, color: [CREAM, GOLD] }); break;
+    case 'ben': cardText(['BEN NEDEN', 'VARIM?'], at(t, 226), { y: 520, size: 170, color: [CREAM, GOLD], band: 0.3 }); break;
+    case 'medeniyet': cardText(['MEDENİYET', 'BİR SORUNUN', 'CEVABI MI?'], at(t, 249), { y: 420, size: 130, color: [CREAM, CREAM, GOLD] }); break;
+    case 'sence': cardText(['SENCE NEDEN', 'YAPTILAR?'], lt, { y: 470, size: 160, color: [CREAM, GOLD], sub: 'YORUMLARA YAZ' }); break;
+    case 'avcioglu': cardText(['BİLİNEN CEVAPLAR MI?'], lt, { y: 360, size: 100, color: CREAM, band: 0.45 });
+      cardText(['YOKSA BAMBAŞKA BİR', 'TEMELLENDİRME Mİ?'], at(t, YOKSA2), { y: 660, size: 112, color: [CREAM, GOLD], sub: 'MURAT AVCIOĞLU', band: 0.3 }); break;
+    case 'end': { const l2 = t - END0; if (l2 >= 0) { ctx.fillStyle = `rgba(4,3,2,${0.6 * ease(l2 / 0.6)})`; ctx.fillRect(0, 0, W, H); endCard(l2); } break; }
+  }
+}
+function hookCard(t) {   // frame 0: the question, already on screen, no fade-in
+  if (t >= HOOK_END) return; const out = ease((HOOK_END - t) / 0.25);
+  ctx.save(); ctx.globalAlpha = out; ctx.textAlign = 'center'; ctx.lineJoin = 'round';
+  const g = ctx.createLinearGradient(0, 560, 0, 1220); g.addColorStop(0, 'rgba(6,5,4,0)'); g.addColorStop(0.35, 'rgba(6,5,4,0.5)'); g.addColorStop(0.65, 'rgba(6,5,4,0.5)'); g.addColorStop(1, 'rgba(6,5,4,0)'); ctx.fillStyle = g; ctx.fillRect(0, 560, W, 660);
+  ctx.font = '150px Anton'; ctx.lineWidth = 14; ctx.strokeStyle = 'rgba(8,6,4,0.92)'; ctx.strokeText('ÖNCE AÇLIK MI,', W / 2, 780); ctx.fillStyle = CREAM; ctx.fillText('ÖNCE AÇLIK MI,', W / 2, 780);
+  const k = t >= wt(5) - 0.05 ? ease((t - wt(5) + 0.05) / 0.12) : 0, sc = 1 + 0.03 * Math.sin(t * 6) + (k ? lerp(0.5, 0, k) : 0);
+  ctx.save(); ctx.translate(W / 2, 1075); ctx.scale(sc, sc); ctx.font = '240px Anton'; ctx.lineWidth = 20; ctx.strokeText('TANRI MI?', 0, 0);
+  ctx.fillStyle = GOLD; ctx.shadowColor = 'rgba(255,150,50,0.8)'; ctx.shadowBlur = 50; ctx.fillText('TANRI MI?', 0, 0); ctx.restore();
+  ctx.restore();
+  const fl = t - wt(5); if (fl >= 0 && fl < 0.22) { ctx.fillStyle = `rgba(255,236,200,${0.7 * (1 - fl / 0.22)})`; ctx.fillRect(0, 0, W, H); }
+}
+function boomFlash(t) { const l = t - BOOM; if (l >= 0 && l < 0.25) { ctx.fillStyle = `rgba(255,240,215,${0.85 * (1 - l / 0.25)})`; ctx.fillRect(0, 0, W, H); } }
+
+// ---------------- captions (karaoke: thick dark outline + soft shadow, no band) ----------------
+const CH = D.chunks.map((c, n) => { const s = WD[c[0]].s, eLast = WD[c[c.length - 1]].e; const next = D.chunks[n + 1] ? WD[D.chunks[n + 1][0]].s : DUR; return { idx: c, s: s - 0.08, e: Math.min(next - 0.04, eLast + 0.7) }; });
+function captions(t) {
+  if (t < HOOK_END || t >= END0) return;
+  const c = CH.find(c => t >= c.s && t < c.e); if (!c) return;
+  const ap = ease((t - c.s) / 0.1), out = ease((c.e - t) / 0.1), a = Math.min(ap, out);
+  let size = 84; const big = 1.16; ctx.font = `800 ${size}px "Alegreya Sans"`;
+  const words = c.idx.map(i => WD[i].w); let widths = words.map(w => ctx.measureText(w).width), sp = size * 0.3;
+  let tot = widths.reduce((x, y) => x + y, 0) + sp * (words.length - 1);
+  if (tot > 880) { size = Math.floor(size * 880 / tot); ctx.font = `800 ${size}px "Alegreya Sans"`; widths = words.map(w => ctx.measureText(w).width); sp = size * 0.3; tot = widths.reduce((x, y) => x + y, 0) + sp * (words.length - 1); }
+  const y = 1340;
+  const onOf = wi => { const w = WD[wi]; return t >= w.s - 0.03 && t < (WD[wi + 1] ? Math.min(WD[wi + 1].s, w.e + 0.4) : w.e + 1); };
+  const scs = c.idx.map(wi => onOf(wi) ? big + 0.06 * Math.max(0, 1 - (t - WD[wi].s) / 0.15) : 1);
+  const ew = widths.map((w, j) => w * scs[j]); tot = ew.reduce((x, y) => x + y, 0) + sp * (words.length - 1);
+  let x = W / 2 - tot / 2; ctx.textAlign = 'left'; ctx.textBaseline = 'alphabetic'; ctx.lineJoin = 'round';
+  c.idx.forEach((wi, j) => { const w = WD[wi], on = onOf(wi), done = t >= w.e;
+    ctx.save(); ctx.translate(x + ew[j] / 2, y); ctx.scale(scs[j], scs[j]); ctx.globalAlpha = a * (on || done ? 1 : 0.62);
+    ctx.lineWidth = size * 0.16; ctx.strokeStyle = 'rgba(10,7,4,0.95)'; ctx.shadowColor = 'rgba(0,0,0,0.65)'; ctx.shadowBlur = 14; ctx.shadowOffsetY = 4; ctx.strokeText(words[j], -widths[j] / 2, 0); ctx.shadowBlur = 0; ctx.shadowOffsetY = 0;
+    ctx.fillStyle = on ? (w.em ? EMBER : GOLD) : CREAM; ctx.fillText(words[j], -widths[j] / 2, 0); ctx.restore();
+    x += ew[j] + sp; });
+  ctx.globalAlpha = 1;
+}
+function finish(t, f) {
+  const v = ctx.createRadialGradient(W / 2, H * 0.5, H * 0.38, W / 2, H * 0.5, H * 0.8); v.addColorStop(0, 'rgba(0,0,0,0)'); v.addColorStop(1, 'rgba(6,4,2,0.55)'); ctx.fillStyle = v; ctx.fillRect(0, 0, W, H);
+  ctx.globalAlpha = 0.07; ctx.globalCompositeOperation = 'overlay'; ctx.drawImage(G.grain[f % 4], 0, 0, W, H); ctx.globalCompositeOperation = 'source-over'; ctx.globalAlpha = 1;
+  const fo = ease((DUR - t) / 0.8); if (fo < 1) { ctx.fillStyle = `rgba(0,0,0,${1 - fo})`; ctx.fillRect(0, 0, W, H); }
+}
+const SCR = document.createElement('canvas'); SCR.width = W; SCR.height = H;
+async function need(t) {
+  const i = shotAt(t), list = [SHOTS[i]]; if (i > 0 && t - SHOTS[i].t0 < XF) list.push(SHOTS[i - 1]);
+  for (const s of list) if (s.clip) s.cur = await clipFrame(s.clip, frameOf(s, t));
+}
+function renderFrame(f) {
+  const t = f / FPS; ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.globalAlpha = 1; ctx.filter = 'none';
+  const i = shotAt(t), s = SHOTS[i]; drawShot(s, t);
+  if (i > 0 && s.fx !== 'boom' && s.fx !== 'fire2') { const k = (t - s.t0) / XF;
+    if (k < 1) { const x = SCR.getContext('2d'); x.setTransform(1, 0, 0, 1, 0, 0); x.drawImage(cv, 0, 0); drawShot(SHOTS[i - 1], t); ctx.globalAlpha = ease(k); ctx.drawImage(SCR, 0, 0); ctx.globalAlpha = 1; } }
+  finish(t, f); hookCard(t); boomFlash(t); captions(t);
+}
+window.SHOTS_INFO = () => SHOTS.map(s => [s.w0, s.k, s.clip, +(s.t1 - s.t0).toFixed(2)]);
+window.captureFrame = async (f, type = 'image/png', q = 0.95) => { await need(f / FPS); renderFrame(f); return cv.toDataURL(type, q); };
+window.READY = (async () => { await Promise.all(['150px Anton', '700 40px Cinzel', '900 40px Cinzel', '800 40px "Alegreya Sans"'].map(f => document.fonts.load(f, 'ŞİĞÜÖÇışğüöçâÂ'))); await prep(); await need(0); renderFrame(0); return { frames: FRAMES, fps: FPS, width: W, height: H, renderer: 'canvas' }; })();
+const q = new URLSearchParams(location.search); if (q.has('t')) window.READY.then(async () => { const f = Math.round(+q.get('t') * FPS); await need(f / FPS); renderFrame(f); });
+</script></body></html>

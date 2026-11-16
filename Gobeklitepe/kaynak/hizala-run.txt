@@ -1,0 +1,2 @@
+286 words; last: [{'w': 'yaptı?', 's': np.float64(134.72), 'e': np.float64(135.34), 'p': np.float64(1.0)}, {'w': 'Cevabını', 's': np.float64(135.58), 'e': np.float64(136.22), 'p': np.float64(1.0)}, {'w': 'yorumlara', 's': np.float64(136.22), 'e': np.float64(136.9), 'p': np.float64(1.0)}, {'w': 'yaz.', 's': np.float64(136.9), 'e': np.float64(137.1), 'p': np.float64(1.0)}]
+284 words 121 chunks

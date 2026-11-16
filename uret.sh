@@ -8,7 +8,8 @@
 #   render   : tam video + ses -> outputs/<Konu>/<Konu>-Reels-9x16.mp4 + Onizleme-telefon.mp4 (<20 MB)
 #   git      : commit + push
 set -e
-ROOT="/Users/claude/Shorts - Reels"; K="$1"; A="$2"; P="$ROOT/$K"; PY="$ROOT/araclar/venv-vahdet/bin/python"; CC="$ROOT/araclar/cinecode/scripts"
+ROOT="/Users/claude-eng/Shorts - Reels"; K="$1"; A="$2"; P="$ROOT/$K"; PY="$ROOT/araclar/venv-vahdet/bin/python"; CC="$ROOT/araclar/cinecode/scripts"
+export PATH="$HOME/.local/node/bin:/Users/claude/.local/bin:$ROOT/araclar/audio-video-sync/.venv/lib/python3.12/site-packages/static_ffmpeg/bin/darwin_arm64:$PATH"; export HF_HOME="${HF_HOME:-/Users/claude/.cache/huggingface}"
 cfg() { python3 -c "import json;print(json.load(open('$P/video.json'))$1)"; }
 serve() { curl -s -o /dev/null "http://127.0.0.1:8765/" || (cd "$ROOT" && nohup python3 -m http.server 8765 --bind 127.0.0.1 >/dev/null 2>&1 & sleep 1); }
 case "$A" in

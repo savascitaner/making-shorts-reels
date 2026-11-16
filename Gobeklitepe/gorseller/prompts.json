@@ -1,0 +1,23 @@
+{
+"style": ", cinematic film still, ultra realistic photograph, shot on ARRI Alexa 65, 35mm anamorphic lens, dramatic natural light, volumetric haze, deep shadows, subtle film grain, rich textures, Neolithic Anatolia around 9600 BC, vertical composition, masterpiece, highly detailed",
+"neg": "text, letters, writing, words, watermark, logo, signature, cartoon, anime, illustration, painting, drawing, 3d render, cgi, plastic, deformed, disfigured, extra limbs, extra fingers, bad hands, blurry, lowres, jpeg artifacts, modern buildings, modern clothing, metal tools, cars, power lines, roads, frame, border, nsfw, nude",
+"items": [
+ ["s01a_kitap", [7,42], "an ancient leather-bound book lying open on a dark stone floor, its parchment pages catching fire, curling orange flames, glowing embers and ash rising into total darkness, macro close-up, black background"],
+ ["s01b_kitap_alev", [7], "close-up of old parchment pages burning from the edges, bright flames and floating sparks, smoke drifting upward, pitch black background, no readable text"],
+ ["s02a_dikilitas", [7,42], "massive T-shaped limestone megaliths with carved fox and boar reliefs rising out of reddish earth on a hilltop at dusk, a circle of standing stones, purple and orange sky, low angle, epic scale"],
+ ["s03a_koy", [7], "an ancient Mesopotamian mud-brick village at golden hour, golden wheat fields in front, a distant stepped temple ziggurat on the horizon, smoke from cooking fires, wide landscape"],
+ ["s03b_saban", [7], "an ancient farmer in rough linen guiding a wooden plough pulled by two oxen through a dusty field at sunset, dust in the backlight, Mesopotamia"],
+ ["s04a_avcilar", [7,42], "wide shot of a group of prehistoric hunter-gatherers in animal skins running with spears after a herd of gazelles across a vast wild steppe at sunset, dust clouds, silhouettes against a burning sky, side tracking shot"],
+ ["s04b_tahil", [7], "close-up of weathered prehistoric hands gathering wild einkorn wheat stalks on a windy hillside, golden backlight, seeds floating in the air"],
+ ["s05a_ocak", [7], "a giant unfinished T-shaped limestone pillar still lying in the bedrock of an ancient quarry, flint chisel marks on the stone, dusty morning light, scale is enormous, a few stone tools on the ground"],
+ ["s05b_kaldirma", [7,42], "dozens of prehistoric people pulling thick hemp ropes and pushing wooden levers to raise a colossal T-shaped limestone pillar upright, low angle, dust and sweat, dramatic dusk sky, epic"],
+ ["s05c_cakmak", [7], "extreme close-up of a hand striking a sharp flint stone tool against pale limestone, stone chips and dust flying, hard side light, black background"],
+ ["s06a_mesaleler", [7,42], "night aerial view of long lines of people carrying burning torches walking over dark hills toward a circle of giant standing stones with a large bonfire at its centre, glowing trails of fire in the landscape"],
+ ["s07a_kabartma", [7], "torchlit close-up of an ancient limestone pillar with a carved relief of a vulture, a scorpion and snakes, warm flickering firelight, deep shadows in the carvings"],
+ ["s08a_gomulu", [7,42], "giant T-shaped stone pillars half buried in earth and rubble at dusk, wind blowing dust across the hill, soil slowly covering the carvings, melancholic mood"],
+ ["s09a_siluet", [7,42], "a lone prehistoric figure seen from behind standing in the centre of a circle of huge T-shaped megaliths at night, the Milky Way arching over the stones, starlight, deep blue night"],
+ ["s10a_ates", [7], "profile silhouette of a prehistoric person sitting before a small campfire looking up at a starry night sky, face in deep shadow with no visible features, warm rim light from the fire"],
+ ["s11a_tas_gok", [7], "silhouette of a single giant T-shaped standing stone on a hill against a sky full of stars and the Milky Way, faint glow on the horizon, long exposure"],
+ ["s12a_eller", [7,42], "close-up of carved human arms and long fingers on the side of an ancient T-shaped limestone pillar, a carved belt below, raking torchlight, deep shadows"],
+ ["s13a_karanlik", [7], "dark limestone surface with ancient carved grooves lit faintly by a dying ember glow, almost black, minimal"]
+]}
