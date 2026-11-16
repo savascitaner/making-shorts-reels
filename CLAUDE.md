@@ -27,6 +27,7 @@ Kredi ve bağlam küçük kalsın diye proje "doküman + thread" yapısında yü
 
 ## GitHub senkronu
 Repo: https://github.com/savascitaner/making-shorts-reels (private). Ara adımlarda commit/push YOK. Sadece proje sonunda (teslimden sonra) tek seferde handoff: `git add -A && git commit && git push`. Medya ve `araclar/` `.gitignore` ile dışarıda. Bilgisayar değişirse: `KURULUM.md`.
+Push'u Claude yapar (2026-11-16): `gh` (`~/.local/bin/gh`, hesap sapiensdear-tr, collaborator) git kimlik yardımcısı olarak kurulu; `git push` doğrudan çalışır. Enes'e GitHub Desktop'tan push yaptırılmaz.
 Bu adımların hiçbiri atlanmaz ve Enes'e hatırlattırılmaz.
 
 ## Adımlar

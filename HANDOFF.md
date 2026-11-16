@@ -16,7 +16,7 @@ Kısa dizin. Kurallar `CLAUDE.md`'de, her reels'in ayrıntısı kendi `<Konu>/ST
 - node `~/.local/node/bin`, ffmpeg/ffprobe `araclar/audio-video-sync/.venv/lib/python3.12/site-packages/static_ffmpeg/bin/darwin_arm64/` (uret.sh PATH'e ekli).
 - Flow: `~/flow-mcp` Claude ayarlarında kayıtlı değil; Studio HTTP API ile sürülüyor (`node dist/studio.js`, port 8787, token `~/.flow-mcp/token`, `/api/status|generate|agent|wait|new_project`). Google oturumu açık.
 - Canva: yeni hesap; eski kapaklara erişim yok. Kapak: kodla `kaynak/kapak.html` → Canva'ya tek görsel olarak yükle (Canva AI katmanlara ayırıp Türkçe büyük harfi bozuyor) → kaydet → PNG.
-- GitHub: `savascitaner/making-shorts-reels`; push GitHub Desktop ile (sapiensdear-tr hesabı, collaborator). Bu ortamda git kimlik bilgisi yok.
+- GitHub: `savascitaner/making-shorts-reels`; push'u Claude yapar (`~/.local/bin/gh`, sapiensdear-tr, `gh auth setup-git`).
 
 ## Kalıcı dersler (Göbeklitepe)
 - Veo, Neolitik sahnelere metal murç/saplı çekiç ekliyor ve ağır taşları havaya zıplatıyor: her Veo klibini kare kare kontrol et; gerekirse yalnızca temiz saniyeleri kullan ya da Flow karesi + kodla hareket.
