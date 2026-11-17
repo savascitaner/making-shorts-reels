@@ -131,3 +131,7 @@ Kredi kıt: en az adım, tek ses kaydı, yeniden render'ı önlemek için ilk se
 ## Bilinen tuzaklar (2026-11-17, kapak)
 - Canva `create-design` yüklenen kapak PNG'sini birebir koymuyor: kendisi yeniden çiziyor, formatı değiştiriyor (Story → 1080x1440) ve Türkçe büyük İ'nin noktasını siliyor ("INSANIN BIR"). Kapak `kaynak/kapak.html` ile kodla tam boyutta üretilip PNG olarak doğrudan `outputs/<Konu>/`ya konur; Canva yalnızca Enes isterse ve yazı kontrolüyle kullanılır.
 - Kapanış sırası (Enes): soru kartı → "takipte kal" → temiz kapak (2 sn) → adresler. Kapak görseli adres kartının arkasında; kart kapağın yazısız tarafına konur. Reels kuyruğu 3 dk sınırını aşmasın.
+
+## Bilinen tuzaklar (2026-11-17, telaffuz ve eller)
+- Zor isim telaffuzu: önce 3-4 yazımı tek kısa denemede okut (~130 kredi), Enes seçsin, sonra cümleleri kaydet. "Jung" = /juŋ/ (Enes onayladı); "Yung" yazımı "Yang", /jʊŋ/ "Yom" okundu.
+- SDXL elleri bozuk çiziyor (fazla parmak, toynak gibi el, bebek parmakları). El görünen her kare Flow Nano Banana'da referanssız, sıfırdan çizilir (`download_quality: upscaled`); eski kareyi referans vermek bozuk pozu kopyalıyor. SDXL yalnız elsiz sahneler için.

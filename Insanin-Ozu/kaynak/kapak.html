@@ -14,7 +14,7 @@ function T(s, X, Y, font, col, al = 'center', stroke = 14) { x.font = font; x.te
 function sp(s, X, Y, size, col, gap) { x.font = `900 ${size}px Cinzel`; x.textAlign = 'center'; x.fillStyle = col; const t = s.split('').join(String.fromCharCode(8202).repeat(gap)); x.save(); x.shadowColor = 'rgba(0,0,0,0.9)'; x.shadowBlur = 16; x.fillText(t, X, Y); x.restore(); }
 async function draw() {
   await Promise.all(['150px Anton', '900 40px Cinzel'].map(f => document.fonts.load(f, 'ŞİĞÜÖÇışğüöç')));
-  const im = await load(PORT ? '../gorseller/ai/k01_sogan_el_t_s11.jpg' : '../gorseller/ai/k02_zar_dusus_w_s12.jpg');
+  const im = await load(PORT ? '../gorseller/ai/k01_sogan_el_t_s501.jpg' : '../gorseller/ai/k02_zar_dusus_w_s12.jpg');
   x.fillStyle = '#07060A'; x.fillRect(0, 0, W, H);
   if (PORT) {
     cover(im, 0.5, 0.5, 1.0);

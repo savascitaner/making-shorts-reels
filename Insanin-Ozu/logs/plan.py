@@ -22,7 +22,7 @@ for p in paras:
     s, e = W[p['a']]['s'] - 0.12, W[p['b']]['e'] + 0.30
     if segs and segs[-1]['b'] == p['a'] - 1: segs[-1]['e'] = e; segs[-1]['b'] = p['b']
     else: segs.append({'a': p['a'], 'b': p['b'], 's': s, 'e': e})
-GAP = 0.45  # parçalar arası nefes
+GAP = 0.30  # parçalar arası nefes
 rt, out = 0.0, []
 for g in segs: g['rt'] = rt; rt += g['e'] - g['s'] + GAP
 for g in segs:

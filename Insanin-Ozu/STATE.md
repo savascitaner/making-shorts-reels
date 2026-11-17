@@ -4,7 +4,7 @@
 **Son güncelleme:** 2026-11-17
 
 ## Sıradaki adım
-Teslim edildi. Açık: Enes'in "Jung" telaffuz geri bildirimi (gerekirse yalnız o kelimelerin geçtiği cümleler yamalanır). Oturum Enes'in onayıyla tamamlandı işaretlenecek.
+Teslim edildi (ikinci tur, 2026-11-17). Oturum Enes'in onayıyla tamamlandı işaretlenecek.
 Canva: create-design PNG'yi yeniden çizdi (3:4, İ noktası yok) → teslimde kodla üretilen kapak PNG'leri kullanıldı.
 Yapılanlar (2026-11-17): 83 SDXL karesi kontrol edildi; h03 (palmiye çıkmıştı) tohum 293, h02 dikey tohum 192 ile yeniden (`SEEDT` haritası index.html'de). Zıtlık kartına koyu zemin. Kapanış: "takipte kal" kartı → temiz kapak (gorseller/kapak-w|t.jpg) → adresler; uzun +5,6 sn (424,5 sn), Reels +3,5 sn (179,9 sn ≤ 3 dk). Ses yeniden miks + master (-14 LUFS).
 
@@ -50,7 +50,12 @@ Yapılanlar (2026-11-17): 83 SDXL karesi kontrol edildi; h03 (palmiye çıkmış
 - Veo / Flow: 0 (kullanılmayacak)
 
 ## Açık işler
-- [ ] "Jung" telaffuzu Enes'e soruldu (3:55 civarı)
+- [x] "Jung" telaffuzu: Enes "yung" dedi; deneme okumasından 3. yazım /juŋ/ seçildi ("3 doğru olan")
 
 ## Teslim
 - `outputs/Insanin-Ozu/`: 16:9 uzun mp4, 9:16 Reels mp4, Onizleme-telefon.mp4, iki .srt, Kapak (YouTube 16:9 + Reels 9:16), Yayin-paketi.md
+
+## İkinci tur (2026-11-17)
+- Telaffuz: Enes "jung'un okunuşunu yazılı veriyorum = yung". "Yung" yazımı "Yang" okundu (250 kredi boşa); 4 yazımlık deneme (136), Enes "3 doğru olan" → /juŋ/ ile 4 cümle tek kayıt `ses/yama-4.mp3` (254). `logs/jung_yama.py` ile vo.wav'a eklendi (+1,3 sn), kelime zamanları kaydırıldı, Reels aralığı 0,30 sn (2:59 sınırı).
+- Eller: Enes "mevcut videodaki tüm eller bozuk ... en sondaki esmer el ... hayvan toynağına benziyor", "bebek parmakları yanlış". El geçen 14 sahne (21 kare) Flow Nano Banana'da referanssız, 2K yeniden çizildi (`logs/eller_kur.py`, tohum 5NN). Enes soğan soymada 2. (yatay) ve 3. (dikey) kareyi seçti. Dikey kapak 3. kareyle yeniden kuruldu.
+- Uzun 7:06 (425,8 sn), Reels 2:59 (179,8 sn), ikisi de -14 LUFS.
