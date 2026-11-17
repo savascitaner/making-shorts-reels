@@ -5,6 +5,7 @@
 |---|---|---|
 | `YouTube-Banner-2560x1440.png` | 2560×1440 (16:9) | 3,9 MB (sınır 6 MB) |
 | `YouTube-Profil-800x800.png` | 800×800 | 1,4 MB |
+| `YouTube-Filigran-150x150.png` | 150×150, şeffaf zemin (RGBA) | 49 KB (sınır 1 MB) |
 | `Guvenli-Alan-Onizleme.png` | TV (tamamı), masaüstü (2560×423 bant), mobil (1546×423 orta) kırpımları ile 98/48/36 px yuvarlak profil | 3,4 MB |
 
 ## Tasarım
@@ -22,4 +23,5 @@
 1. YouTube Studio → **Özelleştirme** → **Profil** sekmesi.
 2. **Banner görseli** → Değiştir → `YouTube-Banner-2560x1440.png`. Kırpma penceresinde varsayılan kutuyu olduğu gibi bırak (tüm görsel seçili), **Bitti**.
 3. **Resim** → Değiştir → `YouTube-Profil-800x800.png`. Kırpma karesini tüm görsele yay, **Bitti**.
-4. Sağ üstten **Yayınla**. Kanal sayfasını telefonda ve bilgisayarda bir kez aç, kırpımlar önizlemedeki gibi görünmeli.
+4. **Video filigranı** → Yükle → `YouTube-Filigran-150x150.png` (resmî ölçü: kare, en az 150×150, 1 MB altı). Gösterim zamanı için "Videonun tamamı" ya da "Videonun sonu" (son 15 sn) seçilebilir. Filigrana tıklayan izleyici kanala abone olabilir. Çocuklara özel videolarda filigran görünmez.
+5. Sağ üstten **Yayınla**. Kanal sayfasını telefonda ve bilgisayarda bir kez aç, kırpımlar önizlemedeki gibi görünmeli.

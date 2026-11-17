@@ -109,6 +109,23 @@ async function profil(img) {
   return cv;
 }
 
+// Filigran: 150x150 şeffaf zeminli yuvarlak madalyon (video üstünde sağ altta görünür)
+async function filigran(img) {
+  const S = num('fs', 150), cv = document.createElement('canvas'); cv.width = S; cv.height = S; const x = cv.getContext('2d');
+  const k = S / 800, r = S / 2;
+  x.imageSmoothingQuality = 'high';
+  // açık videolarda da seçilsin diye ince koyu dış gölge
+  x.save(); x.beginPath(); x.arc(r, r, r - 2, 0, Math.PI * 2); x.shadowColor = 'rgba(0,0,0,0.6)'; x.shadowBlur = S * 0.03; x.fillStyle = INK; x.fill(); x.restore();
+  x.save(); x.beginPath(); x.arc(r, r, r - S * 0.045, 0, Math.PI * 2); x.clip();
+  x.fillStyle = INK; x.fillRect(0, 0, S, S);
+  cover(x, img, S, S, num('px', 0) * k, num('py', 0) * k, num('ps', 1));
+  const vg = x.createRadialGradient(r, r, r * 0.55, r, r, r);
+  vg.addColorStop(0, 'rgba(0,0,0,0)'); vg.addColorStop(1, 'rgba(0,0,0,0.45)');
+  x.fillStyle = vg; x.fillRect(0, 0, S, S); x.restore();
+  x.beginPath(); x.arc(r, r, r - S * 0.03, 0, Math.PI * 2); x.strokeStyle = AMBER; x.lineWidth = S * 0.03; x.stroke();
+  return cv;
+}
+
 // Önizleme: masaüstü / mobil / TV kırpımları + yuvarlak profil
 async function onizleme(b, p) {
   const PW = 2400, PH = 2020; c.width = PW; c.height = PH; const x = g;
@@ -144,6 +161,7 @@ window.READY = (async () => {
   const bg = Q.get('bg') ? await load(Q.get('bg')) : null, pr = Q.get('pr') ? await load(Q.get('pr')) : null;
   if (MODE === 'banner') { out = await banner(bg); }
   else if (MODE === 'profil') { out = await profil(pr); }
+  else if (MODE === 'filigran') { out = await filigran(pr); }
   else { const b = await banner(bg), p = await profil(pr); await onizleme(b, p); out = c; }
   if (out !== c) { c.width = out.width; c.height = out.height; g.drawImage(out, 0, 0); }
   return { frames: 1, fps: 1, width: c.width, height: c.height, renderer: '2d' };
