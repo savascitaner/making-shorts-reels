@@ -1,0 +1,42 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+@font-face{font-family:Anton;src:url(fonts/Anton-Regular.ttf)}
+@font-face{font-family:Cinzel;font-weight:900;src:url(fonts/cinzel-latin-900.woff2) format('woff2');unicode-range:U+0000-00FF,U+2000-206F}
+@font-face{font-family:Cinzel;font-weight:900;src:url(fonts/cinzel-latin-ext-900.woff2) format('woff2');unicode-range:U+0100-024F,U+1E00-1EFF}
+html,body{margin:0;background:#07060A}canvas{display:block}</style></head><body><canvas id="c"></canvas><script>
+// Kapak: ?ar=w YouTube 1920x1080, ?ar=t Reels 1080x1920 (adres yok)
+const Q = new URLSearchParams(location.search), PORT = Q.get('ar') === 't';
+const W = PORT ? 1080 : 1920, H = PORT ? 1920 : 1080, cv = document.getElementById('c'); cv.width = W; cv.height = H; const x = cv.getContext('2d');
+const AMBER = '#E8A84A', BONE = '#F3EAD8', GOLD = '#F4C566';
+const load = s => new Promise(r => { const i = new Image(); i.onload = () => r(i); i.onerror = () => r(null); i.src = s; });
+function cover(im, ox = 0.5, oy = 0.5, z = 1) { const s = Math.max(W / im.width, H / im.height) * z, w = im.width * s, h = im.height * s; x.drawImage(im, (W - w) * ox, (H - h) * oy, w, h); }
+function T(s, X, Y, font, col, al = 'center', stroke = 14) { x.font = font; x.textAlign = al; x.textBaseline = 'alphabetic'; x.lineJoin = 'round';
+  x.save(); x.shadowColor = 'rgba(0,0,0,0.85)'; x.shadowBlur = 30; x.lineWidth = stroke; x.strokeStyle = 'rgba(5,4,8,0.9)'; x.strokeText(s, X, Y); x.restore(); x.fillStyle = col; x.fillText(s, X, Y); }
+function sp(s, X, Y, size, col, gap) { x.font = `900 ${size}px Cinzel`; x.textAlign = 'center'; x.fillStyle = col; const t = s.split('').join(String.fromCharCode(8202).repeat(gap)); x.save(); x.shadowColor = 'rgba(0,0,0,0.9)'; x.shadowBlur = 16; x.fillText(t, X, Y); x.restore(); }
+async function draw() {
+  await Promise.all(['150px Anton', '900 40px Cinzel'].map(f => document.fonts.load(f, 'ŞİĞÜÖÇışğüöç')));
+  const im = await load(PORT ? '../gorseller/ai/k01_sogan_el_t_s11.jpg' : '../gorseller/ai/k02_zar_dusus_w_s12.jpg');
+  x.fillStyle = '#07060A'; x.fillRect(0, 0, W, H);
+  if (PORT) {
+    cover(im, 0.5, 0.5, 1.0);
+    let g = x.createLinearGradient(0, 0, 0, H); g.addColorStop(0, 'rgba(7,6,10,0.25)'); g.addColorStop(0.2, 'rgba(7,6,10,0.55)'); g.addColorStop(0.42, 'rgba(7,6,10,0.1)'); g.addColorStop(0.75, 'rgba(7,6,10,0.15)'); g.addColorStop(1, 'rgba(7,6,10,0.8)');
+    x.fillStyle = g; x.fillRect(0, 0, W, H);
+    T('ORTASINDA', W / 2, 520, '190px Anton', BONE, 'center', 16);
+    T('NE VAR?', W / 2, 720, '230px Anton', GOLD, 'center', 18);
+    sp('İNSANIN BİR ÖZÜ VAR MI?', W / 2, 1560, 54, BONE, 1);
+    x.fillStyle = AMBER; x.fillRect(W / 2 - 90, 1600, 180, 4);
+  } else {
+    cover(im, 0.75, 0.5, 1.05);
+    let g = x.createLinearGradient(0, 0, W, 0); g.addColorStop(0, 'rgba(7,6,10,0.92)'); g.addColorStop(0.42, 'rgba(7,6,10,0.6)'); g.addColorStop(0.65, 'rgba(7,6,10,0)');
+    x.fillStyle = g; x.fillRect(0, 0, W, H);
+    T('İNSANIN', 110, 360, '170px Anton', BONE, 'left', 16);
+    T('BİR ÖZÜ', 110, 560, '200px Anton', BONE, 'left', 16);
+    T('VAR MI?', 110, 780, '230px Anton', GOLD, 'left', 18);
+    x.fillStyle = AMBER; x.fillRect(114, 850, 220, 5);
+    x.font = '900 40px Cinzel'; x.textAlign = 'left'; x.fillStyle = BONE; x.fillText('BİLİM · FELSEFE · PSİKOLOJİ · MİSTİKLER', 114, 930);
+  }
+  const v = x.createRadialGradient(W / 2, H / 2, Math.min(W, H) * 0.4, W / 2, H / 2, Math.max(W, H) * 0.75); v.addColorStop(0, 'rgba(0,0,0,0)'); v.addColorStop(1, 'rgba(0,0,0,0.5)'); x.fillStyle = v; x.fillRect(0, 0, W, H);
+}
+const P = draw();
+window.captureFrame = async (f, type = 'image/png', q = 0.95) => { await P; return cv.toDataURL(type, q); };
+window.READY = P.then(() => ({ frames: 1, fps: 30, width: W, height: H, renderer: 'canvas' }));
+</script></body></html>

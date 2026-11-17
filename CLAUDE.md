@@ -30,8 +30,14 @@ Kredi ve bağlam küçük kalsın diye proje "doküman + thread" yapısında yü
 
 ## Her reels eşsiz (Enes, 2026-11-16: "her reels kendine özeldir, sen eşsiz bir şey yapmalısın")
 - **Eski bir reels'in klasörü, motoru, kapağı ya da müziği hiçbir yeni çalışmada açılmaz, örnek alınmaz ve Enes'e anılmaz** (Enes, 2026-11-16: o videonun adını bir daha hiçbir reels çalışmasında duymak/görmek istemiyor). Teknik altyapı yalnızca `_sablon/` ve bu dosyadaki kurallardan gelir.
+- Enes'in getirdiği bir taslak eski bir reels'in konusuna/mekânına atıf yapıyorsa o kısım sormadan çıkarılır ve önerilerde, araştırmada, kaynaklarda o konu hiç anılmaz (Enes, 2026-11-16).
 - Önceki videonun kartlarını, geçişlerini, efekt katmanlarını, kapanış/kapak düzenini, müzik şablonunu KOPYALAMA. Ortak olan yalnızca zorunlu kurallar (ilk 3 sn kanca, altyazı stili, kapanış bilgileri, -14 LUFS).
 - Her videoda konunun kendi nesnesinden doğan bir imza dili kur (geçiş, tipografi, renk, ses motifi) ve bunu `motion-design`, `design-motion-principles`, `sound-design`, `cinecode` (references: motion, camera-moves, finish, motion-design, sound) skill'leriyle tasarla. Motorun teknik altyapısı (kare = zaman fonksiyonu, klip açma, senkron) yeniden kullanılabilir; görünüş ve ses kullanılamaz.
+
+## Konuşan karakter ve teslim (Enes, 2026-11-16, KESİN)
+- **Kodla ağız açıp kapatma YASAK** ("bir daha asla böyle ağız açıp kapatarak reels istemiyorum"). Çizgi film olsa bile konuşan karakter Flow/Veo'da gerçekten konuşan klip olarak üretilir. Veo konuşmayı vermiyorsa illüstrasyondan gerçek fotoğraf türetilir ve reels gerçek sinematik videolarla hazırlanır. Ağız biçimi kareleri (kapalı/yarı/açık/o) ve ses zarfıyla ağız sürme hiçbir reels'te kullanılmaz.
+- **Mazeret yok:** "hata oldu, ses taştı, şu oldu bu oldu" kabul edilmez. Sorun teslimden önce çözülür; Enes'e sorun anlatılarak iş sunulmaz.
+- **Eski reels hiçbir yolla sohbete gelmez:** Canva'da `search-designs`/listeleme ile eski tasarımları açma ya da listeleme (eski kapak küçük resimleri sohbete düşüyor ve kredi harcatıyor); `HANDOFF.md` reels listesini okuma; eski reels adı, görseli, kapağı hiçbir araç çıktısıyla getirilmez. Canva'da yalnız o oturumda oluşturulan tasarımın ID'siyle çalış.
 
 ## Yedek
 - Bitmiş videolar Google Drive'a YEDEKLENMEZ (Enes istemedi). Sadece GitHub (metin + kod).
@@ -107,3 +113,21 @@ Kredi kıt: en az adım, tek ses kaydı, yeniden render'ı önlemek için ilk se
 - Flow "Target crashed": Flow sekmesi bellek doldu (aynı Flow projesinde iki reels, 60+ görsel, 10+ video, Chrome 6,5 saat açık). Her reels YENİ Flow projesinde üretilir; 20+ işten sonra sekme yenilenir. Çöken işler `./flow.sh retry '{"job_ids":[...]}'` ile geri gelir.
 - Veo klibinin sonuna doğru bozulma (alevde harfler, yüz dağılması) olabilir: kare panosuyla bak, `rate`/`off` ile yalnız temiz aralığı kullan.
 - Konuşan klipte konuşma başı whisper `vad_filter` ile ölçülür (0.0 dönerse silencedetect ile doğrula); replik plan başından sonra geliyorsa negatif `off` ile ilk kare dondurulur.
+
+## Bilinen tuzaklar (2026-11-16, Spinoza-Leibniz)
+- `./flow.sh status` tüm eski işlerin listesini döker (eski reels adları sohbete düşer). Kredi için yalnız şunu çalıştır: `./flow.sh status '{}' | python3 -c "import json,sys;print(json.load(sys.stdin)['flow'])"`.
+- `flow_wait` her zaman `job_ids` ile çağrılır; boş çağrı da eski işlerin tamamını döker.
+
+## Bilinen tuzaklar (2026-11-17, Enes'in içerik düzeltmeleri)
+- "Men arefe nefsehû fekad arefe Rabbehû": "Kendini **tanıyan** Rabbini **tanır**." "Bilen/bilir" yazılmaz (arefe = tanıdı; bilmek alime'dir).
+- Tasavvufta isim (ör. İbn Arabî) yerine ekol adı: "vahdet ehli / vahdet inancına sahip olanlar": her şey o birin görünümü (birlikten kesrete); insanın bir âleme, bir Tanrı'ya bakan yönü vardır.
+- Bebek/yavru deneylerini "ahlak, iyiyi tercih" kanıtı olarak sunma (Enes: 3,5-4 yaşa kadar farkındalık yok, bu etki-tepki/korunma). Yale kukla deneyi kullanılmaz.
+- Enes fısıltı → sessizlik → sert vuruş kancasından sıkıldı (2026-11-17): premium videolarda ses düz ve dengeli, ani yükselme/düşme yok; kanca gücünü cümleden alır.
+- Psikoloji terimi: "bilinçaltı" YAZILMAZ, "bilinçdışı" yazılır (Enes, 2026-11-17: bilimsel literatürde bilinçdışı).
+
+## Dil kuralı (Enes, 2026-11-17)
+- Transkript düzeltmesi, senaryo, ses metni, altyazı ve ekran yazılarında cümle yapıları TDK yazım ve dil bilgisi kurallarına uygun yazılır (yazım, noktalama, büyük harf, bitişik/ayrı yazım, devrik/eksik cümle düzeltmesi). Konuşmacının sözü aktarılırken anlam ve üslup korunur, yalnız dil bilgisi düzeltilir.
+
+## Bilinen tuzaklar (2026-11-17, kapak)
+- Canva `create-design` yüklenen kapak PNG'sini birebir koymuyor: kendisi yeniden çiziyor, formatı değiştiriyor (Story → 1080x1440) ve Türkçe büyük İ'nin noktasını siliyor ("INSANIN BIR"). Kapak `kaynak/kapak.html` ile kodla tam boyutta üretilip PNG olarak doğrudan `outputs/<Konu>/`ya konur; Canva yalnızca Enes isterse ve yazı kontrolüyle kullanılır.
+- Kapanış sırası (Enes): soru kartı → "takipte kal" → temiz kapak (2 sn) → adresler. Kapak görseli adres kartının arkasında; kart kapağın yazısız tarafına konur. Reels kuyruğu 3 dk sınırını aşmasın.

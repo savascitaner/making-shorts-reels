@@ -1,0 +1,219 @@
+[
+{
+"n": 31,
+"r": true,
+"txt": "Bir adam, kendi özünü bulmak için bir so",
+"a": 0,
+"b": 30
+},
+{
+"n": 31,
+"r": true,
+"txt": "Bu sahneyi 1867'de Ibsen, Peer Gynt adlı",
+"a": 31,
+"b": 61
+},
+{
+"n": 11,
+"r": true,
+"txt": "Bu soruya dört kapı cevap verdi: bilim, ",
+"a": 62,
+"b": 72
+},
+{
+"n": 6,
+"r": false,
+"txt": "Önce bilim. Bilim soğanı soymaz, tartar.",
+"a": 73,
+"b": 78
+},
+{
+"n": 34,
+"r": false,
+"txt": "2015'te bilim insanları elli yıllık ikiz",
+"a": 79,
+"b": 112
+},
+{
+"n": 39,
+"r": true,
+"txt": "Ama hikâyenin bir kıvrımı var. DNA'mızın",
+"a": 113,
+"b": 151
+},
+{
+"n": 45,
+"r": true,
+"txt": "Sonra 2012'de ENCODE projesi bir sonuç a",
+"a": 152,
+"b": 196
+},
+{
+"n": 22,
+"r": true,
+"txt": "Bilimin cevabı şu: Evet, hepimizin payla",
+"a": 197,
+"b": 218
+},
+{
+"n": 13,
+"r": false,
+"txt": "Felsefe ise soğanın ortasında ne olduğu ",
+"a": 219,
+"b": 231
+},
+{
+"n": 28,
+"r": false,
+"txt": "Aristoteles'e göre her şeyin bir amacı v",
+"a": 232,
+"b": 259
+},
+{
+"n": 26,
+"r": false,
+"txt": "Stoacılar bu öze bir ad verdi: akıl. Onl",
+"a": 260,
+"b": 285
+},
+{
+"n": 30,
+"r": false,
+"txt": "Epiktetos köle doğmuştu. Bedeni, adı, za",
+"a": 286,
+"b": 315
+},
+{
+"n": 34,
+"r": false,
+"txt": "Sonra modern çağ geldi ve soğanın ortası",
+"a": 316,
+"b": 349
+},
+{
+"n": 38,
+"r": true,
+"txt": "Sartre bu boşluğu bir özgürlük ilanına ç",
+"a": 350,
+"b": 387
+},
+{
+"n": 16,
+"r": false,
+"txt": "Felsefenin mahkemesi ikiye bölündü. Bir ",
+"a": 388,
+"b": 403
+},
+{
+"n": 15,
+"r": false,
+"txt": "Yirminci yüzyılda soğanın içine bir başk",
+"a": 404,
+"b": 418
+},
+{
+"n": 31,
+"r": false,
+"txt": "Freud'a göre insanın özü, bodrumdaki kar",
+"a": 419,
+"b": 449
+},
+{
+"n": 17,
+"r": false,
+"txt": "Adler'e göre insanı geçmişinden çok hede",
+"a": 450,
+"b": 466
+},
+{
+"n": 35,
+"r": false,
+"txt": "Lacan daha da ileri gitti. Ona göre ben ",
+"a": 467,
+"b": 501
+},
+{
+"n": 18,
+"r": false,
+"txt": "Jung ise bilinçdışının da derinine indi.",
+"a": 502,
+"b": 519
+},
+{
+"n": 30,
+"r": true,
+"txt": "Jung'a göre bu, bütün insanlığın ortak m",
+"a": 520,
+"b": 549
+},
+{
+"n": 9,
+"r": false,
+"txt": "Adını çıkar. Dilini çıkar. Anılarını çık",
+"a": 550,
+"b": 558
+},
+{
+"n": 13,
+"r": false,
+"txt": "Mistikler soğanı bambaşka bir yerden soy",
+"a": 559,
+"b": 571
+},
+{
+"n": 49,
+"r": false,
+"txt": "Budist bir bilge, Milinda adlı bir krala",
+"a": 572,
+"b": 620
+},
+{
+"n": 34,
+"r": false,
+"txt": "Hindistan'da, Upanişadlarda bir baba oğl",
+"a": 621,
+"b": 654
+},
+{
+"n": 75,
+"r": true,
+"txt": "Tasavvufta vahdet inancına sahip olanlar",
+"a": 655,
+"b": 729
+},
+{
+"n": 14,
+"r": false,
+"txt": "Lao Tzu buna yontulmamış kütük dedi. Öz,",
+"a": 730,
+"b": 743
+},
+{
+"n": 34,
+"r": false,
+"txt": "Mistikler iki zıt cümle kurdu. Buda: Ort",
+"a": 744,
+"b": 777
+},
+{
+"n": 54,
+"r": false,
+"txt": "Peer Gynt'in soğanına dönelim. Bilim o s",
+"a": 778,
+"b": 831
+},
+{
+"n": 26,
+"r": true,
+"txt": "Belki de soru yanlış yerde soruluyor. So",
+"a": 832,
+"b": 857
+},
+{
+"n": 27,
+"r": true,
+"txt": "Peki sence insanın bir doğası, bir özü v",
+"a": 858,
+"b": 884
+}
+]

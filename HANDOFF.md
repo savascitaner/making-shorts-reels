@@ -10,6 +10,7 @@ Kısa dizin. Kurallar `CLAUDE.md`'de, her reels'in ayrıntısı kendi `<Konu>/ST
 | Marcus Aurelius | Teslim edildi 2026-11-16 (2:56, çizgi film) | `Marcus-Aurelius/STATE.md` |
 | Bohr-Einstein, Yunus-Tapduk, Locke-Berkeley, Marx-Feuerbach, Leibniz-Merkez-Efendi, Spinoza, Nietzsche, Hegel, Doğa Filozofları, Diyalektik Materyalizm | Teslim edildi; klasörleri 2026-11-16'da Enes'in isteğiyle silindi | Metin ve kodları git geçmişinde |
 | Spinoza-Leibniz | TESLİM EDİLDİ (2026-11-17) | "Sen mi seçtin?" sinematik, 1:52, 4 Veo konuşan klip; ayrıntı `Spinoza-Leibniz/STATE.md` |
+- Insanin-Ozu (2026-11-17): uzun 16:9 (7:04) + Reels 9:16 (2:59), "İnsanın bir özü var mı?" sinematik, SDXL + kamu malı portreler, soğan zarı geçişi. TESLİM EDİLDİ. Ayrıntı: `Insanin-Ozu/STATE.md`
 
 ## Genel açık işler
 - Çöp Sepeti (~36 GB): Enes boşaltacak.

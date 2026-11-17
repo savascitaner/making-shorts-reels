@@ -1,0 +1,682 @@
+{
+ "styles": {
+  "foto": ", cinematic film still, anamorphic lens, shallow depth of field, chiaroscuro, warm key light, deep shadows, amber palette, photorealistic, ultra detailed, 8k",
+  "cizim": ", fine line engraving, intricate cross hatching ink on ivory paper, gold leaf accents, museum etching, ultra detailed",
+  "resim": ", Rembrandt oil painting, dramatic chiaroscuro, warm amber light, museum masterpiece, ultra detailed"
+ },
+ "neg": "text, letters, words, caption, watermark, signature, logo, lowres, blurry, jpeg artifacts, deformed, disfigured, extra fingers, extra limbs, bad hands, bad anatomy, cartoon, anime, 3d render, cgi, plastic skin, oversaturated, nsfw, nude, frame, border, collage, fire on the onion, flame on the onion, burning onion, palm tree, palm leaves, balloon, string",
+ "items": [
+  [
+   "k01_sogan_el",
+   "w",
+   [
+    11
+   ],
+   "extreme macro close up of weathered old hands peeling a golden onion on a dark wooden table, translucent papery onion skin layers glowing in warm low golden side light, floating dust particles"
+  ],
+  [
+   "k02_zar_dusus",
+   "w",
+   [
+    12
+   ],
+   "translucent golden onion skin layers drifting down through darkness, backlit, glowing fine veins, macro photography"
+  ],
+  [
+   "k03_yasli_adam",
+   "w",
+   [
+    13
+   ],
+   "an old Norwegian man with a grey beard in a worn 19th century wool coat sitting alone at a rough table in a dark mountain cabin, holding a half peeled onion, candlelight, contemplative"
+  ],
+  [
+   "k04_bos_merkez",
+   "w",
+   [
+    14
+   ],
+   "the hollow empty center of a fully peeled onion lying on a wooden table, last thin translucent layer, single top light, black background"
+  ],
+  [
+   "k05_ibsen",
+   "w",
+   [
+    15
+   ],
+   "portrait of the elderly Norwegian playwright Henrik Ibsen with great white side whiskers, round spectacles and black 1890s coat, sitting at a writing desk",
+   "cizim"
+  ],
+  [
+   "k06_sahne",
+   "w",
+   [
+    16
+   ],
+   "an empty 19th century theatre stage with heavy red velvet curtain, a single spotlight on a small wooden table with an onion on it, dust in the beam"
+  ],
+  [
+   "k07_insan_katman",
+   "w",
+   [
+    17
+   ],
+   "a human head and shoulders silhouette made of translucent concentric layers like an onion, a soft glowing light at the core, dark background, conceptual fine art photography"
+  ],
+  [
+   "k08_dort_kapi",
+   "w",
+   [
+    18
+   ],
+   "four tall ancient stone archways standing in a row in a misty dark desert at dawn, each archway glowing with a different light: cold white, smoky grey, deep blue, gold"
+  ],
+  [
+   "b01_terazi",
+   "w",
+   [
+    21
+   ],
+   "an antique brass laboratory balance scale weighing a golden onion against small brass weights, dark old laboratory, glass instruments"
+  ],
+  [
+   "b02_ikizler",
+   "w",
+   [
+    22
+   ],
+   "identical twin women about forty years old side by side, same face, one in elegant city clothes, the other in rural farm clothes, neutral backdrop, portrait"
+  ],
+  [
+   "b03_arsiv",
+   "w",
+   [
+    23
+   ],
+   "a dim research archive wall covered with hundreds of pinned black and white photographs of twins and index cards, desk lamp"
+  ],
+  [
+   "b04_dna",
+   "w",
+   [
+    24
+   ],
+   "a long DNA double helix floating in darkness, only a tiny part brightly lit in gold, the rest dark grey and unlit, scientific macro visualization"
+  ],
+  [
+   "b05_lab70",
+   "w",
+   [
+    25
+   ],
+   "a 1970s genetics laboratory, a scientist in a white coat studying long paper printouts at a desk, tungsten light, analog film photograph"
+  ],
+  [
+   "b06_cop",
+   "w",
+   [
+    26
+   ],
+   "crumpled long paper printouts of genetic sequences thrown into a metal waste bin in a 1970s laboratory, dramatic side light"
+  ],
+  [
+   "b07_anahtarlar",
+   "w",
+   [
+    27
+   ],
+   "an immense dark hall of DNA strands where thousands of tiny golden lights are switching on one by one, deep perspective, awe"
+  ],
+  [
+   "b08_piyano",
+   "w",
+   [
+    28
+   ],
+   "close up of a pianist's hands on the keys of an old grand piano, handwritten sheet music, warm lamp light"
+  ],
+  [
+   "b09_noron",
+   "w",
+   [
+    29
+   ],
+   "neurons branching and connecting with glowing golden light, confocal microscope photography, deep black background"
+  ],
+  [
+   "b10_yelpaze",
+   "w",
+   [
+    30
+   ],
+   "a fan of golden light rays spreading from a single point across a dark plain at night, many diverging paths"
+  ],
+  [
+   "f01_atina",
+   "w",
+   [
+    31
+   ],
+   "ancient Athens at dawn, the Parthenon on the Acropolis in golden mist, cypress trees"
+  ],
+  [
+   "f02_aristoteles",
+   "w",
+   [
+    32
+   ],
+   "ancient marble bust of Aristotle with curly beard, museum, dramatic side light, black background"
+  ],
+  [
+   "f03_palamut",
+   "w",
+   [
+    33
+   ],
+   "a single acorn on dark soil, its shell cracked open and a tiny glowing oak sapling emerging, macro"
+  ],
+  [
+   "f04_mese",
+   "w",
+   [
+    34
+   ],
+   "a majestic ancient oak tree alone on a hill at golden hour, long shadows"
+  ],
+  [
+   "f05_stoa",
+   "w",
+   [
+    35
+   ],
+   "colonnade of an ancient Greek stoa at dawn, long shadows of columns, robed philosophers walking and talking, golden light"
+  ],
+  [
+   "f06_kivilcim",
+   "w",
+   [
+    36
+   ],
+   "a spark of golden light falling from a starry cosmos into an open human palm, dark background"
+  ],
+  [
+   "f07_epiktetos",
+   "w",
+   [
+    37
+   ],
+   "an old Greek philosopher slave with short grey beard in a simple tunic, heavy iron shackle on his ankle, calm serene face, sitting on stone steps in ancient Rome, soft light"
+  ],
+  [
+   "f08_zincir",
+   "w",
+   [
+    38
+   ],
+   "close up of a rusty iron shackle and chain around a bare ankle, a wooden crutch beside it, stone floor, a ray of light"
+  ],
+  [
+   "f09_hume",
+   "w",
+   [
+    39
+   ],
+   "portrait of the 18th century Scottish philosopher David Hume, plump face, powdered wig, red coat",
+   "resim"
+  ],
+  [
+   "f10_calisma",
+   "w",
+   [
+    40
+   ],
+   "an 18th century study at night, a single candle, a quill and an open manuscript, an empty chair, deep shadows"
+  ],
+  [
+   "f11_kafe",
+   "w",
+   [
+    41
+   ],
+   "silhouette of a man with round glasses and a pipe sitting alone in a 1940s Paris cafe, cigarette smoke, rain on the window, black and white film photograph"
+  ],
+  [
+   "f12_bicak",
+   "w",
+   [
+    42
+   ],
+   "a blacksmith forging a knife blade on an anvil, glowing orange steel, sparks, dark forge"
+  ],
+  [
+   "f13_tohum_kil",
+   "w",
+   [
+    43
+   ],
+   "split composition: on the left an open palm holding a single seed, on the right empty hands shaping raw wet clay, black background"
+  ],
+  [
+   "f14_mahkeme",
+   "w",
+   [
+    44
+   ],
+   "an empty grand old courtroom divided in two by a sharp beam of light, dark wood panels"
+  ],
+  [
+   "p01_viyana",
+   "w",
+   [
+    51
+   ],
+   "a Vienna street at night around 1900, gas lamps, wet cobblestones, horse carriage, fog"
+  ],
+  [
+   "p02_freud",
+   "w",
+   [
+    52
+   ],
+   "portrait of Sigmund Freud, elderly man with white trimmed beard and round glasses holding a cigar, 1920s",
+   "cizim"
+  ],
+  [
+   "p03_buzdagi",
+   "w",
+   [
+    53
+   ],
+   "cross section of a vast dark iceberg under black water, a thin delicate marble city sitting on its tip above the surface, moonlight"
+  ],
+  [
+   "p04_divan",
+   "w",
+   [
+    54
+   ],
+   "a psychoanalyst's couch covered with oriental rugs in a dim Vienna study full of antique statues and books"
+  ],
+  [
+   "p05_adler",
+   "w",
+   [
+    55
+   ],
+   "portrait of the Austrian psychiatrist Alfred Adler, bald head, mustache, 1920s suit",
+   "cizim"
+  ],
+  [
+   "p06_el",
+   "w",
+   [
+    56
+   ],
+   "a small child's hand reaching up to hold an adult's hand, warm backlight"
+  ],
+  [
+   "p07_masa",
+   "w",
+   [
+    57
+   ],
+   "people of different ages sitting around a long wooden table facing each other, warm lamp light, belonging"
+  ],
+  [
+   "p08_ayna_cocuk",
+   "w",
+   [
+    58
+   ],
+   "a small child's silhouette standing before a tall antique mirror, the reflection brighter and sharper than the child, dark room"
+  ],
+  [
+   "p09_ayna_koridor",
+   "w",
+   [
+    59
+   ],
+   "an endless corridor of mirrors reflecting a single standing figure into infinity, dim amber light"
+  ],
+  [
+   "p10_jung",
+   "w",
+   [
+    60
+   ],
+   "portrait of Carl Gustav Jung, elderly Swiss psychiatrist with white mustache, round glasses and a pipe",
+   "cizim"
+  ],
+  [
+   "p11_kule",
+   "w",
+   [
+    61
+   ],
+   "a medieval stone tower on the shore of a calm lake in Switzerland at dusk, mist"
+  ],
+  [
+   "p12_arketip",
+   "w",
+   [
+    62
+   ],
+   "four figures in a cave lit by firelight: a wise old man, a mother, a dark shadow figure and a young hero",
+   "resim"
+  ],
+  [
+   "p13_mandala",
+   "w",
+   [
+    63
+   ],
+   "a glowing golden mandala resting at the bottom of deep dark water, rays of light from above"
+  ],
+  [
+   "m01_yuz_sis",
+   "w",
+   [
+    71
+   ],
+   "a portrait of a man's face slowly dissolving into mist and dust particles, dark background"
+  ],
+  [
+   "m02_kral_rahip",
+   "w",
+   [
+    72
+   ],
+   "an ancient Indian king in jeweled robes and a Buddhist monk in saffron robes standing beside a wooden chariot in a palace courtyard, golden hour"
+  ],
+  [
+   "m03_araba",
+   "w",
+   [
+    73
+   ],
+   "an ancient wooden chariot taken apart, wheels, axle and seat floating separately in the air, exploded view, dark background"
+  ],
+  [
+   "m04_buda",
+   "w",
+   [
+    74
+   ],
+   "ancient Gandhara stone Buddha statue with serene face, museum light, black background"
+  ],
+  [
+   "m05_nehir",
+   "w",
+   [
+    75
+   ],
+   "a river flowing through mist at dawn, long exposure, clouds moving"
+  ],
+  [
+   "m06_inziva",
+   "w",
+   [
+    76
+   ],
+   "an ancient Indian forest hermitage at dawn, an old sage father in white cloth and his young son sitting under a huge banyan tree"
+  ],
+  [
+   "m07_incir",
+   "w",
+   [
+    77
+   ],
+   "macro of a split fig seed in a palm, a tiny tree made of light rising from inside it"
+  ],
+  [
+   "m08_bir_cok",
+   "w",
+   [
+    78
+   ],
+   "a single point of light in darkness radiating outward into mountains, oceans, stars and countless human figures, cosmic"
+  ],
+  [
+   "m09_desen",
+   "w",
+   [
+    79
+   ],
+   "an intricate Seljuk geometric star pattern carved in stone, expanding from a single glowing center point, golden light"
+  ],
+  [
+   "m10_iki_yon",
+   "w",
+   [
+    80
+   ],
+   "portrait of a man in profile, one side of his face lit by warm earthly colors, the other side lit by golden light from above, black background"
+  ],
+  [
+   "m11_samanyolu",
+   "w",
+   [
+    81
+   ],
+   "a lone man standing on a mountain ridge at night looking up at the Milky Way"
+  ],
+  [
+   "m12_kutuk",
+   "w",
+   [
+    82
+   ],
+   "an uncarved wooden log in a misty Chinese mountain landscape, ink wash atmosphere"
+  ],
+  [
+   "m13_kaseler",
+   "w",
+   [
+    83
+   ],
+   "two bowls side by side on black: one empty, the other overflowing with light"
+  ],
+  [
+   "h01_masa_isik",
+   "w",
+   [
+    91
+   ],
+   "a peeled onion on a dark wooden table, its layers lit by four different lights: cold white, smoky grey, deep blue and gold, candle in background"
+  ],
+  [
+   "h02_son_zar",
+   "w",
+   [
+    92
+   ],
+   "an old hand holding the last thin translucent onion layer up against warm golden backlight"
+  ],
+  [
+   "h03_avuc_isik",
+   "w",
+   [
+    293
+   ],
+   "an old man's two cupped hands held together, a warm glowing golden light rising from the empty hollow of his palms, deep black background, amber rim light"
+  ],
+  [
+   "k01_sogan_el",
+   "t",
+   [
+    11
+   ],
+   "extreme macro close up of weathered old hands peeling a golden onion on a dark wooden table, translucent papery onion skin layers glowing in warm low golden side light, floating dust particles"
+  ],
+  [
+   "k03_yasli_adam",
+   "t",
+   [
+    13
+   ],
+   "an old Norwegian man with a grey beard in a worn 19th century wool coat sitting alone at a rough table in a dark mountain cabin, holding a half peeled onion, candlelight, contemplative"
+  ],
+  [
+   "k04_bos_merkez",
+   "t",
+   [
+    14
+   ],
+   "the hollow empty center of a fully peeled onion lying on a wooden table, last thin translucent layer, single top light, black background"
+  ],
+  [
+   "k07_insan_katman",
+   "t",
+   [
+    17
+   ],
+   "a human head and shoulders silhouette made of translucent concentric layers like an onion, a soft glowing light at the core, dark background, conceptual fine art photography"
+  ],
+  [
+   "k08_dort_kapi",
+   "t",
+   [
+    18
+   ],
+   "four tall ancient stone archways in a misty dark desert at dawn, each archway glowing with a different light: cold white, smoky grey, deep blue, gold"
+  ],
+  [
+   "b04_dna",
+   "t",
+   [
+    24
+   ],
+   "a long vertical DNA double helix floating in darkness, only a tiny part brightly lit in gold, the rest dark grey and unlit, scientific macro visualization"
+  ],
+  [
+   "b05_lab70",
+   "t",
+   [
+    25
+   ],
+   "a 1970s genetics laboratory, a scientist in a white coat studying long paper printouts, tungsten light, analog film photograph"
+  ],
+  [
+   "b06_cop",
+   "t",
+   [
+    26
+   ],
+   "crumpled long paper printouts of genetic sequences thrown into a metal waste bin in a 1970s laboratory, dramatic side light"
+  ],
+  [
+   "b07_anahtarlar",
+   "t",
+   [
+    27
+   ],
+   "an immense dark hall of DNA strands where thousands of tiny golden lights are switching on one by one, deep perspective, awe"
+  ],
+  [
+   "b10_yelpaze",
+   "t",
+   [
+    30
+   ],
+   "a fan of golden light rays spreading from a single point across a dark plain at night, many diverging paths"
+  ],
+  [
+   "f11_kafe",
+   "t",
+   [
+    41
+   ],
+   "silhouette of a man with round glasses and a pipe sitting alone in a 1940s Paris cafe, cigarette smoke, rain on the window, black and white film photograph"
+  ],
+  [
+   "f12_bicak",
+   "t",
+   [
+    42
+   ],
+   "a blacksmith forging a knife blade on an anvil, glowing orange steel, sparks, dark forge"
+  ],
+  [
+   "f13_tohum_kil",
+   "t",
+   [
+    43
+   ],
+   "an open palm holding a single seed above empty hands shaping raw wet clay, black background"
+  ],
+  [
+   "p10_jung",
+   "t",
+   [
+    60
+   ],
+   "portrait of Carl Gustav Jung, elderly Swiss psychiatrist with white mustache, round glasses and a pipe",
+   "cizim"
+  ],
+  [
+   "p12_arketip",
+   "t",
+   [
+    62
+   ],
+   "four figures in a cave lit by firelight: a wise old man, a mother, a dark shadow figure and a young hero",
+   "resim"
+  ],
+  [
+   "p13_mandala",
+   "t",
+   [
+    63
+   ],
+   "a glowing golden mandala resting at the bottom of deep dark water, rays of light from above"
+  ],
+  [
+   "m08_bir_cok",
+   "t",
+   [
+    78
+   ],
+   "a single point of light in darkness radiating outward into mountains, oceans, stars and countless human figures, cosmic"
+  ],
+  [
+   "m09_desen",
+   "t",
+   [
+    79
+   ],
+   "an intricate Seljuk geometric star pattern carved in stone, expanding from a single glowing center point, golden light"
+  ],
+  [
+   "m10_iki_yon",
+   "t",
+   [
+    80
+   ],
+   "portrait of a man in profile, one side of his face lit by warm earthly colors, the other side lit by golden light from above, black background"
+  ],
+  [
+   "m11_samanyolu",
+   "t",
+   [
+    81
+   ],
+   "a lone man standing on a mountain ridge at night looking up at the Milky Way"
+  ],
+  [
+   "h02_son_zar",
+   "t",
+   [
+    192
+   ],
+   "close-up of an old wrinkled hand holding one thin translucent curved onion skin layer between fingers, warm golden backlight shining through it"
+  ],
+  [
+   "h03_avuc_isik",
+   "t",
+   [
+    293
+   ],
+   "an old man's two cupped hands held together, a warm glowing golden light rising from the empty hollow of his palms, deep black background, amber rim light"
+  ]
+ ]
+}
