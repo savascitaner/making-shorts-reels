@@ -1,6 +1,6 @@
 # Yayın Paketi: İnsanın Bir Özü Var mı?
 
-İki teslim: **A) YouTube uzun video (16:9, 7:04)** · **B) Reels / Shorts (9:16, 2:59)**
+İki teslim: **A) YouTube uzun video (16:9, 7:06)** · **B) Reels / Shorts (9:16, 2:59)**
 Kanal: YouTube @TanerSavaşçı · Instagram @sevgiliinsann · www.sevgiliinsan.com
 
 ---
