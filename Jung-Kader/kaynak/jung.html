@@ -1,0 +1,494 @@
+<!doctype html>
+<html lang="tr"><head><meta charset="utf-8"><title>Jung Haklı mıydı</title>
+<style>
+@font-face{font-family:Anton;src:url(fonts/Anton-Regular.ttf)}
+@font-face{font-family:Cinzel;font-weight:900;src:url(fonts/cinzel-latin-900.woff2) format('woff2');unicode-range:U+0000-00FF,U+2000-206F}
+@font-face{font-family:Cinzel;font-weight:900;src:url(fonts/cinzel-latin-ext-900.woff2) format('woff2');unicode-range:U+0100-024F,U+1E00-1EFF}
+@font-face{font-family:Cinzel;font-weight:700;src:url(fonts/cinzel-latin-700.woff2) format('woff2');unicode-range:U+0000-00FF,U+2000-206F}
+@font-face{font-family:Cinzel;font-weight:700;src:url(fonts/cinzel-latin-ext-700.woff2) format('woff2');unicode-range:U+0100-024F,U+1E00-1EFF}
+@font-face{font-family:"Alegreya Sans";font-weight:800;src:url(fonts/alegreya-sans-latin-800.woff2) format('woff2');unicode-range:U+0000-00FF,U+2000-206F}
+@font-face{font-family:"Alegreya Sans";font-weight:800;src:url(fonts/alegreya-sans-latin-ext-800.woff2) format('woff2');unicode-range:U+0100-024F,U+1E00-1EFF}
+@font-face{font-family:"Alegreya Sans";font-weight:500;src:url(fonts/alegreya-sans-latin-500.woff2) format('woff2');unicode-range:U+0000-00FF,U+2000-206F}
+@font-face{font-family:"Alegreya Sans";font-weight:500;src:url(fonts/alegreya-sans-latin-ext-500.woff2) format('woff2');unicode-range:U+0100-024F,U+1E00-1EFF}
+html,body{margin:0;background:#000}canvas{display:block;max-width:100vw;max-height:100vh}
+</style></head><body><canvas id="c"></canvas>
+<script>
+const Q = new URLSearchParams(location.search), FMT = Q.get('f') === '16x9' ? '16x9' : 'reels', WIDE = FMT === '16x9';
+document.write(`<script src="words-${FMT}.js"><\/script><script src="../gorseller/ai/${WIDE ? 'w' : 'r'}/liste.js"><\/script>`);
+</script>
+<script>
+// ===================== Jung Haklı mıydı? — kurgu motoru (kare = zamanın fonksiyonu) =====================
+// İmza dili: IŞIK İPLİĞİ. Geçişlerde bir iplik kadrajı keserek sonraki sahneyi açar; yedi iplik bölümünde
+// her etken kendi renginde bir iplik olarak yükselir; sonda iplikler avuçta toplanır.
+const W = WIDE ? 1920 : 1080, H = WIDE ? 1080 : 1920, FPS = 30;
+const cv = document.getElementById('c'), ctx = cv.getContext('2d'); cv.width = W; cv.height = H;
+const D = window.DATA, WD = D.words, HAVE = new Set(window.HAVE || []);
+const END0 = D.vo_end + 0.6;                       // kapanış dizisinin başı
+const E = { soru: 0, takip: 3.6, kapak: 6.3, adres: 8.3, son: 11.6 };
+const DUR = END0 + E.son, FRAMES = Math.round(DUR * FPS);
+const AMBER = '#F0B04A', CREAM = '#F4ECDD', ICE = '#8FB8E8', INK = '#07080C';
+const THREAD = ['#6F7CFF', '#38D39F', '#E8B04A', '#E2553F', '#C9D2DC', '#FF7A2E', '#B46CFF']; // yedi iplik
+const clamp = (x, a, b) => Math.max(a, Math.min(b, x)), lerp = (a, b, k) => a + (b - a) * k;
+const ease = x => { x = clamp(x, 0, 1); return x * x * (3 - 2 * x); };
+const eOut = x => 1 - Math.pow(1 - clamp(x, 0, 1), 3);
+function rng(seed) { let a = seed >>> 0; return () => { a = (a + 0x6D2B79F5) >>> 0; let t = a; t = Math.imul(t ^ (t >>> 15), t | 1); t ^= t + Math.imul(t ^ (t >>> 7), t | 61); return ((t ^ (t >>> 14)) >>> 0) / 4294967296; }; }
+const S = WIDE ? 0.62 : 1;                         // yazı ölçeği (16:9'da kısa kenar 1080)
+
+// ---------- kelime bulucu: ifade -> kelime indeksi (sıralı arama) ----------
+const nz = s => s.toLocaleLowerCase('tr').replace(/[^a-zçğıöşüâîû0-9]/g, '');
+const NW = WD.map(w => nz(w.w));
+let cursor = 0;
+function at(phrase) {   // phrase'in ilk kelimesinin indeksini, imleçten itibaren bulur
+  const P = phrase.split(/\s+/).map(nz).filter(Boolean);
+  for (let i = cursor; i < NW.length; i++) { let ok = true; for (let j = 0; j < P.length; j++) if (!(NW[i + j] || '').startsWith(P[j])) { ok = false; break; } if (ok) { cursor = i + 1; return i; } }
+  console.warn('bulunamadı', phrase); return cursor;
+}
+const ws = i => WD[Math.min(i, WD.length - 1)].s;
+
+// ---------- görseller ----------
+const G = {};
+const ARSIV = { jung: 'jung.jpg', freud: 'freud.jpg', marx: 'marx.jpg', engels: 'engels.jpg', sartre: 'sartre.jpg' };
+function loadImg(src) { return new Promise(ok => { const im = new Image(); im.onload = () => ok(im); im.onerror = () => ok(null); im.src = src; }); }
+function placeholder(name) { const c = document.createElement('canvas'); c.width = W / 2; c.height = H / 2; const x = c.getContext('2d');
+  const g = x.createLinearGradient(0, 0, c.width, c.height); g.addColorStop(0, '#151821'); g.addColorStop(1, '#2a2116'); x.fillStyle = g; x.fillRect(0, 0, c.width, c.height);
+  x.fillStyle = 'rgba(240,176,74,0.5)'; x.font = '40px sans-serif'; x.textAlign = 'center'; x.fillText(name, c.width / 2, c.height / 2); return c; }
+async function img(k) {
+  if (G[k]) return; let im = null;
+  if (ARSIV[k]) im = await loadImg('../gorseller/arsiv/' + ARSIV[k]);
+  else if (k === 'profil') im = await loadImg('../gorseller/referans/kanal-profil.jpg');
+  else if (HAVE.has(k)) im = await loadImg(`../gorseller/ai/${WIDE ? 'w' : 'r'}/${k}.jpg`);
+  G[k] = im || placeholder(k);
+}
+function drawView(k, u, v, z, filter = 'none', alpha = 1) {
+  const im = G[k]; if (!im) return; const iw = im.width, ih = im.height;
+  const s = Math.max(W / iw, H / ih) * z, dw = iw * s, dh = ih * s;
+  const ox = clamp(u * dw - W / 2, 0, dw - W), oy = clamp(v * dh - H / 2, 0, dh - H);
+  ctx.save(); ctx.globalAlpha = alpha; ctx.filter = filter; ctx.drawImage(im, -ox, -oy, dw, dh); ctx.restore();
+}
+
+// ---------- atmosfer katmanları ----------
+const MOTES = (() => { const r = rng(1875), a = []; for (let i = 0; i < 140; i++) a.push({ x: r(), y: r(), s: r(), p: r() * 6.28 }); return a; })();
+function motes(t, amt, col = '255,214,150') {
+  if (amt <= 0) return; ctx.save(); ctx.globalCompositeOperation = 'screen';
+  for (const m of MOTES) { const x = (((m.x + Math.sin(t * 0.21 + m.p) * 0.025 + t * 0.003 * (m.s - 0.5)) % 1) + 1) % 1 * W, y = (((m.y - t * 0.008 * (0.3 + m.s)) % 1) + 1) % 1 * H, r = (1.2 + m.s * 3.2) * (WIDE ? 0.8 : 1);
+    ctx.globalAlpha = amt * (0.25 + 0.6 * (0.5 + 0.5 * Math.sin(t * 1.7 + m.p))); ctx.fillStyle = `rgb(${col})`; ctx.beginPath(); ctx.arc(x, y, r, 0, 6.283); ctx.fill(); }
+  ctx.restore();
+}
+const DROPS = (() => { const r = rng(9), a = []; for (let i = 0; i < 180; i++) a.push({ x: r(), y: r(), s: r() }); return a; })();
+function rain(t, amt) { ctx.save(); ctx.strokeStyle = 'rgba(190,210,255,0.4)'; ctx.lineWidth = 2;
+  for (const d of DROPS) { const sp = 1100 + d.s * 900, y = ((d.y * H + t * sp) % (H + 200)) - 100, x = d.x * W - (y / H) * 70, l = 30 + d.s * 70;
+    ctx.globalAlpha = amt * (0.25 + d.s * 0.6); ctx.beginPath(); ctx.moveTo(x, y); ctx.lineTo(x - 9, y + l); ctx.stroke(); } ctx.restore(); }
+function flare(t, amt, x, y, col = '255,230,190') {   // far ışığı
+  if (amt <= 0) return; ctx.save(); ctx.globalCompositeOperation = 'screen'; const R = Math.min(W, H) * (0.25 + 0.6 * amt);
+  const g = ctx.createRadialGradient(x, y, 0, x, y, R); g.addColorStop(0, `rgba(${col},${0.9 * amt})`); g.addColorStop(0.2, `rgba(${col},${0.35 * amt})`); g.addColorStop(1, `rgba(${col},0)`);
+  ctx.fillStyle = g; ctx.fillRect(0, 0, W, H); ctx.fillStyle = `rgba(${col},${0.25 * amt})`; ctx.fillRect(0, y - 2, W, 4); ctx.restore();
+}
+function lampFlicker(t, amt, x = 0.75, y = 0.35) { ctx.save(); ctx.globalCompositeOperation = 'soft-light'; const f = 0.85 + 0.15 * Math.sin(t * 9.3) * Math.sin(t * 3.1);
+  const g = ctx.createRadialGradient(x * W, y * H, 0, x * W, y * H, Math.max(W, H) * 0.7); g.addColorStop(0, `rgba(255,190,110,${0.55 * amt * f})`); g.addColorStop(1, 'rgba(0,0,0,0)'); ctx.fillStyle = g; ctx.fillRect(0, 0, W, H); ctx.restore(); }
+
+// ---------- ışık ipliği ----------
+function threadPath(x0, y0, x1, y1, bend, t, wob = 1) {
+  const mx = (x0 + x1) / 2 + bend * (y1 - y0) * 0.25 + Math.sin(t * 1.3) * 18 * wob, my = (y0 + y1) / 2 - bend * (x1 - x0) * 0.25 + Math.cos(t * 1.1) * 18 * wob;
+  ctx.beginPath(); ctx.moveTo(x0, y0); ctx.quadraticCurveTo(mx, my, x1, y1);
+}
+function glowThread(x0, y0, x1, y1, col, a, t, w = 3, bend = 0.4) {
+  if (a <= 0) return; ctx.save(); ctx.globalCompositeOperation = 'lighter'; ctx.lineCap = 'round';
+  for (const [lw, al, bl] of [[w * 7, 0.10, 30], [w * 3, 0.25, 12], [w, 0.95, 4]]) { ctx.globalAlpha = a * al; ctx.strokeStyle = col; ctx.lineWidth = lw * (WIDE ? 0.8 : 1); ctx.shadowColor = col; ctx.shadowBlur = bl; threadPath(x0, y0, x1, y1, bend, t); ctx.stroke(); }
+  ctx.restore();
+}
+function threadHead(x, y, col, a) { ctx.save(); ctx.globalCompositeOperation = 'lighter'; const r = 46 * (WIDE ? 0.7 : 1); const g = ctx.createRadialGradient(x, y, 0, x, y, r); g.addColorStop(0, `rgba(255,255,255,${a})`); g.addColorStop(0.25, col); g.addColorStop(1, 'rgba(0,0,0,0)'); ctx.globalAlpha = a; ctx.fillStyle = g; ctx.fillRect(x - r, y - r, r * 2, r * 2); ctx.restore(); }
+
+// ---------- yazı ----------
+function txt(s, x, y, { size = 100, font = 'Anton', color = CREAM, align = 'center', a = 1, glow = 'rgba(240,176,74,0.45)', stroke = 0.08, weight = '' } = {}) {
+  size *= S; ctx.save(); ctx.globalAlpha = a; ctx.textAlign = align; ctx.textBaseline = 'alphabetic'; ctx.lineJoin = 'round';
+  ctx.font = `${weight}${size}px ${font}`; const maxw = W * 0.9; const mw = ctx.measureText(s).width; if (mw > maxw) { size *= maxw / mw; ctx.font = `${weight}${size}px ${font}`; }
+  if (stroke) { ctx.lineWidth = size * stroke; ctx.strokeStyle = 'rgba(5,5,10,0.9)'; ctx.strokeText(s, x, y); }
+  ctx.fillStyle = color; if (glow) { ctx.shadowColor = glow; ctx.shadowBlur = 30 * S; } ctx.fillText(s, x, y); ctx.restore(); return size;
+}
+function band(y0, y1, a) { const g = ctx.createLinearGradient(0, y0, 0, y1); g.addColorStop(0, 'rgba(4,5,9,0)'); g.addColorStop(0.3, `rgba(4,5,9,${0.55 * a})`); g.addColorStop(0.7, `rgba(4,5,9,${0.55 * a})`); g.addColorStop(1, 'rgba(4,5,9,0)'); ctx.fillStyle = g; ctx.fillRect(0, y0, W, y1 - y0); }
+const CY = WIDE ? 0.36 : 0.30;   // başlık kartlarının dikey yeri
+function title(lines, lt, { y = CY * H, size = 130, colors = null, sub = null, d = 99 } = {}) {
+  const a = Math.min(ease(lt / 0.35), ease((d - lt) / 0.3)); if (a <= 0) return;
+  band(y - size * S * 2, y + size * S * (lines.length + 0.8), a);
+  if (sub) { ctx.save(); ctx.globalAlpha = a; ctx.textAlign = 'center'; ctx.font = `700 ${44 * S}px Cinzel`; ctx.fillStyle = AMBER; ctx.fillText(sub, W / 2, y - size * S * 1.05); ctx.fillRect(W / 2 - 70 * S, y - size * S * 1.05 + 20 * S, 140 * S, 3); ctx.restore(); }
+  lines.forEach((s, i) => txt(s, W / 2, y + i * size * S * 1.08 + (1 - a) * 18, { size, color: colors ? colors[i] : CREAM, a }));
+}
+function nameplate(name, dates, lt, d, pos = 'low') {   // arşiv portresinin künyesi
+  const a = Math.min(ease((lt - 0.2) / 0.4), ease((d - lt) / 0.3)); if (a <= 0) return;
+  const y = pos === 'low' ? H * (WIDE ? 0.74 : 0.55) : H * 0.18;
+  txt(name, W / 2, y, { size: 120, a, color: CREAM }); ctx.save(); ctx.globalAlpha = a; ctx.textAlign = 'center'; ctx.font = `700 ${42 * S}px Cinzel`; ctx.fillStyle = AMBER; ctx.fillText(dates, W / 2, y + 62 * S); ctx.restore();
+}
+function framedPortrait(k, cx, cy, h, lt, delay, label) {   // sahnenin üstüne çerçeveli arşiv fotoğrafı
+  const a = ease((lt - delay) / 0.5); if (a <= 0) return; const im = G[k]; const w = h * im.width / im.height;
+  ctx.save(); ctx.globalAlpha = a; ctx.translate(cx, cy + (1 - a) * 40); ctx.rotate((label.length % 2 ? -1 : 1) * 0.03);
+  ctx.shadowColor = 'rgba(0,0,0,0.7)'; ctx.shadowBlur = 40; ctx.fillStyle = '#E9E0CC'; ctx.fillRect(-w / 2 - 14, -h / 2 - 14, w + 28, h + 70); ctx.shadowBlur = 0;
+  ctx.filter = 'grayscale(1) contrast(1.15) sepia(0.25)'; ctx.drawImage(im, -w / 2, -h / 2, w, h); ctx.filter = 'none';
+  ctx.fillStyle = '#2a2420'; ctx.textAlign = 'center'; ctx.font = `700 ${Math.round(h * 0.075)}px Cinzel`; ctx.fillText(label, 0, h / 2 + 44); ctx.restore();
+}
+
+// ---------- çekim listeleri: [ifade, görsel, [u,v,z] başlangıç, [u,v,z] bitiş, efekt, kart] ----------
+const R = [
+  ['Carl Gustav', 'A0a-analiz-odasi', [0.5, 0.42, 1.18], [0.5, 0.38, 1.02], 'lamp', 'hook'],
+  ['Bilinçdışını bilince', 'S0b-daktilo', [0.5, 0.6, 1.25], [0.5, 0.45, 1.05], 'motes'],
+  ['kader diyeceksin', 'A0c-goz', [0.5, 0.45, 1.25], [0.5, 0.45, 1.05], 'none'],
+  ['Peki, Jung haklı', 'jung', [0.5, 0.3, 1.15], [0.5, 0.25, 1.0], 'archive', 'jungName'],
+  ["Jung'un Aion'daki", 'S-kutuphane', [0.5, 0.45, 1.0], [0.5, 0.5, 1.15], 'motes', 'aion'],
+  ['Hocası Freud', 'freud', [0.5, 0.3, 1.15], [0.5, 0.28, 1.0], 'archive', 'freudName'],
+  ['bütün rüyalar', 'S1b-divan', [0.45, 0.5, 1.2], [0.55, 0.5, 1.05], 'motes'],
+  ['Giydiğin elbiseden', 'S1c-gardirop', [0.5, 0.4, 1.0], [0.5, 0.5, 1.18], 'none'],
+  ['Şimdi bu iddiayı', 'A2b-sessiz', [0.5, 0.4, 1.15], [0.5, 0.42, 1.0], 'motes'],
+  ['İki yaşında', 'S2a-enkaz', [0.5, 0.4, 1.0], [0.5, 0.62, 1.3], 'dust'],
+  ['Bu kader, onun', 'S2a-enkaz', [0.5, 0.72, 1.7], [0.5, 0.7, 1.9], 'dust'],
+  ['Bir adam her', 'S2c-gece-yolu', [0.5, 0.5, 1.0], [0.5, 0.5, 1.25], 'headlights'],
+  ['felç bırakıyor', 'S2d-tekerlekli', [0.5, 0.5, 1.15], [0.5, 0.5, 1.0], 'motes'],
+  ['Bu sonucu da', 'A0c-goz', [0.5, 0.5, 1.05], [0.5, 0.5, 1.3], 'none'],
+  ['Tek bir karşı', 'S2e-kubbe', [0.5, 0.5, 1.25], [0.5, 0.5, 1.0], 'shatter', 'tekOrnek'],
+  ['Herkes insana', 'S3a-pencereler', [0.5, 0.5, 1.25], [0.5, 0.5, 1.0], 'none', 'pencere'],
+  ['Marx ve Engels', 'S-fabrika', [0.5, 0.45, 1.05], [0.5, 0.45, 1.2], 'smoke', 'marxEngels'],
+  ['Biyolojik determinizme', 'S-laboratuvar', [0.5, 0.45, 1.15], [0.5, 0.4, 1.0], 'cold'],
+  ['Varoluşçulara göre', 'S-paris', [0.5, 0.45, 1.0], [0.5, 0.45, 1.15], 'rainLight', 'sartre'],
+  ['Geleneksel din', 'S-mescit', [0.5, 0.45, 1.15], [0.5, 0.42, 1.0], 'motes'],
+  ['Bu ekollerin', 'S3a-pencereler', [0.5, 0.5, 1.0], [0.5, 0.5, 1.12], 'windowsOff'],
+  ['Öyleyse soruyu', 'S4a-siluet', [0.5, 0.5, 1.15], [0.5, 0.45, 1.0], 'void', 'neBelirler'],
+  ['Bilinçdışı. Genler', 'S4b1-golge', [0.5, 0.5, 1.1], [0.5, 0.5, 1.2], 'iplik:0', 'ip:0:BİLİNÇDIŞI'],
+  ['Genler. Doğduğun', 'S4b2-dna', [0.5, 0.5, 1.1], [0.5, 0.5, 1.2], 'iplik:1', 'ip:1:GENLER'],
+  ['Doğduğun coğrafya', 'S4b3-harita', [0.5, 0.5, 1.1], [0.5, 0.5, 1.2], 'iplik:2', 'ip:2:KOORDİNATLAR'],
+  ['Senin dışında', 'S4b4-enkaz-isik', [0.5, 0.5, 1.1], [0.5, 0.5, 1.2], 'iplik:3', 'ip:3:OLAYLAR'],
+  ['Ölüm kaygısı', 'S4b5-bos-oda', [0.5, 0.5, 1.1], [0.5, 0.5, 1.2], 'iplik:4', 'ip:4:VAROLUŞ'],
+  ['İçgüdüler ve', 'S4b6-alev', [0.5, 0.5, 1.1], [0.5, 0.5, 1.2], 'iplik:5', 'ip:5:İÇGÜDÜLER'],
+  ['Ve daha bebekken', 'S4b7-fisilti', [0.5, 0.5, 1.1], [0.5, 0.5, 1.2], 'iplik:6', 'ip:6:ŞARTLANMIŞ ZİHİN'],
+  ['Bu yedi ipliğin', 'S4a-siluet', [0.5, 0.5, 1.0], [0.5, 0.5, 1.1], 'converge', 'gudu'],
+  ['Kader, önceden', 'S5a-yanan-sayfa', [0.5, 0.5, 1.15], [0.5, 0.45, 1.0], 'embers'],
+  ['Arapçada kelimenin', 'S-terazi-oda', [0.5, 0.45, 1.0], [0.5, 0.42, 1.15], 'lamp', 'olcu'],
+  ['Bu ölçünün dört', 'S5c-terazi-iplik', [0.5, 0.5, 1.1], [0.5, 0.5, 1.2], 'motes', 'dortYuz'],
+  ['Bu yüzden', 'S-agora', [0.5, 0.45, 1.0], [0.5, 0.42, 1.15], 'motes', 'doga'],
+  ['Hangi insanın? Hangi', 'S-agora', [0.5, 0.4, 1.25], [0.5, 0.38, 1.4], 'motes', 'hangi'],
+  ['Tek yumurta', 'S6b-ikizler', [0.5, 0.5, 1.05], [0.5, 0.5, 1.15], 'none'],
+  ['Arifler de', 'S-ayna', [0.5, 0.45, 1.15], [0.5, 0.45, 1.0], 'candle', 'arif'],
+  ['Muhatap insanlık', 'S-ayna', [0.5, 0.4, 1.3], [0.5, 0.4, 1.45], 'candle', 'sensin'],
+  ['Jung haklıydı', 'A7-avuc', [0.5, 0.5, 1.15], [0.5, 0.5, 1.0], 'palm', 'final'],
+  ['Bu sapasağlam', '@kanal', [0, 0, 1], [0, 0, 1], 'kanal', 'kanal'],
+];
+const Wd = [
+  ['Carl Gustav', 'A0a-analiz-odasi', [0.5, 0.45, 1.15], [0.5, 0.42, 1.0], 'lamp', 'hook'],
+  ['Bilinçdışını bilince', 'S0b-daktilo', [0.5, 0.55, 1.2], [0.5, 0.45, 1.05], 'motes'],
+  ['Bu cümle bir', 'A0c-goz', [0.5, 0.45, 1.2], [0.5, 0.45, 1.05], 'none'],
+  ['Oysa hakikat', 'A2b-sessiz', [0.5, 0.4, 1.12], [0.5, 0.42, 1.0], 'motes'],
+  ['Peki, Jung haklı', 'jung', [0.5, 0.3, 1.1], [0.5, 0.25, 1.0], 'archive', 'jungName'],
+  ['Dilden dile', 'S0b-daktilo', [0.5, 0.5, 1.4], [0.5, 0.5, 1.6], 'motes'],
+  ["Jung'un Aion'daki", 'S-kutuphane', [0.5, 0.45, 1.0], [0.5, 0.5, 1.15], 'motes', 'aion'],
+  ["Jung'un hocası", 'freud', [0.5, 0.3, 1.1], [0.5, 0.28, 1.0], 'archive', 'freudName'],
+  ['Ona göre bütün', 'S1b-divan', [0.45, 0.5, 1.15], [0.55, 0.5, 1.0], 'motes'],
+  ['İnsanı, içinde', 'S-yasam-olum', [0.5, 0.5, 1.0], [0.5, 0.5, 1.2], 'embers', 'durtu'],
+  ['Giydiğin elbiseden', 'S1c-gardirop', [0.5, 0.4, 1.0], [0.5, 0.5, 1.15], 'none'],
+  ['Şimdi bu iddiayı', 'A2b-sessiz', [0.5, 0.4, 1.15], [0.5, 0.42, 1.0], 'motes'],
+  ['İki yaşında', 'S2a-enkaz', [0.5, 0.4, 1.0], [0.5, 0.6, 1.25], 'dust'],
+  ['Bu kader, o', 'S2a-enkaz', [0.5, 0.72, 1.6], [0.5, 0.7, 1.8], 'dust'],
+  ['Bir adam her', 'S2c-gece-yolu', [0.5, 0.5, 1.0], [0.5, 0.5, 1.2], 'headlights'],
+  ['adam felç kalıyor', 'S2d-tekerlekli', [0.5, 0.5, 1.15], [0.5, 0.5, 1.0], 'motes'],
+  ['Tek bir karşı', 'S2e-kubbe', [0.5, 0.5, 1.2], [0.5, 0.5, 1.0], 'shatter', 'tekOrnek'],
+  ['Binlerce yıllık', 'S-ciltler', [0.5, 0.5, 1.0], [0.5, 0.45, 1.15], 'motes'],
+  ['Herkes insana', 'S3a-pencereler', [0.5, 0.5, 1.2], [0.5, 0.5, 1.0], 'none', 'pencere'],
+  ['Marx ve Engels', 'S-fabrika', [0.5, 0.45, 1.05], [0.5, 0.45, 1.18], 'smoke', 'marxEngels'],
+  ['Ama Freud itiraz', 'S-viyana-oda', [0.5, 0.45, 1.12], [0.5, 0.45, 1.0], 'smoke'],
+  ['Kanepesine uzananların', 'S1b-divan', [0.55, 0.5, 1.0], [0.45, 0.5, 1.15], 'motes'],
+  ['Biyolojik determinizm', 'S-laboratuvar', [0.5, 0.45, 1.12], [0.5, 0.4, 1.0], 'cold'],
+  ['Ama ülken', 'S-savas-kitlik', [0.5, 0.5, 1.0], [0.5, 0.5, 1.15], 'dust'],
+  ['Varoluşçular ters', 'S-paris', [0.5, 0.45, 1.0], [0.5, 0.45, 1.15], 'rainLight', 'sartre'],
+  ['Peki, hiç seçmediğin', 'S2d-tekerlekli', [0.5, 0.5, 1.0], [0.5, 0.5, 1.15], 'motes'],
+  ['Geleneksel din', 'S-mescit', [0.5, 0.45, 1.12], [0.5, 0.42, 1.0], 'motes'],
+  ['Bu görüş, kelam', 'S-mescit', [0.5, 0.4, 1.3], [0.5, 0.4, 1.45], 'candle'],
+  ['Üç kardeş', 'S-uc-kardes', [0.5, 0.5, 1.0], [0.5, 0.5, 1.15], 'motes'],
+  ['Âlimlerin cevabı', 'S-uc-kardes', [0.5, 0.5, 1.35], [0.5, 0.5, 1.5], 'motes'],
+  ['Sonra o soru', 'S-meclis', [0.5, 0.5, 1.12], [0.5, 0.5, 1.0], 'motes', 'meclis'],
+  ['Meclis susar', 'S-mescit', [0.5, 0.4, 1.35], [0.5, 0.4, 1.5], 'candle'],
+  ['Bu ekollerin', 'S3a-pencereler', [0.5, 0.5, 1.0], [0.5, 0.5, 1.1], 'windowsOff'],
+  ['Öyleyse soruyu', 'S4a-siluet', [0.5, 0.5, 1.12], [0.5, 0.45, 1.0], 'void', 'neBelirler'],
+  ['Birincisi bilinçdışıdır', 'S4b1-golge', [0.5, 0.5, 1.05], [0.5, 0.5, 1.15], 'iplik:0', 'ip:0:BİLİNÇDIŞI'],
+  ['İkincisi genlerdir', 'S4b2-dna', [0.5, 0.5, 1.05], [0.5, 0.5, 1.15], 'iplik:1', 'ip:1:GENLER'],
+  ['Üçüncüsü koordinatlardır', 'S4b3-harita', [0.5, 0.5, 1.05], [0.5, 0.5, 1.15], 'iplik:2', 'ip:2:KOORDİNATLAR'],
+  ["İbn Haldun'un", 'S-ibn-haldun', [0.5, 0.5, 1.0], [0.5, 0.5, 1.12], 'iplik:2', 'haldun'],
+  ['Dördüncüsü, senin', 'S4b4-enkaz-isik', [0.5, 0.5, 1.05], [0.5, 0.5, 1.15], 'iplik:3', 'ip:3:OLAYLAR'],
+  ['Beşincisi varoluş', 'S4b5-bos-oda', [0.5, 0.5, 1.05], [0.5, 0.5, 1.15], 'iplik:4', 'ip:4:VAROLUŞ'],
+  ['Ölümden korktuğumuz', 'S4b5-bos-oda', [0.5, 0.5, 1.35], [0.5, 0.45, 1.5], 'iplik:4'],
+  ['Altıncısı içgüdüler', 'S4b6-alev', [0.5, 0.5, 1.05], [0.5, 0.5, 1.15], 'iplik:5', 'ip:5:İÇGÜDÜLER'],
+  ['Yedincisi şartlandırılmış', 'S4b7-fisilti', [0.5, 0.5, 1.05], [0.5, 0.5, 1.15], 'iplik:6', 'ip:6:ŞARTLANMIŞ ZİHİN'],
+  ['Bu yedi ipliğin', 'S4a-siluet', [0.5, 0.5, 1.0], [0.5, 0.5, 1.1], 'converge', 'gudu'],
+  ['Peki, kaderi neden', 'S5a-yanan-sayfa', [0.5, 0.5, 1.12], [0.5, 0.45, 1.0], 'embers'],
+  ['Ksenofanes bunu', 'S-ksenofanes', [0.5, 0.5, 1.0], [0.5, 0.5, 1.15], 'motes', 'ksenofanes'],
+  ['İnsan da', 'S-ksenofanes', [0.5, 0.45, 1.2], [0.5, 0.4, 1.35], 'motes'],
+  ['Oysa Arapçada', 'S-terazi-oda', [0.5, 0.45, 1.0], [0.5, 0.42, 1.12], 'lamp', 'olcu'],
+  ['Biz her şeyi', 'S-olcu', [0.5, 0.5, 1.12], [0.5, 0.5, 1.0], 'motes', 'ayet'],
+  ['Bu ölçünün dört', 'S5c-terazi-iplik', [0.5, 0.5, 1.05], [0.5, 0.5, 1.15], 'motes', 'dortYuz'],
+  ['Bütün bunların', 'S-bebek-isik', [0.5, 0.5, 1.12], [0.5, 0.45, 1.0], 'dust'],
+  ['Bu evren', 'S-analog', [0.5, 0.5, 1.0], [0.5, 0.5, 1.15], 'none', 'analog'],
+  ['Şimdi asıl', 'S-atina-sokak', [0.5, 0.45, 1.0], [0.5, 0.45, 1.12], 'motes'],
+  ['İnsanın doğası nedir', 'S-agora', [0.5, 0.45, 1.0], [0.5, 0.42, 1.12], 'motes', 'doga'],
+  ['Çünkü hangi', 'S-agora', [0.5, 0.4, 1.2], [0.5, 0.38, 1.35], 'motes', 'hangi'],
+  ['Tek yumurta', 'S6b-ikizler', [0.5, 0.5, 1.05], [0.5, 0.5, 1.12], 'none'],
+  ['Bir insanı klonlayıp', 'S-klon', [0.5, 0.5, 1.0], [0.5, 0.5, 1.12], 'motes'],
+  ['Bir köpeğin', 'S-kopek', [0.5, 0.5, 1.12], [0.5, 0.5, 1.0], 'motes'],
+  ['İnsanı ise', 'S-cennet', [0.5, 0.5, 1.0], [0.5, 0.55, 1.18], 'motes'],
+  ['Bu kadar çok', 'S-ciltler', [0.5, 0.5, 1.15], [0.5, 0.5, 1.0], 'motes'],
+  ['Arifler bu', 'S-ayna', [0.5, 0.45, 1.12], [0.5, 0.45, 1.0], 'candle', 'arif'],
+  ['Burada genelleme', 'S-ayna', [0.5, 0.4, 1.25], [0.5, 0.4, 1.4], 'candle', 'sensin'],
+  ['O hâlde kendinle', 'A-kendinle', [0.5, 0.45, 1.0], [0.5, 0.45, 1.15], 'rainLight'],
+  ['Bir tercih seni', 'A-kendinle', [0.5, 0.4, 1.35], [0.5, 0.4, 1.5], 'rainLight'],
+  ['Bir gün biri', 'A-hangi-insan', [0.5, 0.45, 1.12], [0.5, 0.45, 1.0], 'motes', 'hangi2'],
+  ['Ve ekle', 'A-hangi-insan', [0.5, 0.4, 1.35], [0.5, 0.4, 1.5], 'motes'],
+  ['Ben de şu anda', 'A0a-analiz-odasi', [0.5, 0.45, 1.1], [0.5, 0.42, 1.25], 'lamp'],
+  ['Jung haklıydı', 'A7-avuc', [0.5, 0.5, 1.12], [0.5, 0.5, 1.0], 'palm', 'final'],
+  ['Bu sapasağlam', '@kanal', [0, 0, 1], [0, 0, 1], 'kanal', 'kanal'],
+];
+const LIST = WIDE ? Wd : R;
+const SHOTS = LIST.map((s, i) => { const wi = i === 0 ? (cursor = 0, at(s[0])) : at(s[0]); return { wi, t0: i === 0 ? 0 : ws(wi) - 0.15, k: s[1], a: s[2], b: s[3], fx: s[4], card: s[5] || null }; });
+SHOTS.forEach((s, i) => s.t1 = i + 1 < SHOTS.length ? SHOTS[i + 1].t0 : END0);
+// kart zamanlaması için yardımcı: ifade sözcüğünün zamanı (bulunduğu çekimden itibaren arar)
+function wt(shot, phrase) { cursor = shot.wi; return ws(at(phrase)); }
+const IP_T = {}; SHOTS.forEach(s => { if (s.fx.startsWith('iplik:')) { const n = +s.fx.split(':')[1]; if (IP_T[n] === undefined) IP_T[n] = s.t0 + 0.15; } });
+
+// ---------- çekim çizimi ----------
+function drawShot(s, t) {
+  const lt = t - s.t0, d = s.t1 - s.t0, e = ease((lt + 0.4) / (d + 0.8));
+  if (s.k === '@kanal') { kanal(t, lt, d); return; }
+  let u = lerp(s.a[0], s.b[0], e), v = lerp(s.a[1], s.b[1], e), z = lerp(s.a[2], s.b[2], e), f = 'none';
+  if (s.fx === 'archive') f = 'grayscale(1) contrast(1.2) brightness(0.92)';
+  if (s.fx === 'cold') f = 'saturate(0.85) hue-rotate(-8deg)';
+  if (s.fx === 'void' || s.fx === 'converge') f = 'brightness(0.85)';
+  if (s.fx.startsWith('iplik')) f = 'brightness(0.78) saturate(0.9)';
+  let shake = 0; if (s.fx === 'shatter') shake = Math.max(0, 1 - lt / 0.5) * 18;
+  ctx.save(); if (shake) ctx.translate(Math.sin(t * 83) * shake, Math.cos(t * 71) * shake);
+  drawView(s.k, u, v, z, f); ctx.restore();
+  // efekt katmanları
+  const fx = s.fx;
+  if (fx === 'motes' || fx === 'archive' || fx === 'void') motes(t, 0.7);
+  if (fx === 'lamp') { lampFlicker(t, 1); motes(t, 0.8); }
+  if (fx === 'candle') { lampFlicker(t, 0.9, 0.3, 0.45); motes(t, 0.6); }
+  if (fx === 'dust') motes(t, 1.0, '230,220,200');
+  if (fx === 'smoke') motes(t, 0.8, '200,190,180');
+  if (fx === 'embers') motes(t, 1.0, '255,150,60');
+  if (fx === 'cold') motes(t, 0.6, '150,200,255');
+  if (fx === 'rainLight') rain(t, 0.35);
+  if (fx === 'headlights') { rain(t, 0.8); flare(t, ease((lt - d * 0.35) / (d * 0.6)), W * 0.38, H * 0.48); if (lt > d - 0.35) { ctx.fillStyle = `rgba(255,250,240,${ease((lt - (d - 0.35)) / 0.3)})`; ctx.fillRect(0, 0, W, H); } }
+  if (fx === 'windowsOff') { ctx.fillStyle = `rgba(0,0,0,${0.75 * ease((lt - 1.2) / 1.5)})`; ctx.fillRect(0, 0, W, H); }
+  if (fx.startsWith('iplik')) ipliks(t, +fx.split(':')[1], lt);
+  if (fx === 'converge') converge(t, lt, d);
+  if (fx === 'palm') palm(t, lt, d);
+  if (s.card) card(s, s.card, t, lt, d);
+}
+// yedi iplik: o ana kadar açılmış bütün iplikler aşağıdan yukarı uzanır; yeni olan parlar
+function ipliks(t, n, lt) {
+  for (let i = 0; i <= n; i++) {
+    const t0 = IP_T[i] ?? 0, k = eOut((t - t0) / 1.1); if (k <= 0) continue;
+    const x0 = W * (0.5 + (i - 3) * (WIDE ? 0.035 : 0.05)), y0 = H * 1.02, x1 = W * (0.12 + i * 0.127), y1 = H * (0.12 + 0.05 * Math.sin(i * 1.7));
+    const xe = lerp(x0, x1, k), ye = lerp(y0, y1, k), cur = i === n;
+    glowThread(x0, y0, xe, ye, THREAD[i], cur ? 1 : 0.45, t + i, cur ? 3.2 : 2, 0.3 * (i % 2 ? 1 : -1));
+    if (cur) threadHead(xe, ye, THREAD[i], 1);
+  }
+}
+function converge(t, lt, d) {   // yedi iplik iki ışık noktasında birleşir
+  const k = eOut(lt / 2.2), P = [[W * 0.36, H * (WIDE ? 0.42 : 0.40)], [W * 0.64, H * (WIDE ? 0.42 : 0.40)]];
+  for (let i = 0; i < 7; i++) { const x0 = W * (0.12 + i * 0.127), y0 = H * 0.12, tgt = P[i < 4 ? 0 : 1];
+    glowThread(W * (0.5 + (i - 3) * 0.05), H * 1.02, lerp(x0, tgt[0], k), lerp(y0, tgt[1], k), THREAD[i], 0.7, t + i, 2.4, 0.3 * (i % 2 ? 1 : -1)); }
+  const g = ease((lt - 1.6) / 0.8); if (g > 0) P.forEach(p => threadHead(p[0], p[1], '#FFE2A8', g));
+}
+function palm(t, lt, d) {   // iplikler avuçta toplanır
+  const k = eOut(lt / 2.6), px = W * 0.5, py = H * (WIDE ? 0.58 : 0.55);
+  for (let i = 0; i < 7; i++) { const sx = W * (0.05 + i * 0.15), sy = i % 2 ? -H * 0.05 : H * 1.05;
+    glowThread(sx, sy, lerp(sx, px, k), lerp(sy, py, k), THREAD[i], 0.75, t + i, 2.4, 0.35 * (i % 2 ? 1 : -1)); }
+  threadHead(px, py, '#FFE2A8', ease((lt - 2.0) / 0.6));
+}
+// kanal kartı: profil fotoğrafı + kodla yazılmış kanal logosu
+function kanal(t, lt, d) {
+  ctx.fillStyle = '#05060C'; ctx.fillRect(0, 0, W, H);
+  const g = ctx.createRadialGradient(W / 2, H * 0.42, 0, W / 2, H * 0.42, Math.max(W, H) * 0.6); g.addColorStop(0, 'rgba(45,40,140,0.55)'); g.addColorStop(1, 'rgba(5,6,12,0)'); ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+  motes(t, 0.5, '190,200,255');
+  const a = ease(lt / 0.5), R0 = (WIDE ? 190 : 230), cx = W / 2, cy = H * (WIDE ? 0.36 : 0.34);
+  ctx.save(); ctx.globalAlpha = a; ctx.beginPath(); ctx.arc(cx, cy, R0, 0, 6.283); ctx.closePath(); ctx.save(); ctx.clip(); const im = G.profil; const s = (R0 * 2) / Math.min(im.width, im.height);
+  ctx.drawImage(im, cx - im.width * s / 2, cy - im.height * s / 2, im.width * s, im.height * s); ctx.restore();
+  ctx.lineWidth = 6; ctx.strokeStyle = AMBER; ctx.shadowColor = AMBER; ctx.shadowBlur = 24; ctx.stroke(); ctx.restore();
+  // logo: diyalektik ◯ dergâh
+  const ly = cy + R0 + (WIDE ? 120 : 170), a2 = ease((lt - 0.4) / 0.5);
+  ctx.save(); ctx.globalAlpha = a2; ctx.font = `500 ${(WIDE ? 64 : 70)}px "Alegreya Sans"`; ctx.fillStyle = '#FFFFFF'; ctx.textBaseline = 'middle';
+  const r = WIDE ? 44 : 48, gap = 22, w1 = ctx.measureText('diyalektik').width, w2 = ctx.measureText('dergâh').width, tot = w1 + w2 + 2 * r + 2 * gap; let x = cx - tot / 2;
+  ctx.textAlign = 'left'; ctx.fillText('diyalektik', x, ly); x += w1 + gap; ctx.beginPath(); ctx.arc(x + r, ly, r, 0, 6.283); ctx.lineWidth = 3; ctx.strokeStyle = 'rgba(230,230,255,0.9)'; ctx.stroke(); x += 2 * r + gap; ctx.fillText('dergâh', x, ly); ctx.restore();
+  const a3 = ease((lt - 0.8) / 0.5);
+  txt('MURAT AVCIOĞLU', cx, ly + (WIDE ? 150 : 200), { size: WIDE ? 150 : 110, a: a3, color: CREAM });
+  if (a3 > 0) { ctx.save(); ctx.translate(cx - (WIDE ? 230 : 260), ly + (WIDE ? 225 : 300)); ytIcon(0, 0, WIDE ? 52 : 70, a3); ctx.restore();
+    ctx.save(); ctx.globalAlpha = a3; ctx.textAlign = 'left'; ctx.textBaseline = 'middle'; ctx.font = `800 ${WIDE ? 56 : 66}px "Alegreya Sans"`; ctx.fillStyle = AMBER; ctx.fillText('@murat.avcioglux', cx - (WIDE ? 180 : 195), ly + (WIDE ? 227 : 302)); ctx.restore(); }
+}
+function ytIcon(x, y, s, a) {
+  ctx.save(); ctx.globalAlpha = a; ctx.fillStyle = '#FF0033'; const w = s * 1.42, h = s, r = h * 0.28;
+  ctx.beginPath(); ctx.moveTo(x - w / 2 + r, y - h / 2); ctx.arcTo(x + w / 2, y - h / 2, x + w / 2, y + h / 2, r); ctx.arcTo(x + w / 2, y + h / 2, x - w / 2, y + h / 2, r); ctx.arcTo(x - w / 2, y + h / 2, x - w / 2, y - h / 2, r); ctx.arcTo(x - w / 2, y - h / 2, x + w / 2, y - h / 2, r); ctx.fill();
+  ctx.fillStyle = '#fff'; ctx.beginPath(); ctx.moveTo(x - h * 0.17, y - h * 0.24); ctx.lineTo(x + h * 0.27, y); ctx.lineTo(x - h * 0.17, y + h * 0.24); ctx.fill(); ctx.restore();
+}
+function igIcon(x, y, s, a) {
+  ctx.save(); ctx.globalAlpha = a; const g = ctx.createLinearGradient(x - s / 2, y + s / 2, x + s / 2, y - s / 2); g.addColorStop(0, '#FEDA75'); g.addColorStop(0.35, '#FA7E1E'); g.addColorStop(0.6, '#D62976'); g.addColorStop(1, '#4F5BD5');
+  ctx.strokeStyle = g; ctx.lineWidth = s * 0.1; const r = s * 0.28; ctx.beginPath(); ctx.moveTo(x - s / 2 + r, y - s / 2); ctx.arcTo(x + s / 2, y - s / 2, x + s / 2, y + s / 2, r); ctx.arcTo(x + s / 2, y + s / 2, x - s / 2, y + s / 2, r); ctx.arcTo(x - s / 2, y + s / 2, x - s / 2, y - s / 2, r); ctx.arcTo(x - s / 2, y - s / 2, x + s / 2, y - s / 2, r); ctx.stroke();
+  ctx.beginPath(); ctx.arc(x, y, s * 0.22, 0, 6.283); ctx.stroke(); ctx.fillStyle = g; ctx.beginPath(); ctx.arc(x + s * 0.27, y - s * 0.27, s * 0.06, 0, 6.283); ctx.fill(); ctx.restore();
+}
+
+// ---------- kartlar ----------
+function card(s, c, t, lt, d) {
+  const sub = (ph, dl = 0.05) => t - wt(s, ph) + dl;   // kelimeye göre yerel zaman
+  if (c === 'jungName') nameplate('CARL GUSTAV JUNG', '1875 – 1961', lt, d);
+  if (c === 'freudName') nameplate('SIGMUND FREUD', '1856 – 1939', lt, d);
+  if (c === 'aion') { const l2 = sub('Bir iç'); if (l2 > 0) { const a = Math.min(ease(l2 / 0.5), ease((d - lt) / 0.3)); const y = H * (WIDE ? 0.2 : 0.17);
+      band(y - 140 * S, y + 260 * S, a); ctx.save(); ctx.globalAlpha = a; ctx.textAlign = 'center'; ctx.font = `700 ${44 * S}px Cinzel`; ctx.fillStyle = AMBER; ctx.fillText('AION · 1951 · §126', W / 2, y - 40 * S); ctx.restore();
+      txt('„Wenn eine innere Situation nicht bewusst', W / 2, y + 40 * S, { size: 52, font: '"Alegreya Sans"', weight: '500 ', a, stroke: 0.05, glow: null });
+      txt('gemacht wird, ereignet sie sich außen als Schicksal."', W / 2, y + 105 * S, { size: 52, font: '"Alegreya Sans"', weight: '500 ', a, stroke: 0.05, glow: null }); } }
+  if (c === 'tekOrnek') { const l2 = lt - 0.2; if (l2 > 0) title(['TEK BİR', 'KARŞI ÖRNEK'], l2, { size: 150, colors: [CREAM, AMBER], d: d - 0.2 }); }
+  if (c === 'pencere') title(['HERKES KENDİ', 'PENCERESİNDEN'], lt - 0.3, { size: 120, colors: [CREAM, AMBER], d });
+  if (c === 'marxEngels') { framedPortrait('marx', W * (WIDE ? 0.1 : 0.24), H * (WIDE ? 0.5 : 0.55), H * (WIDE ? 0.34 : 0.13), lt, 0.3, 'MARX'); framedPortrait('engels', W * (WIDE ? 0.9 : 0.76), H * (WIDE ? 0.52 : 0.56), H * (WIDE ? 0.34 : 0.13), lt, 0.7, 'ENGELS'); }
+  if (c === 'sartre') framedPortrait('sartre', W * (WIDE ? 0.89 : 0.78), H * (WIDE ? 0.3 : 0.16), H * (WIDE ? 0.32 : 0.12), lt, 0.6, 'SARTRE');
+  if (c === 'neBelirler') title(['NE', 'BELİRLER?'], lt - 0.4, { size: 170, colors: [CREAM, AMBER], d });
+  if (c.startsWith('ip:')) { const [, n, label] = c.split(':'); const a = Math.min(ease((lt - 0.15) / 0.35), ease((d - lt) / 0.25)); if (a > 0) {
+      const y = H * (WIDE ? 0.2 : 0.2); txt(String(+n + 1), W / 2, y, { size: 200, color: THREAD[+n], a, glow: THREAD[+n] }); txt(label, W / 2, y + 120 * S, { size: 100, a }); } }
+  if (c === 'haldun') { const a = Math.min(ease((lt - 0.3) / 0.4), ease((d - lt) / 0.3)); if (a > 0) { band(H * 0.12, H * 0.42, a); txt('„COĞRAFYA KADERDİR."', W / 2, H * 0.26, { size: 120, a, color: AMBER }); txt('İBN HALDUN', W / 2, H * 0.26 + 80 * S, { size: 50, font: 'Cinzel', weight: '700 ', a, stroke: 0, glow: null }); } }
+  if (c === 'gudu') { const l2 = sub('güvende'); if (l2 > 0) { const a = ease(l2 / 0.4), y = H * (WIDE ? 0.6 : 0.56);
+      txt('GÜVENDE', W * 0.36, y, { size: WIDE ? 120 : 90, a, color: CREAM }); txt('HİSSETMEK', W * 0.36, y + 95 * S * (WIDE ? 1 : 0.8), { size: WIDE ? 70 : 56, a, color: AMBER });
+      const l3 = sub('değerli'); if (l3 > 0) { const b = ease(l3 / 0.4); txt('DEĞERLİ', W * 0.64, y, { size: WIDE ? 120 : 90, a: b }); txt('HİSSETMEK', W * 0.64, y + 95 * S * (WIDE ? 1 : 0.8), { size: WIDE ? 70 : 56, a: b, color: AMBER }); } } }
+  if (c === 'durtu') { const a = ease((lt - 0.6) / 0.4); if (a > 0) { txt('YAŞAM', W * 0.3, H * 0.5, { size: 140, a, color: '#FFE2A8' }); txt('ÖLÜM', W * 0.7, H * 0.5, { size: 140, a, color: '#9AA3B8' }); } }
+  if (c === 'meclis') { const l2 = sub('Ya Rabbi'); if (l2 > 0) { const a = Math.min(ease(l2 / 0.4), ease((d - lt) / 0.3)); band(H * 0.12, H * 0.48, a);
+      txt('„YA RABBİ, BENİ DE', W / 2, H * 0.24, { size: 96, a }); txt('BEBEKKEN ALSAYDIN…"', W / 2, H * 0.24 + 105 * S, { size: 96, a, color: AMBER }); } }
+  if (c === 'ksenofanes') { const a = Math.min(ease((lt - 0.4) / 0.5), ease((d - lt) / 0.3)); if (a > 0) { band(H * 0.08, H * 0.45, a);
+      ctx.save(); ctx.globalAlpha = a; ctx.textAlign = 'center'; ctx.font = `700 ${44 * S}px Cinzel`; ctx.fillStyle = AMBER; ctx.fillText('KSENOFANES · MÖ 6. YY', W / 2, H * 0.15); ctx.restore();
+      txt('„Atların ve öküzlerin elleri olsaydı', W / 2, H * 0.25, { size: 64, font: '"Alegreya Sans"', weight: '800 ', a, stroke: 0.05 });
+      txt('tanrılarını at ve öküz suretinde çizerlerdi."', W / 2, H * 0.25 + 80 * S, { size: 64, font: '"Alegreya Sans"', weight: '800 ', a, stroke: 0.05 }); } }
+  if (c === 'olcu') { const l2 = sub('ölçü'); if (l2 > 0) title(['KADER', '= ÖLÇÜ'], l2, { size: 170, colors: [CREAM, AMBER], d: d - (lt - l2) }); }
+  if (c === 'ayet') { const a = Math.min(ease((lt - 0.2) / 0.4), ease((d - lt) / 0.3)); if (a > 0) { band(H * 0.14, H * 0.42, a); txt('„BİZ HER ŞEYİ BİR ÖLÇÜYLE YARATTIK."', W / 2, H * 0.27, { size: 88, a, color: CREAM }); txt('KAMER SURESİ · 49', W / 2, H * 0.27 + 70 * S, { size: 44, font: 'Cinzel', weight: '700 ', a, stroke: 0, glow: null, color: AMBER }); } }
+  if (c === 'dortYuz') dortYuz(s, t, lt, d);
+  if (c === 'analog') { const a = ease((lt - 0.8) / 0.4); if (a > 0) { txt('DİJİTAL DEĞİL,', W / 2, H * 0.3, { size: 120, a, color: ICE, glow: 'rgba(140,190,255,0.5)' }); txt('ANALOG.', W / 2, H * 0.3 + 130 * S, { size: 150, a, color: AMBER }); } }
+  if (c === 'doga') { const a = Math.min(ease((lt - 0.2) / 0.3), ease((d - lt) / 0.25)); if (a > 0) { band(H * 0.1, H * 0.48, a); txt('İNSANIN DOĞASI', W / 2, H * 0.22, { size: 120, a }); txt('NEDİR?', W / 2, H * 0.22 + 215 * S, { size: 190, a, color: AMBER }); } }
+  if (c === 'hangi' || c === 'hangi2') { const l2 = c === 'hangi2' ? sub('Hangi insanın') : lt - 0.1; if (l2 > 0) title(['HANGİ', 'İNSANIN?'], l2, { size: 190, colors: [CREAM, AMBER], d: d - (lt - l2) }); }
+  if (c === 'arif') { const l2 = sub('Kendini tanıyan'); if (l2 > 0) { const a = Math.min(ease(l2 / 0.5), ease((d - lt) / 0.3)); band(H * 0.1, H * 0.46, a);
+      if (WIDE) txt('MEN AREFE NEFSEHÛ FEKAD AREFE RABBEHÛ', W / 2, H * 0.17, { size: 50, font: 'Cinzel', weight: '700 ', a, stroke: 0, color: AMBER, glow: null });
+      txt('KENDİNİ TANIYAN', W / 2, H * 0.27, { size: 130, a }); txt('RABBİNİ TANIR.', W / 2, H * 0.27 + 165 * S, { size: 130, a, color: AMBER }); } }
+  if (c === 'sensin') { const l2 = sub('sensin', 0); if (l2 > 0) title(['SENSİN.'], l2, { size: 240, colors: [AMBER], d: d - (lt - l2) }); }
+  if (c === 'final') { const l2 = sub('Öbür'); if (l2 > 0) { const a = ease(l2 / 0.5); const fx = WIDE ? W * 0.2 : W / 2, fy = WIDE ? H * 0.4 : H * 0.39; txt('ÖBÜR YÜZLERİ', fx, fy, { size: 120, a }); txt('SENİN ELİNDE.', fx, fy + 170 * S, { size: 140, a, color: AMBER }); } }
+}
+function dortYuz(s, t, lt, d) {   // dört bölmeli ölçü tablosu, her bölme sözü gelince yanar
+  const L = [['DEĞİŞMEZ', 'SABİTLER'], ['SON ANDA', 'SENİN SEÇİMİN'], ['ÖNCE KADER,', 'SONRA SEN'], ['ÖNCE SEN,', 'SONRA ÖLÇÜ']];
+  const P = WIDE ? ['Birincisi, asla', 'İkincisi, son', 'Üçüncüsü, bir', 'Dördüncüsü ise'] : ['asla değiştiremeyeceğin', 'son anda', 'kaderin taşıyıp', 'senin seçip'];
+  const gw = WIDE ? 1500 : 940, gh = WIDE ? 560 : 760, x0 = (W - gw) / 2, y0 = WIDE ? H * 0.18 : H * 0.16, cw = gw / 2, ch = gh / 2;
+  const A = ease(lt / 0.4) * ease((d - lt) / 0.3); ctx.save(); ctx.globalAlpha = A * 0.7; ctx.fillStyle = 'rgba(4,5,9,0.8)'; ctx.fillRect(x0 - 20, y0 - 20, gw + 40, gh + 40); ctx.restore();
+  L.forEach((l, i) => { const ti = wt(s, P[i]); const a = ease((t - ti + 0.1) / 0.4) * A; const cx = x0 + (i % 2) * cw, cy = y0 + Math.floor(i / 2) * ch;
+    ctx.save(); ctx.globalAlpha = A; ctx.strokeStyle = 'rgba(240,176,74,0.5)'; ctx.lineWidth = 2; ctx.strokeRect(cx + 8, cy + 8, cw - 16, ch - 16); ctx.restore();
+    if (a <= 0) return; ctx.save(); ctx.globalAlpha = a * 0.25; ctx.fillStyle = THREAD[i * 2]; ctx.fillRect(cx + 8, cy + 8, cw - 16, ch - 16); ctx.restore();
+    txt(String(i + 1), cx + cw / 2, cy + ch * 0.36, { size: WIDE ? 120 : 110, a, color: THREAD[i * 2], glow: THREAD[i * 2] });
+    txt(l[0], cx + cw / 2, cy + ch * 0.62, { size: WIDE ? 78 : 70, a }); txt(l[1], cx + cw / 2, cy + ch * 0.62 + (WIDE ? 52 : 70), { size: WIDE ? 78 : 70, a, color: AMBER }); });
+}
+
+// ---------- geçiş: ışık ipliği kadrajı keser ----------
+const SCR = document.createElement('canvas'); SCR.width = W; SCR.height = H; const sx = SCR.getContext('2d');
+function threadWipe(prev, cur, t, k, dir) {
+  // önce eski sahne SCR'ye, sonra yeni sahne ana tuvale; iplik çizgisinin arkasında kalan bölge yeni sahne
+  drawShot(prev, t); sx.setTransform(1, 0, 0, 1, 0, 0); sx.drawImage(cv, 0, 0);
+  drawShot(cur, t);
+  const p = eOut(k) * 1.5 - 0.25, ang = dir ? 0.35 : -0.35;   // çizgi ilerleme oranı
+  const nx = Math.cos(ang), ny = Math.sin(ang), L = Math.hypot(W, H);
+  const cx = W / 2 + (p - 0.5) * L * nx, cy = H / 2 + (p - 0.5) * L * ny;
+  ctx.save(); ctx.beginPath();   // eski sahne çizginin önünde kalır
+  ctx.moveTo(cx - ny * L + nx * 0, cy + nx * L); ctx.lineTo(cx + ny * L, cy - nx * L); ctx.lineTo(cx + ny * L + nx * L * 2, cy - nx * L + ny * L * 2); ctx.lineTo(cx - ny * L + nx * L * 2, cy + nx * L + ny * L * 2); ctx.closePath(); ctx.clip();
+  ctx.drawImage(SCR, 0, 0); ctx.restore();
+  const a = Math.sin(Math.PI * clamp(k, 0, 1));
+  glowThread(cx - ny * L, cy + nx * L, cx + ny * L, cy - nx * L, '#FFD08A', a, t, 3, 0.05);
+}
+
+// ---------- altyazı (kontur + gölge, şerit yok; okunan kelime altın ve bir tık büyük) ----------
+const CH = D.chunks.map((c, n) => { const s = WD[c[0]].s, eL = WD[c[c.length - 1]].e; const nx = D.chunks[n + 1] ? WD[D.chunks[n + 1][0]].s : END0; return { idx: c, s: s - 0.08, e: Math.min(nx - 0.04, eL + 0.7) }; });
+const KANAL_T = SHOTS[SHOTS.length - 1].t0;
+function captions(t) {
+  if (t < 3.0 || t >= KANAL_T) return;
+  const c = CH.find(c => t >= c.s && t < c.e); if (!c) return;
+  const a = Math.min(ease((t - c.s) / 0.1), ease((c.e - t) / 0.1));
+  let size = WIDE ? 64 : 84; const big = 1.16; ctx.font = `800 ${size}px "Alegreya Sans"`;
+  const words = c.idx.map(i => WD[i].w.replace(/["„“”]/g, '')); let widths = words.map(w => ctx.measureText(w).width), sp = size * 0.3;
+  let tot = widths.reduce((x, y) => x + y, 0) + sp * (words.length - 1); const MAXW = WIDE ? 1500 : 880;
+  if (tot > MAXW) { size = Math.floor(size * MAXW / tot); ctx.font = `800 ${size}px "Alegreya Sans"`; widths = words.map(w => ctx.measureText(w).width); sp = size * 0.3; tot = widths.reduce((x, y) => x + y, 0) + sp * (words.length - 1); }
+  const y = WIDE ? 960 : 1340;
+  const onOf = wi => { const w = WD[wi]; return t >= w.s - 0.03 && t < (WD[wi + 1] ? Math.min(WD[wi + 1].s, w.e + 0.4) : w.e + 1); };
+  const scs = c.idx.map(wi => onOf(wi) ? big + 0.06 * Math.max(0, 1 - (t - WD[wi].s) / 0.15) : 1);
+  const ew = widths.map((w, j) => w * scs[j]); tot = ew.reduce((x, y) => x + y, 0) + sp * (words.length - 1);
+  let x = W / 2 - tot / 2; ctx.textAlign = 'left'; ctx.textBaseline = 'alphabetic'; ctx.lineJoin = 'round';
+  c.idx.forEach((wi, j) => { const w = WD[wi], on = onOf(wi), done = t >= w.e, sc = scs[j];
+    ctx.save(); ctx.translate(x + ew[j] / 2, y); ctx.scale(sc, sc); ctx.globalAlpha = a * (on || done ? 1 : 0.62);
+    ctx.lineWidth = size * 0.16; ctx.strokeStyle = 'rgba(10,7,4,0.95)'; ctx.shadowColor = 'rgba(0,0,0,0.65)'; ctx.shadowBlur = 14; ctx.shadowOffsetY = 4; ctx.strokeText(words[j], -widths[j] / 2, 0); ctx.shadowBlur = 0; ctx.shadowOffsetY = 0;
+    ctx.fillStyle = on ? (w.em ? '#FF9B54' : AMBER) : CREAM; ctx.fillText(words[j], -widths[j] / 2, 0); ctx.restore(); x += ew[j] + sp; });
+  ctx.globalAlpha = 1;
+}
+
+function subHook(t) {   // 3-6,6 sn: kaynak künyesi
+  const a = ease((t - 3.0) / 0.4) * ease((6.6 - t) / 0.4); if (a <= 0 || t > 6.6) return;
+  ctx.save(); ctx.globalAlpha = a; ctx.textAlign = 'center'; ctx.font = `700 ${46 * S}px Cinzel`; ctx.fillStyle = CREAM; ctx.shadowColor = 'rgba(0,0,0,0.95)'; ctx.shadowBlur = 18;
+  const y = H * (WIDE ? 0.12 : 0.1); ctx.fillText("MURAT AVCIOĞLU'NUN", W / 2, y); ctx.fillText('BİR KONUŞMASINDAN', W / 2, y + 58 * S); ctx.restore();
+}
+// ---------- kanca (0-3 sn, ilk kareden görünür) ----------
+function hook(t) {
+  if (t >= 3.0) return; const TX = WIDE ? W * 0.70 : W / 2; const out = ease((3.0 - t) / 0.3);
+  ctx.save(); ctx.globalAlpha = out; band(H * (WIDE ? 0.28 : 0.3), H * (WIDE ? 0.78 : 0.62), 1);
+  const y1 = H * (WIDE ? 0.48 : 0.43), pulse = 1 + 0.02 * Math.sin(t * 5);
+  ctx.save(); ctx.translate(TX, y1); ctx.scale(pulse, pulse); txt('JUNG', 0, 0, { size: WIDE ? 300 : 300, color: CREAM, glow: 'rgba(240,176,74,0.6)', stroke: 0.07 }); ctx.restore();
+  txt('HAKLI MIYDI?', TX, y1 + (WIDE ? 135 : 230), { size: WIDE ? 170 : 170, color: AMBER, glow: 'rgba(240,176,74,0.7)', stroke: 0.07 });
+  // ipliğin ilk görünüşü: başlığın altından geçen tek amber iplik
+  glowThread(WIDE ? W * 0.42 : -50, y1 + (WIDE ? 175 : 300), W + 50, y1 + (WIDE ? 165 : 280), AMBER, 0.9 * ease(t / 0.8), t, 2.5, 0.1);
+  ctx.restore();
+}
+
+// ---------- kapanış dizisi: soru kartı → takipte kal → temiz kapak (2 sn) → adresler ----------
+function ending(t) {
+  const lt = t - END0; if (lt < 0) return false;
+  ctx.fillStyle = INK; ctx.fillRect(0, 0, W, H);
+  if (lt < E.takip) { // soru kartı
+    drawView('S4a-siluet', 0.5, 0.5, 1.05 + 0.03 * lt / E.takip, 'brightness(0.45)'); motes(t, 0.6);
+    for (let i = 0; i < 7; i++) glowThread(W * (0.5 + (i - 3) * 0.05), H * 1.02, W * (0.12 + i * 0.127), H * 0.75, THREAD[i], 0.35, t + i, 2, 0.3 * (i % 2 ? 1 : -1));
+    const a = Math.min(ease(lt / 0.4), ease((E.takip - lt) / 0.3));
+    const y0 = H * (WIDE ? 0.26 : 0.3); txt('SENCE KADERİNİ', W / 2, y0, { size: 115, a }); txt('EN ÇOK HANGİSİ', W / 2, y0 + 150 * S, { size: 115, a }); txt('BELİRLİYOR?', W / 2, y0 + 340 * S, { size: 170, a, color: AMBER });
+    txt('Cevabını yorumlara yaz', W / 2, y0 + 480 * S, { size: 70, font: '"Alegreya Sans"', weight: '800 ', a, stroke: 0.06, glow: null });
+  } else if (lt < E.kapak) { const l = lt - E.takip, a = Math.min(ease(l / 0.4), ease((E.kapak - lt) / 0.3)); motes(t, 0.5);
+    txt('DAHA FAZLASI İÇİN', W / 2, H * 0.42 - 40 * S, { size: 100, a }); txt('TAKİPTE KAL', W / 2, H * 0.42 + 170 * S, { size: 190, a, color: AMBER });
+  } else { // temiz kapak, sonra üstüne adres kartı (kapağın yazısız alt tarafında)
+    const l = lt - E.kapak; drawView('A0a-analiz-odasi', 0.5, 0.42, 1.0); coverTitle(1);
+    if (lt >= E.adres) { const a = ease((lt - E.adres) / 0.4), y0 = H * (WIDE ? 0.66 : 0.70);
+      ctx.save(); ctx.globalAlpha = a; const g = ctx.createLinearGradient(0, y0 - 60, 0, H); g.addColorStop(0, 'rgba(4,5,9,0)'); g.addColorStop(0.25, 'rgba(4,5,9,0.85)'); g.addColorStop(1, 'rgba(4,5,9,0.95)'); ctx.fillStyle = g; if (!WIDE) ctx.fillRect(0, y0 - 60, W, H - y0 + 60); ctx.restore();
+      const rows = [['yt', '@TanerSavaşçı'], ['ig', '@sevgiliinsann'], ['www', 'www.sevgiliinsan.com']]; const gap = WIDE ? 90 : 120, fs = WIDE ? 62 : 76, ic = WIDE ? 54 : 66;
+      rows.forEach(([k, s], i) => { const y = y0 + 60 + i * gap, aa = ease((lt - E.adres - i * 0.15) / 0.35); const xi = (WIDE ? W * 0.70 : W / 2) - (WIDE ? 300 : 330);
+        if (k === 'yt') ytIcon(xi, y, ic, aa); else if (k === 'ig') igIcon(xi, y, ic, aa); else { ctx.save(); ctx.globalAlpha = aa; ctx.strokeStyle = AMBER; ctx.lineWidth = 4; ctx.beginPath(); ctx.arc(xi, y, ic / 2, 0, 6.283); ctx.moveTo(xi - ic / 2, y); ctx.lineTo(xi + ic / 2, y); ctx.ellipse(xi, y, ic / 4, ic / 2, 0, 0, 6.283); ctx.stroke(); ctx.restore(); }
+        ctx.save(); ctx.globalAlpha = aa; ctx.textAlign = 'left'; ctx.textBaseline = 'middle'; ctx.font = `800 ${fs}px "Alegreya Sans"`; ctx.lineWidth = 8; ctx.strokeStyle = 'rgba(6,6,16,0.9)'; ctx.strokeText(s, xi + ic, y); ctx.fillStyle = CREAM; ctx.fillText(s, xi + ic, y); ctx.restore(); }); }
+  }
+  return true;
+}
+function coverTitle(a) {   // kapak başlığı: yüzün altında, adres kartının üstünde
+  const y = H * (WIDE ? 0.36 : 0.56), TX = WIDE ? W * 0.70 : W / 2;
+  if (WIDE) { const g = ctx.createLinearGradient(W * 0.4, 0, W, 0); g.addColorStop(0, 'rgba(4,5,9,0)'); g.addColorStop(0.4, 'rgba(4,5,9,0.7)'); g.addColorStop(1, 'rgba(4,5,9,0.9)'); ctx.fillStyle = g; ctx.fillRect(W * 0.4, 0, W * 0.6, H); }
+  else { const g = ctx.createLinearGradient(0, y - 300 * S, 0, H); g.addColorStop(0, 'rgba(4,5,9,0)'); g.addColorStop(0.35, 'rgba(4,5,9,0.7)'); g.addColorStop(1, 'rgba(4,5,9,0.9)'); ctx.fillStyle = g; ctx.fillRect(0, y - 300 * S, W, H); }
+  txt('JUNG', TX, y, { size: 240, a, glow: 'rgba(240,176,74,0.6)' }); txt('HAKLI MIYDI?', TX, y + 160 * S, { size: 160, a, color: AMBER });
+  glowThread(TX - W * (WIDE ? 0.24 : 0.4), y + 200 * S, TX + W * (WIDE ? 0.24 : 0.4), y + 190 * S, AMBER, 0.85 * a, 0, 2.5, 0.1);
+}
+function finish(t, f) {
+  const v = ctx.createRadialGradient(W / 2, H * 0.5, Math.min(W, H) * 0.35, W / 2, H * 0.5, Math.max(W, H) * 0.75); v.addColorStop(0, 'rgba(0,0,0,0)'); v.addColorStop(1, 'rgba(3,4,10,0.55)'); ctx.fillStyle = v; ctx.fillRect(0, 0, W, H);
+  ctx.globalAlpha = 0.07; ctx.globalCompositeOperation = 'overlay'; ctx.drawImage(G.grain[f % 4], 0, 0, W, H); ctx.globalCompositeOperation = 'source-over'; ctx.globalAlpha = 1;
+  const fo = ease((DUR - t) / 0.6); if (fo < 1) { ctx.fillStyle = `rgba(0,0,0,${1 - fo})`; ctx.fillRect(0, 0, W, H); }
+  const fi = ease(t / 0.25); if (fi < 1) { ctx.fillStyle = `rgba(0,0,0,${1 - fi})`; ctx.fillRect(0, 0, W, H); }
+}
+function renderFrame(f) {
+  const t = f / FPS; ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.globalAlpha = 1; ctx.filter = 'none';
+  if (!ending(t)) {
+    let i = SHOTS.findIndex(s => t >= s.t0 && t < s.t1); if (i < 0) i = SHOTS.length - 1;
+    const s = SHOTS[i], XF = 0.55, k = (t - s.t0) / XF;
+    if (i > 0 && k < 1 && s.k !== SHOTS[i - 1].k) threadWipe(SHOTS[i - 1], s, t, k, i % 2); else drawShot(s, t);
+    hook(t); subHook(t); captions(t);
+  }
+  finish(t, f);
+}
+async function prep() {
+  const keys = new Set(['A0a-analiz-odasi', 'S4a-siluet', 'profil', 'marx', 'engels', 'sartre', ...LIST.map(s => s[1]).filter(k => k[0] !== '@')]);
+  for (const k of keys) await img(k);
+  G.grain = [0, 1, 2, 3].map(s => { const c = document.createElement('canvas'); c.width = W / 2; c.height = H / 2; const x = c.getContext('2d'); const d = x.createImageData(c.width, c.height); const r = rng(77 + s);
+    for (let i = 0; i < d.data.length; i += 4) { const v = 128 + (r() - 0.5) * 255; d.data[i] = d.data[i + 1] = d.data[i + 2] = v; d.data[i + 3] = 255; } x.putImageData(d, 0, 0); return c; });
+}
+window.captureFrame = (f, type = 'image/png', q = 0.95) => { renderFrame(f); return cv.toDataURL(type, q); };
+window.SHOTS = SHOTS; window.TIMES = { END0, DUR };
+window.READY = (async () => { await Promise.all(['300px Anton', '700 40px Cinzel', '800 40px "Alegreya Sans"', '500 40px "Alegreya Sans"'].map(f => document.fonts.load(f, 'ŞİĞÜÖÇışğüöçâÂûÛ„"'))); await prep(); renderFrame(0); return { frames: FRAMES, fps: FPS, width: W, height: H, renderer: 'canvas' }; })();
+if (Q.has('t')) window.READY.then(() => renderFrame(Math.round(+Q.get('t') * FPS)));
+</script></body></html>
