@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="tr"><head><meta charset="utf-8">
+<style>
+@font-face{font-family:Anton;src:url(fonts/Anton-Regular.ttf)}
+@font-face{font-family:Cinzel;font-weight:700;src:url(fonts/cinzel-latin-700.woff2)}
+@font-face{font-family:Cinzel;font-weight:700;src:url(fonts/cinzel-latin-ext-700.woff2);unicode-range:U+0100-024F}
+@font-face{font-family:Alegreya;font-weight:500;src:url(fonts/alegreya-sans-latin-500.woff2)}
+@font-face{font-family:Alegreya;font-weight:500;src:url(fonts/alegreya-sans-latin-ext-500.woff2);unicode-range:U+0100-024F}
+html,body{margin:0;background:#111}
+</style></head><body><canvas id="c"></canvas>
+<script>
+// ?mode=banner|profil|onizleme  ?bg=<banner görseli> ?pr=<profil görseli>
+// Banner ayarları: bx,by,bs = görselin kayması (px) ve ölçeği; px,py,ps = profil görselinin kayması/ölçeği
+const Q = new URLSearchParams(location.search);
+const MODE = Q.get('mode') || 'banner';
+const num = (k, d) => (Q.has(k) ? +Q.get(k) : d);
+const AMBER = '#F0B04A', CREAM = '#F4ECDD', INK = '#0E0D0C';
+const W = 2560, H = 1440, SAFE = { w: 1546, h: 423 }; // YouTube: 2560x1440, her cihazda görünen orta alan 1546x423
+const SX = (W - SAFE.w) / 2, SY = (H - SAFE.h) / 2;
+const c = document.getElementById('c'), g = c.getContext('2d');
+const load = (src) => new Promise((r, j) => { const i = new Image(); i.onload = () => r(i); i.onerror = j; i.src = src; });
+
+function cover(ctx, img, w, h, dx = 0, dy = 0, s = 1) {
+  const k = Math.max(w / img.width, h / img.height) * s;
+  const iw = img.width * k, ih = img.height * k;
+  ctx.drawImage(img, (w - iw) / 2 + dx, (h - ih) / 2 + dy, iw, ih);
+}
+function grain(ctx, w, h, a, seed = 7) {
+  const n = document.createElement('canvas'); n.width = 256; n.height = 256;
+  const nx = n.getContext('2d'), d = nx.createImageData(256, 256);
+  let s = seed; const rnd = () => ((s = (s * 16807) % 2147483647) / 2147483647);
+  for (let i = 0; i < d.data.length; i += 4) { const v = 128 + (rnd() - 0.5) * 255; d.data[i] = d.data[i + 1] = d.data[i + 2] = v; d.data[i + 3] = 255; }
+  nx.putImageData(d, 0, 0);
+  ctx.save(); ctx.globalAlpha = a; ctx.globalCompositeOperation = 'overlay';
+  ctx.fillStyle = ctx.createPattern(n, 'repeat'); ctx.fillRect(0, 0, w, h); ctx.restore();
+}
+function spaced(ctx, text, x, y, track) { // harf aralıklı yazı, x = orta
+  const chars = [...text]; const ws = chars.map((ch) => ctx.measureText(ch).width);
+  const total = ws.reduce((a, b) => a + b, 0) + track * (chars.length - 1);
+  let cx = x - total / 2; ctx.textAlign = 'left';
+  chars.forEach((ch, i) => { ctx.fillText(ch, cx, y); cx += ws[i] + track; });
+  return total;
+}
+
+async function banner(bg) {
+  const cv = document.createElement('canvas'); cv.width = W; cv.height = H; const x = cv.getContext('2d');
+  x.fillStyle = INK; x.fillRect(0, 0, W, H);
+  cover(x, bg, W, H, num('bx', 0), num('by', 0), num('bs', 1));
+  // metin tarafını hafifçe karart (okunurluk), kenarlara vinyet
+  const tx = num('tx', 1460); // yazı bloğunun ortası
+  let rg = x.createRadialGradient(tx, H / 2, 50, tx, H / 2, 900);
+  rg.addColorStop(0, 'rgba(10,9,8,0.55)'); rg.addColorStop(1, 'rgba(10,9,8,0)');
+  x.fillStyle = rg; x.fillRect(0, 0, W, H);
+  const vg = x.createRadialGradient(W / 2, H / 2, 500, W / 2, H / 2, 1500);
+  vg.addColorStop(0, 'rgba(0,0,0,0)'); vg.addColorStop(1, 'rgba(0,0,0,0.6)');
+  x.fillStyle = vg; x.fillRect(0, 0, W, H);
+  grain(x, W, H, num('gr', 0.035));
+
+  // Yazılar: tamamı güvenli alanın (1546x423) içinde
+  x.textBaseline = 'alphabetic';
+  const fit = (fam, size, text, track, maxW) => { for (;;) { x.font = fam.replace('#', size); const w = [...text].reduce((a, ch) => a + x.measureText(ch).width, 0) + track * ([...text].length - 1); if (w <= maxW || size < 20) return size; size -= 2; } };
+  const MAXW = num('mw', 1080);
+  fit('#px Anton', 150, 'TANER SAVAŞÇI', 5, MAXW); x.fillStyle = CREAM;
+  x.shadowColor = 'rgba(0,0,0,0.65)'; x.shadowBlur = 30;
+  spaced(x, 'TANER SAVAŞÇI', tx, SY + 178, 5);
+  x.shadowBlur = 0;
+  // amber çizgi + kandil noktası
+  x.fillStyle = AMBER; x.fillRect(tx - 280, SY + 226, 560, 3);
+  x.beginPath(); x.arc(tx, SY + 227.5, 6, 0, Math.PI * 2); x.fill();
+  fit('700 #px Cinzel', 44, 'FELSEFE · PSİKOLOJİ · İNSAN', 7, MAXW); x.fillStyle = AMBER;
+  x.shadowColor = 'rgba(0,0,0,0.7)'; x.shadowBlur = 18;
+  spaced(x, 'FELSEFE · PSİKOLOJİ · İNSAN', tx, SY + 296, 7);
+  x.shadowBlur = 0;
+  // adresler: Instagram + web sitesi (simgeler kodla çizilir)
+  x.font = '500 38px Alegreya'; x.textAlign = 'left';
+  const IG = '@sevgiliinsann', WEB = 'www.sevgiliinsan.com', ic = 34, gap = 14, sep = 70;
+  const wIG = x.measureText(IG).width, wWEB = x.measureText(WEB).width;
+  const total = ic + gap + wIG + sep + ic + gap + wWEB;
+  let ax = tx - total / 2; const ay = SY + 372, iy = ay - 29;
+  x.strokeStyle = AMBER; x.lineWidth = 3;
+  // Instagram simgesi
+  const rr = (X, Y, w, h, r) => { x.beginPath(); x.moveTo(X + r, Y); x.arcTo(X + w, Y, X + w, Y + h, r); x.arcTo(X + w, Y + h, X, Y + h, r); x.arcTo(X, Y + h, X, Y, r); x.arcTo(X, Y, X + w, Y, r); x.closePath(); };
+  rr(ax, iy, ic, ic, 9); x.stroke();
+  x.beginPath(); x.arc(ax + ic / 2, iy + ic / 2, 8, 0, Math.PI * 2); x.stroke();
+  x.fillStyle = AMBER; x.beginPath(); x.arc(ax + ic - 8, iy + 8, 2.5, 0, Math.PI * 2); x.fill();
+  x.fillStyle = CREAM; x.shadowColor = 'rgba(0,0,0,0.7)'; x.shadowBlur = 14;
+  x.fillText(IG, ax + ic + gap, ay); x.shadowBlur = 0;
+  // ayraç nokta
+  x.fillStyle = AMBER; x.beginPath(); x.arc(ax + ic + gap + wIG + sep / 2, ay - 12, 4, 0, Math.PI * 2); x.fill();
+  // küre (web) simgesi
+  ax += ic + gap + wIG + sep; const gx = ax + ic / 2, gy = iy + ic / 2, R = ic / 2 - 1;
+  x.beginPath(); x.arc(gx, gy, R, 0, Math.PI * 2); x.stroke();
+  x.beginPath(); x.ellipse(gx, gy, R * 0.45, R, 0, 0, Math.PI * 2); x.stroke();
+  x.beginPath(); x.moveTo(gx - R, gy); x.lineTo(gx + R, gy); x.stroke();
+  x.fillStyle = CREAM; x.shadowBlur = 14;
+  x.fillText(WEB, ax + ic + gap, ay); x.shadowBlur = 0;
+  return cv;
+}
+
+async function profil(img) {
+  const S = 800, cv = document.createElement('canvas'); cv.width = S; cv.height = S; const x = cv.getContext('2d');
+  x.fillStyle = INK; x.fillRect(0, 0, S, S);
+  cover(x, img, S, S, num('px', 0), num('py', 0), num('ps', 1));
+  // yuvarlak kırpımın dışı zaten görünmez; köşeleri yumuşakça karart
+  const vg = x.createRadialGradient(S / 2, S / 2, S * 0.36, S / 2, S / 2, S * 0.72);
+  vg.addColorStop(0, 'rgba(0,0,0,0)'); vg.addColorStop(1, 'rgba(0,0,0,0.55)');
+  x.fillStyle = vg; x.fillRect(0, 0, S, S);
+  grain(x, S, S, 0.05, 11);
+  return cv;
+}
+
+// Önizleme: masaüstü / mobil / TV kırpımları + yuvarlak profil
+async function onizleme(b, p) {
+  const PW = 2400, PH = 2020; c.width = PW; c.height = PH; const x = g;
+  x.fillStyle = '#1b1a19'; x.fillRect(0, 0, PW, PH);
+  x.fillStyle = CREAM; x.font = '700 40px Cinzel'; x.textAlign = 'left';
+  const lab = (t, X, Y) => { x.fillStyle = CREAM; x.font = '700 34px Cinzel'; x.fillText(t, X, Y); };
+  // TV: tüm görsel
+  lab('TV · 2560×1440 (tamamı)', 60, 70);
+  const tw = 1300, th = tw * H / W; x.drawImage(b, 60, 95, tw, th);
+  const k = tw / W; x.strokeStyle = AMBER; x.lineWidth = 3; x.setLineDash([12, 8]);
+  x.strokeRect(60 + SX * k, 95 + SY * k, SAFE.w * k, SAFE.h * k); // güvenli alan
+  x.strokeStyle = 'rgba(244,236,221,.5)'; x.strokeRect(60, 95 + SY * k, tw, SAFE.h * k); // masaüstü bandı
+  x.setLineDash([]);
+  x.font = '26px sans-serif'; x.fillStyle = AMBER; x.fillText('kesikli amber: her cihazda görünen 1546×423 · krem: masaüstü bandı 2560×423', 60, 95 + th + 40);
+  // Profil yuvarlak
+  lab('Profil · yuvarlak kırpım', 1460, 70);
+  const R = 300; x.save(); x.beginPath(); x.arc(1460 + R, 95 + R, R, 0, Math.PI * 2); x.clip(); x.drawImage(p, 1460, 95, 2 * R, 2 * R); x.restore();
+  [[98, 1460, 760], [48, 1600, 760], [36, 1700, 760]].forEach(([d, X, Y]) => { x.save(); x.beginPath(); x.arc(X + d / 2, Y + d / 2, d / 2, 0, Math.PI * 2); x.clip(); x.drawImage(p, X, Y, d, d); x.restore(); });
+  x.font = '26px sans-serif'; x.fillStyle = AMBER; x.fillText('98 · 48 · 36 px', 1780, 800);
+  // Masaüstü: 2560x423 bandı
+  let y0 = 95 + th + 110; lab('Masaüstü · 2560×423 bandı', 60, y0);
+  const dw = 2280, dh = dw * SAFE.h / W; x.drawImage(b, 0, SY, W, SAFE.h, 60, y0 + 25, dw, dh);
+  // Mobil: 1546x423 orta
+  y0 += dh + 110; lab('Mobil · 1546×423 (orta)', 60, y0);
+  const mw = 1400, mh = mw * SAFE.h / SAFE.w; x.drawImage(b, SX, SY, SAFE.w, SAFE.h, 60, y0 + 25, mw, mh);
+  // Mobil kanal sayfası taklidi: üstte banner, altında profil
+  x.save(); x.beginPath(); x.arc(60 + mw + 260, y0 + 25 + mh / 2, 130, 0, Math.PI * 2); x.clip(); x.drawImage(p, 60 + mw + 130, y0 + 25 + mh / 2 - 130, 260, 260); x.restore();
+}
+
+let out = null;
+window.READY = (async () => {
+  await document.fonts.load('170px Anton'); await document.fonts.load('700 50px Cinzel', 'İŞ·'); await document.fonts.load('500 38px Alegreya', '@w.'); await document.fonts.ready;
+  const bg = Q.get('bg') ? await load(Q.get('bg')) : null, pr = Q.get('pr') ? await load(Q.get('pr')) : null;
+  if (MODE === 'banner') { out = await banner(bg); }
+  else if (MODE === 'profil') { out = await profil(pr); }
+  else { const b = await banner(bg), p = await profil(pr); await onizleme(b, p); out = c; }
+  if (out !== c) { c.width = out.width; c.height = out.height; g.drawImage(out, 0, 0); }
+  return { frames: 1, fps: 1, width: c.width, height: c.height, renderer: '2d' };
+})();
+window.captureFrame = async () => c.toDataURL('image/png');
+</script></body></html>
