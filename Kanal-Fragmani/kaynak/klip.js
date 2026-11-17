@@ -1,0 +1,1 @@
+window.KLIP={"eye": {"n": 188, "off": 1.0, "rate": 1.0}, "buda": {"n": 188, "off": 2.5, "rate": 1.0}, "viewer": {"n": 188, "off": 1.4, "rate": 1.0}};

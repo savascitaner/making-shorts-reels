@@ -1,0 +1,50 @@
+{
+ "konu": "Kanal-Fragmani",
+ "sure": 66.5,
+ "whisper_ipucu": "Buda, Lao Tzu, Stoacılar, Spinoza, Leibniz, Nietzsche, Freud, Adler, Jung, Murat Avcıoğlu, mistisizm, bilinçdışı. Deneyimci mistikler, varlığın birliğini yaşayarak deneyimledi.",
+ "duzelt": {
+  "soruyor.": "soruyor:",
+  "tek,": "tek:",
+  "insan,": "İnsan.",
+  "Avcıoğlu,": "Avcıoğlu:",
+  "anlam,": "Anlam,",
+  "yani": "Yani",
+  "Aşk,": "aşk,",
+  "Hakikat": "hakikat.",
+  "Bugün,": "Bugün",
+  "tek.": "tek:",
+  "İnsan,": "İnsan."
+ },
+ "zaman_duzelt": [],
+ "vurgu": [],
+ "bolum_sinirlari": [],
+ "boom": [],
+ "gecis": [],
+ "qc_kareleri": [
+  0,
+  60,
+  150,
+  300,
+  420,
+  540,
+  660,
+  780,
+  900,
+  1020,
+  1140,
+  1260,
+  1380,
+  1500,
+  1620,
+  1740,
+  1800,
+  1860
+ ],
+ "birlestir": [
+  [
+   "Bu",
+   "da",
+   "Buda,"
+  ]
+ ]
+}

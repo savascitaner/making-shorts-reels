@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="tr"><head><meta charset="utf-8"><title>Kanal Fragmanı kapak</title>
+<style>
+@font-face{font-family:Anton;src:url(fonts/Anton-Regular.ttf)}
+@font-face{font-family:Cinzel;font-weight:700;src:url(fonts/cinzel-latin-700.woff2) format('woff2');unicode-range:U+0000-00FF,U+2000-206F}
+@font-face{font-family:Cinzel;font-weight:700;src:url(fonts/cinzel-latin-ext-700.woff2) format('woff2');unicode-range:U+0100-024F,U+1E00-1EFF}
+html,body{margin:0;background:#000}
+</style></head><body><canvas id="c"></canvas>
+<script>
+// ?fmt=v → Instagram 1080x1920, aksi halde YouTube 1280x720. Adres yok; kanca sorusu + konu.
+const V = new URLSearchParams(location.search).get('fmt') === 'v';
+const W = V ? 1080 : 1280, H = V ? 1920 : 720;
+const cv = document.getElementById('c'); cv.width = W; cv.height = H; const x = cv.getContext('2d');
+const AMBER = '#F0B04A', CREAM = '#F4ECDD';
+const img = s => new Promise(ok => { const i = new Image(); i.onload = () => ok(i); i.src = s; });
+function cover(im, u, v, z) { const s = Math.max(W / im.width, H / im.height) * z, dw = im.width * s, dh = im.height * s;
+  x.drawImage(im, -Math.max(0, Math.min(dw - W, u * dw - W / 2)), -Math.max(0, Math.min(dh - H, v * dh - H / 2)), dw, dh); }
+function spaced(t, cx, y, tr) { const ch = [...t], w = ch.map(c => x.measureText(c).width), tot = w.reduce((a, b) => a + b, 0) + tr * (ch.length - 1); let p = cx - tot / 2; x.textAlign = 'left'; ch.forEach((c, i) => { x.fillText(c, p, y); p += w[i] + tr; }); }
+function fit(font, size, t, maxw, tr) { x.font = font.replace('#', size); let w = [...t].reduce((a, c) => a + x.measureText(c).width, 0) + tr * ([...t].length - 1); if (w > maxw) { size = Math.floor(size * maxw / w); x.font = font.replace('#', size); } return size; }
+async function draw() {
+  const eye = await img('../gorseller/flow/eye.jpg');
+  x.fillStyle = '#0E0D0C'; x.fillRect(0, 0, W, H);
+  // gözü (görüntüde ~0.45, 0.47) istenen yere koy; parlak ve keskin
+  const place = (sc, ex, ey) => { const dw = eye.width * sc, dh = eye.height * sc; x.filter = 'brightness(1.45) contrast(1.12) saturate(1.1)'; x.drawImage(eye, ex - 0.45 * dw, ey - 0.47 * dh, dw, dh); x.filter = 'none'; };
+  if (V) place(2.4 * W / eye.width, W * 0.5, H * 0.3); else place(1.15 * W / eye.width, W * 0.7, H * 0.47);
+  // okunurluk için yazı tarafını karart
+  const g = V ? x.createLinearGradient(0, 0, 0, H) : x.createLinearGradient(0, 0, W, 0);
+  if (V) { g.addColorStop(0, 'rgba(8,6,4,0.35)'); g.addColorStop(0.22, 'rgba(8,6,4,0)'); g.addColorStop(0.42, 'rgba(8,6,4,0.1)'); g.addColorStop(0.55, 'rgba(8,6,4,0.8)'); g.addColorStop(1, 'rgba(8,6,4,0.95)'); }
+  else { g.addColorStop(0, 'rgba(8,6,4,0.95)'); g.addColorStop(0.38, 'rgba(8,6,4,0.75)'); g.addColorStop(0.55, 'rgba(8,6,4,0)'); }
+  x.fillStyle = g; x.fillRect(0, 0, W, H);
+  const v = x.createRadialGradient(W / 2, H / 2, Math.min(W, H) * 0.4, W / 2, H / 2, Math.max(W, H) * 0.75); v.addColorStop(0, 'rgba(0,0,0,0)'); v.addColorStop(1, 'rgba(0,0,0,0.6)'); x.fillStyle = v; x.fillRect(0, 0, W, H);
+  x.shadowColor = 'rgba(0,0,0,0.85)'; x.shadowBlur = 30;
+  if (V) {   // 4:5 güvenli alan: y 300..1620
+    let s = fit('#px Anton', 270, 'İNSAN', 900, 6); x.fillStyle = CREAM; spaced('İNSAN', W / 2, 1190, 6);
+    s = fit('#px Anton', 230, 'NEDİR?', 900, 6); x.fillStyle = AMBER; spaced('NEDİR?', W / 2, 1420, 6);
+    x.fillStyle = AMBER; x.fillRect(W / 2 - 230, 1478, 460, 4);
+    fit('700 #px Cinzel', 40, 'FELSEFE · PSİKOLOJİ', 900, 6); x.fillStyle = CREAM; spaced('FELSEFE · PSİKOLOJİ', W / 2, 1548, 6);
+    fit('700 #px Cinzel', 40, 'BİLİM · MİSTİSİZM', 900, 6); spaced('BİLİM · MİSTİSİZM', W / 2, 1604, 6);
+  } else {
+    const cx = 330;
+    fit('#px Anton', 190, 'İNSAN', 560, 4); x.fillStyle = CREAM; spaced('İNSAN', cx, 300, 4);
+    fit('#px Anton', 160, 'NEDİR?', 560, 4); x.fillStyle = AMBER; spaced('NEDİR?', cx, 470, 4);
+    x.fillStyle = AMBER; x.fillRect(cx - 190, 510, 380, 4);
+    fit('700 #px Cinzel', 30, 'FELSEFE · PSİKOLOJİ', 560, 4); x.fillStyle = CREAM; spaced('FELSEFE · PSİKOLOJİ', cx, 568, 4);
+    fit('700 #px Cinzel', 30, 'BİLİM · MİSTİSİZM', 560, 4); spaced('BİLİM · MİSTİSİZM', cx, 612, 4);
+  }
+}
+window.captureFrame = (f, type = 'image/png', q = 0.95) => cv.toDataURL(type, q);
+window.READY = (async () => { await Promise.all(['100px Anton', '700 40px Cinzel'].map(f => document.fonts.load(f, 'İŞĞÜÖÇışğüöç'))); await draw(); return { frames: 1, fps: 30, width: W, height: H, renderer: 'canvas' }; })();
+</script></body></html>

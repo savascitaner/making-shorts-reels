@@ -31,3 +31,4 @@ Kısa dizin. Kurallar `CLAUDE.md`'de, her reels'in ayrıntısı kendi `<Konu>/ST
 - Kısmi ses değişikliğinde whisper'ı tüm kayıtta değil yalnızca yeni parçada çalıştır; tümünü yeniden çalıştırmak kelime sayısını kaydırıp kartları yanlış kelimeye düşürdü.
 - Üst üste büyük yazılarda alt satırın konturu üst satırın Ç/virgül kuyruğunu örtebilir: satır aralığını kontrol et.
 - Jung-Kader: "Jung Haklı mıydı?" (Murat Avcıoğlu konuşması) Reels 2:56 + 16:9 7:25, TESLİM EDİLDİ 2026-11-17 → Jung-Kader/STATE.md
+- Kanal-Fragmani (2026-11-18): YouTube kanal fragmanı 16:9 + Instagram 9:16, 66,5 sn, "Elden Ele Kandil". TESLİM EDİLDİ. Ayrıntı: Kanal-Fragmani/STATE.md
