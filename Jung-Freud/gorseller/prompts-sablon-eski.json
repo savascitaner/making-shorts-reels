@@ -1,0 +1,19 @@
+{
+"style": ", in the style of a 2D hand-drawn European graphic novel illustration, clean ink outlines, watercolor and gouache texture, atmospheric lighting with deep indigo shadows and warm glowing golden amber highlights, philosophical storybook aesthetic, vertical composition, highly detailed",
+"neg": "photo, photorealistic, 3d render, text, letters, watermark, signature, logo, nude, nsfw, deformed hands, extra fingers, blurry, lowres, frame, border",
+"items": [
+ ["s01a_cezve", [7,42], "close-up of a copper pot of water on a small flame in a dark old kitchen at night, tiny bubbles rising, steam starting"],
+ ["s01b_buhar", [7], "a copper pot violently boiling over, a huge burst of glowing golden steam filling the dark room"],
+ ["s02a_termometre", [7], "an antique glass thermometer next to melting ice turning into water and rising steam, scientific still life on a wooden desk"],
+ ["s02b_sehir", [7], "a 19th century european city at dusk seen from a hill, thousands of windows lighting up at once, chimneys smoking"],
+ ["s03a_hegel", [7,42], "portrait of the philosopher Georg Hegel, old man with grey hair, high collar and cravat, floating upside down among dreamy clouds, eyes closed thinking"],
+ ["s03b_marx", [7,42], "portrait of young Karl Marx, about 30 years old, thick dark curly hair and full dark beard, 1840s frock coat, standing in a muddy factory yard, determined gaze"],
+ ["s04a_el_degirmeni", [7], "a medieval feudal lord in armour standing beside peasants turning a stone hand mill in a castle courtyard"],
+ ["s04b_fabrika", [7], "a 19th century steam factory with tall smoking chimneys, a top-hatted industrialist at the gate, rows of workers walking inside"],
+ ["s05a_otobus", [7,42], "modern city bus at night, passengers absorbed in glowing smartphone screens, their faces lit warm gold, rain on windows"],
+ ["s05b_isci", [7], "close-up face of a tired 1850s factory worker, soot on cheeks, looking at the viewer, machines glowing behind"],
+ ["s06a_kalabalik", [7], "a soviet era crowd under huge red banners in a grey square, monumental statue, cold mood"],
+ ["s06b_bugday", [7], "withered wheat stalks in a cold soviet laboratory, glass jars, a scientist's notebook crossed out"],
+ ["s07a_highgate", [7,42], "a misty morning in Highgate cemetery London, a large bronze bust of Karl Marx with full beard on a tall stone tomb, golden light through trees"],
+ ["s07b_kabarcik", [7], "a single bubble rising to the surface of dark water and bursting into golden light, minimal composition"]
+]}

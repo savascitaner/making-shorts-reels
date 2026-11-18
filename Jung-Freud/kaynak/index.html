@@ -1,0 +1,293 @@
+<!doctype html>
+<html lang="tr"><head><meta charset="utf-8"><title>Jung Freud 9x16</title>
+<style>
+@font-face{font-family:Anton;src:url(fonts/Anton-Regular.ttf)}
+@font-face{font-family:Alegreya Sans;font-weight:800;src:url(fonts/alegreya-sans-latin-800.woff2) format('woff2');unicode-range:U+0000-00FF,U+2000-206F}
+@font-face{font-family:Alegreya Sans;font-weight:800;src:url(fonts/alegreya-sans-latin-ext-800.woff2) format('woff2');unicode-range:U+0100-024F,U+1E00-1EFF}
+@font-face{font-family:Alegreya Sans;font-weight:500;src:url(fonts/alegreya-sans-latin-500.woff2) format('woff2');unicode-range:U+0000-00FF,U+2000-206F}
+@font-face{font-family:Alegreya Sans;font-weight:500;src:url(fonts/alegreya-sans-latin-ext-500.woff2) format('woff2');unicode-range:U+0100-024F,U+1E00-1EFF}
+html,body{margin:0;background:#000}canvas{display:block;width:360px;height:640px}
+</style></head><body><canvas id="c" width="1080" height="1920"></canvas>
+<script src="words.js"></script>
+<script>
+const W = 1080, H = 1920, FPS = 30, DUR = window.DATA.duration, FRAMES = Math.round(DUR * FPS);
+const cv = document.getElementById('c'), ctx = cv.getContext('2d');
+const D = window.DATA, WD = D.words;
+// palette: Freud = amber, Jung = violet + mirror silver
+const AMBER = '#D97706', AMBER_L = '#F59E0B', VIOLET = '#7209B7', VIOLET_L = '#A855F7', SILVER = '#CBD5E1', CREAM = '#F6EEDC', GOLD = '#F2B544', INK = 'rgba(8,5,14,0.94)';
+const clamp = (x, a, b) => Math.max(a, Math.min(b, x));
+const ease = x => { x = clamp(x, 0, 1); return x * x * (3 - 2 * x); };
+const outCubic = x => { x = clamp(x, 0, 1); return 1 - Math.pow(1 - x, 3); };
+const lerp = (a, b, k) => a + (b - a) * k;
+function rng(seed) { let a = seed >>> 0; return () => { a = (a + 0x6D2B79F5) >>> 0; let t = a; t = Math.imul(t ^ (t >>> 15), t | 1); t ^= t + Math.imul(t ^ (t >>> 7), t | 61); return ((t ^ (t >>> 14)) >>> 0) / 4294967296; }; }
+const wt = i => WD[i].s, we = i => WD[i].e;
+
+// ---------------- images ----------------
+const IMG = { s01: 's01-calisma-odasi.jpeg', s02: 's02-jung-yakin.jpeg', s03: 's03-iki-kapi.jpeg', s04: 's04-freud-koltuk.jpeg', s05: 's05-sandik-kilitli.jpeg', s06: 's06-jung-ayna.jpeg',
+  s07: 's07-ofke-masa.jpeg', s08: 's08-ayna-yuz.jpeg', s09: 's09-patika.jpeg', s10: 's10-sandik-acik.jpeg', s11: 's11-kitap-terazi.jpeg', s12: 's12-ikisi-cerceve.jpeg' };
+const G = {};
+function loadImg(src) { return new Promise((ok, no) => { const im = new Image(); im.onload = () => ok(im); im.onerror = () => no(src); im.src = '../gorseller/flow/' + src; }); }
+function sprite(r, g, b, a0 = 0.55) { const p = document.createElement('canvas'); p.width = p.height = 128; const px = p.getContext('2d'); const gr = px.createRadialGradient(64, 64, 0, 64, 64, 64);
+  gr.addColorStop(0, `rgba(${r},${g},${b},${a0})`); gr.addColorStop(0.5, `rgba(${r},${g},${b},${a0 * 0.33})`); gr.addColorStop(1, `rgba(${r},${g},${b},0)`); px.fillStyle = gr; px.fillRect(0, 0, 128, 128); return p; }
+async function prep() {
+  for (const [k, s] of Object.entries(IMG)) G[k] = await loadImg(s);
+  G.grain = [0, 1, 2, 3].map(s => { const c = document.createElement('canvas'); c.width = 540; c.height = 960; const x = c.getContext('2d'); const d = x.createImageData(540, 960); const r = rng(77 + s);
+    for (let i = 0; i < d.data.length; i += 4) { const v = 128 + (r() - 0.5) * 255; d.data[i] = d.data[i + 1] = d.data[i + 2] = v; d.data[i + 3] = 255; } x.putImageData(d, 0, 0); return c; });
+  G.smoke = sprite(225, 215, 205, 0.4); G.amber = sprite(255, 170, 70, 0.6); G.violet = sprite(168, 85, 247, 0.55); G.silver = sprite(220, 228, 240, 0.5); G.fog = sprite(200, 205, 225, 0.3);
+}
+// cover-crop view (u,v = centre in image fraction, z = zoom)
+function drawView(k, u, v, z, dx = 0, dy = 0) {
+  const im = G[k], iw = im.width, ih = im.height, s = Math.max(W / iw, H / ih) * z, dw = iw * s, dh = ih * s;
+  const ox = clamp(u * dw - W / 2, 0, dw - W), oy = clamp(v * dh - H / 2, 0, dh - H);
+  ctx.drawImage(im, -ox + dx, -oy + dy, dw, dh);
+}
+
+// ---------------- motion layers ----------------
+const P = (() => { const r = rng(1912), a = []; for (let i = 0; i < 90; i++) a.push({ x: r(), d: r(), p: r(), s: 0.6 + r() * 1.4, w: r() * 6.28 }); return a; })();
+function rise(t, spr, amt, cx, cy, spread, speed = 1, size = 1, n = 90) {   // smoke / embers drifting upward
+  if (amt <= 0) return; ctx.save(); ctx.globalCompositeOperation = 'screen';
+  for (let i = 0; i < n; i++) { const f = P[i]; const life = 3.4 / speed, ph = ((t / life + f.p) % 1);
+    const y = (cy - ph * (0.5 + f.d * 0.3)) * H, x = (cx + (f.x - 0.5) * spread * (0.4 + ph * 1.3) + Math.sin(t * 0.8 + f.w) * 0.025 * ph) * W;
+    const r = (40 + 200 * ph) * f.s * size; ctx.globalAlpha = amt * Math.sin(Math.PI * ph) * 0.8; ctx.drawImage(spr, x - r, y - r, r * 2, r * 2); }
+  ctx.restore();
+}
+const M = (() => { const r = rng(1913), a = []; for (let i = 0; i < 110; i++) a.push({ x: r(), y: r(), s: r(), p: r() * 6.28 }); return a; })();
+function motes(t, amt, col = '#FFD58A') {
+  ctx.save(); ctx.globalCompositeOperation = 'screen'; ctx.fillStyle = col;
+  for (const m of M) { const x = ((m.x + Math.sin(t * 0.2 + m.p) * 0.03) % 1 + 1) % 1 * W, y = ((m.y - t * 0.012 * (0.3 + m.s)) % 1 + 1) % 1 * H, r = 1.5 + m.s * 3.5;
+    ctx.globalAlpha = amt * (0.25 + 0.6 * (0.5 + 0.5 * Math.sin(t * 2 + m.p))); ctx.beginPath(); ctx.arc(x, y, r, 0, 6.283); ctx.fill(); }
+  ctx.restore();
+}
+function glow(x, y, r, rgb, a) {   // soft light pool (elliptical, no hard edges)
+  if (a <= 0) return; ctx.save(); ctx.globalCompositeOperation = 'screen'; ctx.translate(x * W, y * H); ctx.scale(1, 1.25);
+  const g = ctx.createRadialGradient(0, 0, 0, 0, 0, r); g.addColorStop(0, `rgba(${rgb},${a})`); g.addColorStop(0.45, `rgba(${rgb},${a * 0.35})`); g.addColorStop(1, `rgba(${rgb},0)`);
+  ctx.fillStyle = g; ctx.beginPath(); ctx.arc(0, 0, r, 0, 6.283); ctx.fill(); ctx.restore();
+}
+function rays(t, amt, cx, cy, rgb) {   // light fan pouring upward
+  ctx.save(); ctx.globalCompositeOperation = 'screen'; ctx.translate(cx * W, cy * H);
+  for (let i = 0; i < 9; i++) { const a = -Math.PI / 2 + (i - 4) * 0.13 + Math.sin(t * 0.4 + i * 1.7) * 0.025, L = 1500;
+    const g = ctx.createLinearGradient(0, 0, Math.cos(a) * L, Math.sin(a) * L); g.addColorStop(0, `rgba(${rgb},${0.2 * amt})`); g.addColorStop(1, `rgba(${rgb},0)`);
+    ctx.fillStyle = g; ctx.beginPath(); ctx.moveTo(-20, 0); ctx.lineTo(Math.cos(a - 0.035) * L, Math.sin(a - 0.035) * L); ctx.lineTo(Math.cos(a + 0.035) * L, Math.sin(a + 0.035) * L); ctx.lineTo(20, 0); ctx.fill(); }
+  ctx.restore();
+}
+function glassBand(t, x0, amt) {   // the invisible wall: a sliding glint on glass
+  const x = (x0 + Math.sin(t * 0.6) * 0.01) * W, k = (t * 0.35) % 1, y = lerp(-0.2, 1.2, k) * H;
+  ctx.save(); ctx.globalCompositeOperation = 'screen';
+  const g = ctx.createLinearGradient(x - 70, 0, x + 70, 0); g.addColorStop(0, 'rgba(203,213,225,0)'); g.addColorStop(0.5, `rgba(203,213,225,${0.12 * amt})`); g.addColorStop(1, 'rgba(203,213,225,0)');
+  ctx.fillStyle = g; ctx.fillRect(x - 70, 0, 140, H);
+  const g2 = ctx.createRadialGradient(x, y, 0, x, y, 260); g2.addColorStop(0, `rgba(235,240,250,${0.35 * amt})`); g2.addColorStop(1, 'rgba(235,240,250,0)');
+  ctx.fillStyle = g2; ctx.fillRect(x - 260, y - 260, 520, 520); ctx.restore();
+}
+function drift(t, spr, amt, y0, y1, speed = 0.02) {   // fog / mist drifting sideways
+  ctx.save(); ctx.globalCompositeOperation = 'screen';
+  for (let i = 0; i < 40; i++) { const f = P[i]; const x = (((f.x + t * speed * (0.5 + f.d)) % 1.4) - 0.2) * W, y = lerp(y0, y1, f.p) * H, r = (220 + 300 * f.s);
+    ctx.globalAlpha = amt * (0.35 + 0.4 * Math.sin(t * 0.5 + f.w) ** 2); ctx.drawImage(spr, x - r, y - r * 0.6, r * 2, r * 1.2); }
+  ctx.restore();
+}
+
+// ---------------- type ----------------
+function lineText(s, x, y, size, fill, { font = 'Anton', glowCol = null, stroke = 0.09, align = 'center' } = {}) {
+  ctx.font = font === 'Anton' ? `${size}px Anton` : `800 ${size}px "Alegreya Sans"`;
+  let sz = size; const mw = ctx.measureText(s).width; if (mw > 960) { sz = Math.floor(size * 960 / mw); ctx.font = font === 'Anton' ? `${sz}px Anton` : `800 ${sz}px "Alegreya Sans"`; }
+  ctx.textAlign = align; ctx.textBaseline = 'alphabetic'; ctx.lineJoin = 'round';
+  ctx.lineWidth = sz * stroke * 2; ctx.strokeStyle = INK; ctx.strokeText(s, x, y);
+  if (glowCol) { ctx.shadowColor = glowCol; ctx.shadowBlur = sz * 0.35; }
+  ctx.fillStyle = fill; ctx.fillText(s, x, y); ctx.shadowBlur = 0; return sz;
+}
+// the mirror signature: text with its reflection fading below it
+const TMP = document.createElement('canvas'); TMP.width = W; TMP.height = 420; const tx = TMP.getContext('2d');
+function mirrorText(s, y, size, fillTop, glowCol, a = 1) {
+  ctx.save(); ctx.globalAlpha = a; const sz = lineText(s, W / 2, y, size, fillTop, { glowCol }); ctx.restore();
+  tx.setTransform(1, 0, 0, 1, 0, 0); tx.clearRect(0, 0, W, 420); tx.font = `${sz}px Anton`; tx.textAlign = 'center'; tx.textBaseline = 'alphabetic';
+  tx.fillStyle = fillTop; tx.fillText(s, W / 2, sz * 0.95);
+  tx.globalCompositeOperation = 'destination-in'; const g = tx.createLinearGradient(0, 0, 0, sz); g.addColorStop(0, 'rgba(0,0,0,0)'); g.addColorStop(0.55, 'rgba(0,0,0,0.15)'); g.addColorStop(1, 'rgba(0,0,0,0.55)');
+  tx.fillStyle = g; tx.fillRect(0, 0, W, sz); tx.globalCompositeOperation = 'source-over';
+  ctx.save(); ctx.globalAlpha = a * 0.9; ctx.translate(0, y + sz * 0.12 + sz * 0.95); ctx.scale(1, -1); ctx.drawImage(TMP, 0, 0, W, sz, 0, 0, W, sz); ctx.restore();
+  ctx.save(); ctx.globalAlpha = a * 0.7; ctx.fillStyle = 'rgba(203,213,225,0.85)'; ctx.fillRect(W / 2 - 300, y + sz * 0.1, 600, 3); ctx.restore();   // the mirror edge
+}
+function band(y0, y1, a) { const g = ctx.createLinearGradient(0, y0, 0, y1); g.addColorStop(0, 'rgba(6,4,12,0)'); g.addColorStop(0.3, `rgba(6,4,12,${a})`); g.addColorStop(0.7, `rgba(6,4,12,${a})`); g.addColorStop(1, 'rgba(6,4,12,0)'); ctx.fillStyle = g; ctx.fillRect(0, y0, W, y1 - y0); }
+function label(s, y, col, a) {   // small spaced label above a title (>=52 px, outlined)
+  ctx.save(); ctx.globalAlpha = a; ctx.font = '800 54px "Alegreya Sans"'; if ('letterSpacing' in ctx) ctx.letterSpacing = '6px';
+  ctx.textAlign = 'center'; ctx.lineJoin = 'round'; ctx.lineWidth = 10; ctx.strokeStyle = INK; ctx.strokeText(s, W / 2, y); ctx.fillStyle = col; ctx.fillText(s, W / 2, y); ctx.restore();
+}
+function nameCard(name, years, col, lt, d) {   // name + years, enters from the mirror line
+  const a = Math.min(ease(lt / 0.35), ease((d - lt) / 0.35)); if (a <= 0) return;
+  band(250, 640, 0.5 * a); ctx.save(); ctx.globalAlpha = a; const yy = 520 + (1 - outCubic(lt / 0.5)) * 30;
+  lineText(name, W / 2, yy, 128, CREAM, { glowCol: col }); ctx.restore();
+  label(years, 520 - 128 * 1.25, col === AMBER ? AMBER_L : SILVER, a);
+}
+
+// ---------------- shot list ----------------
+// [startWord, image, from[u,v,z], to[u,v,z], fx]
+const SH = [
+  [0, 's01', [0.5, 0.5, 1.02], [0.5, 0.46, 1.16], 'study'],
+  [7, 's02', [0.5, 0.42, 1.04], [0.5, 0.36, 1.2], 'jung'],
+  [12, 's03', [0.5, 0.52, 1.18], [0.5, 0.5, 1.02], 'doors'],
+  [22, 's04', [0.5, 0.42, 1.02], [0.5, 0.32, 1.18], 'freud'],
+  [33, 's05', [0.5, 0.58, 1.18], [0.5, 0.56, 1.02], 'chest'],
+  [43, 's06', [0.5, 0.45, 1.02], [0.4, 0.4, 1.2], 'mirror'],
+  [61, 's07', [0.5, 0.56, 1.14], [0.5, 0.5, 1.0], 'office'],
+  [75, 's08', [0.5, 0.46, 1.0], [0.5, 0.42, 1.22], 'face'],
+  [85, 's09', [0.5, 0.75, 1.18], [0.5, 0.32, 1.18], 'path'],
+  [96, 's10', [0.5, 0.58, 1.16], [0.5, 0.46, 1.0], 'open'],
+  [106, 's11', [0.5, 0.5, 1.0], [0.5, 0.46, 1.16], 'scale'],
+  [119, 's12', [0.5, 0.45, 1.0], [0.5, 0.4, 1.12], 'end'],
+];
+const COVER0 = Math.max(we(132) + 0.9, 79.9), ADDR0 = COVER0 + 2.0;   // clean cover 2 s, then addresses
+const SHOTS = SH.map((s, i) => ({ t0: i === 0 ? 0 : wt(s[0]) - 0.15, k: s[1], a: s[2], b: s[3], fx: s[4] }));
+SHOTS.forEach((s, i) => s.t1 = i + 1 < SHOTS.length ? SHOTS[i + 1].t0 : COVER0);
+function drawShot(s, t) {
+  const lt = t - s.t0, d = s.t1 - s.t0, e = ease((lt + 0.4) / (d + 0.8));
+  const u = lerp(s.a[0], s.b[0], e), v = lerp(s.a[1], s.b[1], e), z = lerp(s.a[2], s.b[2], e);
+  let dx = 0, dy = 0;
+  if (s.fx === 'chest') { const sh = Math.max(0, 1 - lt / 0.7) * 10 + 2.2 * Math.max(0, Math.sin(t * 1.7)) ** 8; dx = Math.sin(t * 61) * sh; dy = Math.cos(t * 47) * sh; }
+  drawView(s.k, u, v, z, dx, dy);
+  const br = 0.5 + 0.5 * Math.sin(t * 1.3);
+  switch (s.fx) {
+    case 'study': rise(t, G.smoke, 0.35, 0.16, 0.32, 0.12, 0.6, 0.7, 40); glow(0.5, 0.45, 360, '203,213,225', 0.08 + 0.06 * br); motes(t, 0.5, '#C7A6F5'); break;
+    case 'jung': glow(0.5, 0.27, 520, '168,85,247', 0.12 + 0.1 * br); motes(t, 0.7, '#D9C2FF'); break;
+    case 'doors': glow(0.3, 0.45, 300, '255,160,60', 0.16 + 0.1 * Math.abs(Math.sin(t * 7.3)) * Math.abs(Math.sin(t * 3.1))); glow(0.73, 0.45, 300, '168,85,247', 0.16 + 0.1 * br);
+      glow(0.5, 0.8, 160, '230,236,248', 0.15 * (0.5 + 0.5 * Math.sin(t * 5))); break;
+    case 'freud': rise(t, G.smoke, 0.45, 0.47, 0.34, 0.1, 0.5, 0.6, 50); motes(t, 0.45); glow(0.12, 0.08, 380, '255,170,70', 0.1 + 0.05 * br); break;
+    case 'chest': rise(t, G.amber, 0.55, 0.5, 0.52, 0.22, 1.1, 0.5, 70); rise(t + 7, G.smoke, 0.35, 0.5, 0.5, 0.3, 0.7, 0.9, 40); glow(0.5, 0.52, 380, '255,150,50', 0.18 + 0.12 * Math.abs(Math.sin(t * 6.1))); break;
+    case 'mirror': glow(0.3, 0.33, 380, '168,85,247', 0.14 + 0.14 * br); motes(t, 0.6, '#C7A6F5'); break;
+    case 'office': glassBand(t, 0.545, 1); break;
+    case 'face': drift(t, G.violet, 0.5, 0.25, 0.75, 0.03); glow(0.5, 0.48, 420, '220,228,240', 0.06 + 0.12 * ease((t - s.t0) / d)); break;
+    case 'path': drift(t, G.fog, 0.6, 0.6, 0.95, 0.018); glow(0.6, 0.15, 520, '203,213,225', 0.12 + 0.05 * br); break;
+    case 'open': rays(t, 1, 0.5, 0.55, '255,205,120'); motes(t, 0.8); glow(0.5, 0.55, 360, '255,190,90', 0.2); break;
+    case 'scale': glow(0.3, 0.42, 220, '255,160,60', 0.12 + 0.1 * br); glow(0.7, 0.42, 220, '168,85,247', 0.12 + 0.1 * (1 - br)); motes(t, 0.35); break;
+    case 'end': glow(0.5, 0.35, 330, '203,213,225', 0.05 + 0.05 * br); motes(t, 0.5, '#E6DDF5'); break;
+  }
+}
+// the mirror seam: a silver line sweeps across, the new shot is revealed behind it
+const SCR = document.createElement('canvas'); SCR.width = W; SCR.height = H; const sx = SCR.getContext('2d');
+const XF = 0.55;
+function seam(k, dir) {
+  const x = dir > 0 ? lerp(-40, W + 40, outCubic(k)) : lerp(W + 40, -40, outCubic(k));
+  ctx.save(); ctx.globalCompositeOperation = 'screen';
+  const g = ctx.createLinearGradient(x - 120, 0, x + 120, 0); g.addColorStop(0, 'rgba(168,85,247,0)'); g.addColorStop(0.42, 'rgba(168,85,247,0.25)'); g.addColorStop(0.5, 'rgba(240,244,252,0.95)'); g.addColorStop(0.58, 'rgba(245,158,11,0.25)'); g.addColorStop(1, 'rgba(245,158,11,0)');
+  ctx.fillStyle = g; ctx.fillRect(x - 120, 0, 240, H); ctx.restore(); return x;
+}
+
+// ---------------- cards ----------------
+const HIDE = [];   // caption-free windows: card says the same words
+function hide(a, b) { HIDE.push([wt(a) - 0.1, we(b) + 0.35]); }
+hide(9, 11); hide(16, 21); hide(57, 60); hide(93, 95); hide(119, 127);
+function cards(t) {
+  const lt = x => t - x;
+  // 1. names
+  { const t0 = wt(9) - 0.1, t1 = we(11) + 0.5; if (t >= t0 && t < t1) nameCard('CARL JUNG', '1875 – 1961  ·  ZÜRİH', VIOLET_L, t - t0, t1 - t0); }
+  { const t0 = wt(22) - 0.1, t1 = t0 + 2.4; if (t >= t0 && t < t1) nameCard('SIGMUND FREUD', '1856 – 1939  ·  VİYANA', AMBER, t - t0, t1 - t0); }
+  // 2. the split
+  { const t0 = wt(16) - 0.1, t1 = we(21) + 0.35; if (t >= t0 && t < t1) { const a = Math.min(ease((t - t0) / 0.3), ease((t1 - t) / 0.3));
+      band(560, 1180, 0.45 * a); ctx.save(); ctx.globalAlpha = a; const sp = outCubic((t - t0) / 0.9) * 26;
+      lineText('1912', W / 2 - 150 - sp, 900, 190, AMBER_L, { glowCol: 'rgba(217,119,6,0.8)' }); lineText('1913', W / 2 + 150 + sp, 900, 190, VIOLET_L, { glowCol: 'rgba(114,9,183,0.9)' });
+      ctx.fillStyle = 'rgba(230,236,248,0.9)'; ctx.fillRect(W / 2 - 2, 720, 4, 220 * outCubic((t - t0) / 0.6)); ctx.restore();
+      const t2 = wt(20) - 0.05; if (t >= t2) { ctx.save(); ctx.globalAlpha = a * ease((t - t2) / 0.3); lineText('YOLLAR AYRILDI', W / 2, 1060, 104, CREAM); ctx.restore(); } } }
+  // 3. GÖLGE with its reflection
+  { const t0 = wt(59) - 0.1, t1 = we(60) + 0.35, t00 = wt(57) - 0.1; if (t >= t00 && t < t1) { const a = Math.min(ease((t - t00) / 0.3), ease((t1 - t) / 0.3));
+      band(500, 1250, 0.45 * a); label('JUNG BUNA', 920 - 250 * 1.25, SILVER, a);
+      if (t >= t0) { const k = outCubic((t - t0) / 0.35); ctx.save(); ctx.translate(W / 2, 920); ctx.scale(lerp(1.25, 1, k), lerp(1.25, 1, k)); ctx.translate(-W / 2, -920);
+        mirrorText('GÖLGE', 920, 250, '#E9DDFB', 'rgba(168,85,247,0.95)', a * k); ctx.restore(); } } }
+  // 4. BİREYLEŞME
+  { const t0 = wt(94) - 0.1, t1 = we(95) + 0.35, t00 = wt(93) - 0.1; if (t >= t00 && t < t1) { const a = Math.min(ease((t - t00) / 0.3), ease((t1 - t) / 0.3));
+      band(620, 1150, 0.45 * a); label('JUNG BUNA', 760, SILVER, a);
+      if (t >= t0) mirrorText('BİREYLEŞME', 950, 150, CREAM, 'rgba(203,213,225,0.8)', a * ease((t - t0) / 0.3)); } }
+  // 5. the closing question (soru kartı)
+  { const t0 = wt(119) - 0.1, t1 = we(127) + 0.4; if (t >= t0 && t < t1) { const a = Math.min(ease((t - t0) / 0.3), ease((t1 - t) / 0.3));
+      band(980, 1700, 0.55 * a); ctx.save(); ctx.globalAlpha = a;
+      lineText('SENCE O KİŞİDE', W / 2, 1180, 112, CREAM); lineText('NE GÖRÜYORSUN?', W / 2, 1180 + 112 * 1.15, 112, GOLD, { glowCol: 'rgba(242,181,68,0.6)' }); ctx.restore();
+      const t2 = wt(125) - 0.05; if (t >= t2) { ctx.save(); ctx.globalAlpha = a * ease((t - t2) / 0.3); lineText('Cevabını yorumlara yaz', W / 2, 1520, 70, SILVER, { font: 'sans' }); ctx.restore(); } } }
+  // 6. follow
+  { const t0 = wt(128) - 0.1; if (t >= t0 && t < COVER0) { const a = Math.min(ease((t - t0) / 0.35), ease((COVER0 - t) / 0.3));
+      ctx.fillStyle = `rgba(6,4,12,${0.6 * a})`; ctx.fillRect(0, 0, W, H); ctx.save(); ctx.globalAlpha = a;
+      lineText('DAHA FAZLASI İÇİN', W / 2, 860, 96, CREAM); mirrorText('TAKİPTE KAL', 860 + 96 * 1.25 + 150, 170, GOLD, 'rgba(242,181,68,0.7)', 1); ctx.restore(); } }
+}
+function hookCard(t) {   // 0-3 s, on screen from frame 0
+  if (t >= 3.0) return; const a = ease((3.0 - t) / 0.25);
+  band(560, 1500, 0.55 * a); ctx.save(); ctx.globalAlpha = a;
+  lineText('NEFRET ETTİĞİN', W / 2, 740, 124, CREAM); lineText('O KİŞİDE', W / 2, 740 + 124 * 1.15, 124, CREAM);
+  const k = outCubic((t - 0.9) / 0.4); ctx.restore();
+  if (k > 0) { ctx.save(); const sc = lerp(1.15, 1, k); ctx.translate(W / 2, 1180); ctx.scale(sc, sc); ctx.translate(-W / 2, -1180);
+    lineText('KENDİ GÖLGEN', W / 2, 1180, 176, '#E9DDFB', { glowCol: 'rgba(168,85,247,0.95)' });
+    ctx.restore(); mirrorText('OLABİLİR', 1180 + 176 * 1.15, 176, '#E9DDFB', 'rgba(168,85,247,0.95)', a * k); }
+}
+
+// ---------------- cover + addresses ----------------
+function igIcon(x, y, s, a) {
+  ctx.save(); ctx.globalAlpha = a; ctx.translate(x, y); const r = s * 0.28;
+  const g = ctx.createLinearGradient(-s / 2, s / 2, s / 2, -s / 2); g.addColorStop(0, '#FEDA75'); g.addColorStop(0.35, '#FA7E1E'); g.addColorStop(0.65, '#D62976'); g.addColorStop(1, '#4F5BD5');
+  ctx.fillStyle = g; ctx.beginPath(); ctx.roundRect(-s / 2, -s / 2, s, s, r); ctx.fill();
+  ctx.strokeStyle = '#fff'; ctx.lineWidth = s * 0.08; ctx.beginPath(); ctx.roundRect(-s * 0.3, -s * 0.3, s * 0.6, s * 0.6, s * 0.17); ctx.stroke();
+  ctx.beginPath(); ctx.arc(0, 0, s * 0.14, 0, 6.283); ctx.stroke(); ctx.fillStyle = '#fff'; ctx.beginPath(); ctx.arc(s * 0.19, -s * 0.19, s * 0.04, 0, 6.283); ctx.fill(); ctx.restore();
+}
+function ytIcon(x, y, s, a) {
+  ctx.save(); ctx.globalAlpha = a; ctx.translate(x, y); ctx.fillStyle = '#FF0033'; ctx.beginPath(); ctx.roundRect(-s * 0.71, -s / 2, s * 1.42, s, s * 0.28); ctx.fill();
+  ctx.fillStyle = '#fff'; ctx.beginPath(); ctx.moveTo(-s * 0.17, -s * 0.24); ctx.lineTo(s * 0.27, 0); ctx.lineTo(-s * 0.17, s * 0.24); ctx.fill(); ctx.restore();
+}
+function cover(t, withText = true) {   // the clean cover: Jung facing his shadow
+  const k = ease((t - COVER0) / 0.5); drawView('s06', 0.5, 0.46, 1.06 + 0.02 * k);
+  // the shadow's glowing eyes stay free at the top; the title sits low in the 4:5 safe area
+  const g = ctx.createLinearGradient(0, 0, 0, H); g.addColorStop(0, 'rgba(6,4,12,0.35)'); g.addColorStop(0.3, 'rgba(6,4,12,0)'); g.addColorStop(0.55, 'rgba(6,4,12,0.15)'); g.addColorStop(0.75, 'rgba(6,4,12,0.8)'); g.addColorStop(1, 'rgba(6,4,12,0.95)');
+  ctx.fillStyle = g; ctx.fillRect(0, 0, W, H); glow(0.3, 0.33, 380, '168,85,247', 0.22);
+  if (!withText) return;
+  const y0 = 1190;
+  label('JUNG  ·  FREUD', y0, SILVER, 1);
+  lineText('NEFRET ETTİĞİN', W / 2, y0 + 54 * 1.4 + 100, 108, CREAM); lineText('O KİŞİDE', W / 2, y0 + 54 * 1.4 + 100 + 108 * 1.15, 108, CREAM);
+  mirrorText('KENDİ GÖLGEN Mİ?', y0 + 54 * 1.4 + 100 + 108 * 1.15 + 150, 134, '#E9DDFB', 'rgba(168,85,247,0.95)', 1);
+}
+function addresses(t) {   // on the cover's text-free top side
+  const a = ease((t - ADDR0) / 0.5); if (a <= 0) return;
+  const gr = ctx.createLinearGradient(0, 0, 0, 900); gr.addColorStop(0, `rgba(6,4,12,${0.7 * a})`); gr.addColorStop(0.6, `rgba(6,4,12,${0.6 * a})`); gr.addColorStop(1, 'rgba(6,4,12,0)');
+  ctx.fillStyle = gr; ctx.fillRect(0, 0, W, 900); const y0 = 300, step = 130;
+  ytIcon(250, y0 - 26, 74, a); igIcon(250, y0 + step - 26, 74, a);
+  ctx.save(); ctx.globalAlpha = a; lineText('@TanerSavaşçı', 320, y0, 74, CREAM, { font: 'sans', align: 'left' }); lineText('@sevgiliinsann', 320, y0 + step, 74, CREAM, { font: 'sans', align: 'left' });
+  lineText('www.sevgiliinsan.com', W / 2, y0 + step * 2 + 10, 70, GOLD, { font: 'sans' }); ctx.restore();
+}
+
+// ---------------- captions (karaoke: thick dark outline + soft shadow, no band) ----------------
+const CH = D.chunks.map((c, n) => { const s = WD[c[0]].s, eLast = WD[c[c.length - 1]].e; const next = D.chunks[n + 1] ? WD[D.chunks[n + 1][0]].s : DUR; return { idx: c, s: s - 0.08, e: Math.min(next - 0.04, eLast + 0.7) }; });
+function captions(t) {
+  if (t < 3.0 || t >= wt(128) - 0.15) return;
+  if (HIDE.some(([a, b]) => t >= a && t < b)) return;
+  const c = CH.find(c => t >= c.s && t < c.e); if (!c) return;
+  const a = Math.min(ease((t - c.s) / 0.1), ease((c.e - t) / 0.1));
+  let size = 84; const big = 1.16; ctx.font = `800 ${size}px "Alegreya Sans"`;
+  const words = c.idx.map(i => WD[i].w); let widths = words.map(w => ctx.measureText(w).width), sp = size * 0.3;
+  let tot = widths.reduce((x, y) => x + y, 0) + sp * (words.length - 1);
+  if (tot > 880) { size = Math.floor(size * 880 / tot); ctx.font = `800 ${size}px "Alegreya Sans"`; widths = words.map(w => ctx.measureText(w).width); sp = size * 0.3; tot = widths.reduce((x, y) => x + y, 0) + sp * (words.length - 1); }
+  const y = 1340;
+  const onOf = wi => { const w = WD[wi]; return t >= w.s - 0.03 && t < (WD[wi + 1] ? Math.min(WD[wi + 1].s, w.e + 0.4) : w.e + 1); };
+  const scs = c.idx.map(wi => onOf(wi) ? big + 0.06 * Math.max(0, 1 - (t - WD[wi].s) / 0.15) : 1);
+  const ew = widths.map((w, j) => w * scs[j]); tot = ew.reduce((x, y) => x + y, 0) + sp * (words.length - 1);
+  let x = W / 2 - tot / 2; ctx.textAlign = 'left'; ctx.textBaseline = 'alphabetic'; ctx.lineJoin = 'round';
+  c.idx.forEach((wi, j) => { const w = WD[wi], on = onOf(wi), done = t >= w.e, sc = scs[j];
+    ctx.save(); ctx.translate(x + ew[j] / 2, y); ctx.scale(sc, sc); ctx.globalAlpha = a * (on || done ? 1 : 0.62);
+    ctx.lineWidth = size * 0.16; ctx.strokeStyle = 'rgba(10,7,4,0.95)'; ctx.shadowColor = 'rgba(0,0,0,0.65)'; ctx.shadowBlur = 14; ctx.shadowOffsetY = 4; ctx.strokeText(words[j], -widths[j] / 2, 0); ctx.shadowBlur = 0; ctx.shadowOffsetY = 0;
+    ctx.fillStyle = on ? (w.em ? AMBER_L : GOLD) : CREAM; ctx.fillText(words[j], -widths[j] / 2, 0); ctx.restore();
+    x += ew[j] + sp; });
+  ctx.globalAlpha = 1;
+}
+function finish(t, f) {
+  const v = ctx.createRadialGradient(W / 2, H * 0.5, H * 0.38, W / 2, H * 0.5, H * 0.8); v.addColorStop(0, 'rgba(0,0,0,0)'); v.addColorStop(1, 'rgba(8,4,16,0.55)'); ctx.fillStyle = v; ctx.fillRect(0, 0, W, H);
+  ctx.globalAlpha = 0.06; ctx.globalCompositeOperation = 'overlay'; ctx.drawImage(G.grain[f % 4], 0, 0, W, H); ctx.globalCompositeOperation = 'source-over'; ctx.globalAlpha = 1;
+}
+function renderFrame(f) {
+  const t = f / FPS; ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.globalAlpha = 1; ctx.filter = 'none';
+  if (window.KAPAK) { cover(COVER0 + 1, true); finish(t, 0); return; }
+  if (t >= COVER0) { cover(t, true); finish(t, f); if (t < COVER0 + 0.35) { ctx.fillStyle = `rgba(240,244,252,${0.5 * (1 - (t - COVER0) / 0.35)})`; ctx.fillRect(0, 0, W, H); } addresses(t);
+    const fo = ease((DUR - t) / 0.5); if (fo < 1) { ctx.fillStyle = `rgba(0,0,0,${1 - fo})`; ctx.fillRect(0, 0, W, H); } return; }
+  let i = SHOTS.findIndex(s => t >= s.t0 && t < s.t1); if (i < 0) i = SHOTS.length - 1;
+  const s = SHOTS[i]; drawShot(s, t);
+  if (i > 0 && t - s.t0 < XF) {   // mirror seam: old shot stays on the far side of the line
+    const k = (t - s.t0) / XF, dir = i % 2 ? 1 : -1;
+    sx.setTransform(1, 0, 0, 1, 0, 0); sx.drawImage(cv, 0, 0); drawShot(SHOTS[i - 1], t);
+    const x = dir > 0 ? lerp(-40, W + 40, outCubic(k)) : lerp(W + 40, -40, outCubic(k));
+    ctx.save(); ctx.beginPath(); if (dir > 0) ctx.rect(0, 0, x, H); else ctx.rect(x, 0, W - x, H); ctx.clip(); ctx.drawImage(SCR, 0, 0); ctx.restore(); seam(k, dir);
+  }
+  finish(t, f); cards(t); hookCard(t); captions(t);
+}
+window.captureFrame = (f, type = 'image/png', q = 0.95) => { renderFrame(f); return cv.toDataURL(type, q); };
+window.READY = (async () => { await Promise.all(['176px Anton', '800 54px "Alegreya Sans"', '500 40px "Alegreya Sans"'].map(f => document.fonts.load(f, 'ŞİĞÜÖÇışğüöçâÂİı'))); await prep(); renderFrame(0); return { frames: FRAMES, fps: FPS, width: W, height: H, renderer: 'canvas' }; })();
+const q = new URLSearchParams(location.search); if (q.has('kapak')) window.KAPAK = 1; if (q.has('t')) window.READY.then(() => renderFrame(Math.round(+q.get('t') * FPS)));
+</script></body></html>

@@ -1,0 +1,64 @@
+{
+  "konu": "Jung-Freud",
+  "sure": 84.5,
+  "whisper_ipucu": "Carl Jung, Sigmund Freud, bilinçdışı, bireyleşme, gölge, rüyalarda, dil sürçmelerinde.",
+  "birlestir": [
+    [
+      "kişi",
+      "de",
+      "kişide"
+    ]
+  ],
+  "duzelt": {
+    "hala": "hâlâ",
+    "aitti.": "ait.",
+    "görüyorsa?": "görüyorsun?",
+    "şey": "şey,",
+    "özellik": "özellik,",
+    "önerisi": "önerisi,",
+    "iyileşmenin": "iyileşmenin,",
+    "olarak": "olarak,",
+    "kaybolmaz,": "kaybolmaz;"
+  },
+  "zaman_duzelt": [],
+  "vurgu": [
+    "gölgen",
+    "gölge",
+    "çocukluk",
+    "Bastırılan",
+    "kaybolmaz",
+    "rahatsız",
+    "Öfkenin",
+    "sorumluluğunu",
+    "bireyleşme",
+    "yalan",
+    "desteklenmedi",
+    "zor"
+  ],
+  "bolum_sinirlari": [],
+  "boom": [],
+  "gecis": [],
+  "qc_kareleri": [
+    0,
+    81,
+    170,
+    215,
+    283,
+    362,
+    425,
+    644,
+    842,
+    1056,
+    1154,
+    1334,
+    1518,
+    1616,
+    1690,
+    1902,
+    2132,
+    2213,
+    2282,
+    2427,
+    2493
+  ]
+}
