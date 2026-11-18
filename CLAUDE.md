@@ -48,7 +48,7 @@ Push'u Claude yapar (2026-11-16): `gh` (`~/.local/bin/gh`, hesap sapiensdear-tr,
 Bu adımların hiçbiri atlanmaz ve Enes'e hatırlattırılmaz.
 
 ## Adımlar
-0. **Stil sorusu (2026-11-14, Enes'in kararı):** Enes reels istediğinde, ADIM 1'den ÖNCE sor: "Sinematik mi, çizgi film (hareketli 2D çizgi sahneler) formatında mı?" Cevaba göre ilerle:
+0. **Stil sorusu (2026-11-14, soru metni Enes 2026-11-19):** Enes reels istediğinde, ADIM 1'den ÖNCE tam olarak şunu sor: "Sinematik gerçek görseller mi, yoksa Arcane / yağlı boya çizim mi?" Cevaba göre ilerle:
    - **Sinematik:** mevcut akış (gerçek arşiv görselleri + fotogerçekçi AI, Flow/Veo kilit sahneler, kodla hareketli fotoğraf).
    - **Çizgi film stili KALICI (Enes, 2026-11-19):** Arcane'den ilham alan çizgi roman tarzı, görünür yağlı boya fırça dokusu, dramatik chiaroscuro, ultra kalite. Görseller Flow Nano Banana Pro'da (0 kredi). Her reels'in paleti ve imza dili yine konudan doğar ve eşsizdir; kalıcı olan yalnızca bu çizim/doku stilidir.
    - **Çizgi film:** 2D animasyon / çizgi roman tarzı hareketli sahneler; kilit sahneler Flow/Veo'da aynı çizgi stilinde (başlangıç karesi Flow'da çizilir), kalanlar çizgi görsel + hafif hareket (kamera, katman, parçacık). Tüm sahneler tek stil ve tek palet. Videoya özel stil istisnaları (ör. Diyalektik/Spinoza graphic novel) geçerli kalır.
