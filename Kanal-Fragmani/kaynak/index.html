@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="tr"><head><meta charset="utf-8"><title>Kanal Fragmanı 16x9</title>
+<html lang="tr"><head><meta charset="utf-8"><title>Kanal Tanıtım</title>
 <style>
 @font-face{font-family:Anton;src:url(fonts/Anton-Regular.ttf)}
 @font-face{font-family:Cinzel;font-weight:900;src:url(fonts/cinzel-latin-900.woff2) format('woff2');unicode-range:U+0000-00FF,U+2000-206F}
@@ -146,25 +146,25 @@ function webIcon(x, y, s) { ctx.save(); ctx.strokeStyle = AMBER; ctx.lineWidth =
 // [başlangıç kelimesi (ad, kaçıncı), görüntü, kamera a[u,v,z] → b[u,v,z], katman, kart, giriş geçişi]
 // geçiş: 'flame' = imza alev eşleme · 'cut' = düz kesme · 'mist' = sisle çözülme · 'dip' = kısa karanlık
 const SH = [
-  [null,             'eye',       [0.5, 0.5, 1.00], [0.5, 0.5, 1.10], 'eye',     null, null],
-  [['ve', 1],        'lamp',      [0.5, 0.55, 1.18], [0.5, 0.55, 1.02], 'lamp',  'insan', 'flame'],
-  [['buda', 1],      'buda',      [0.5, 0.5, 1.02], [0.5, 0.48, 1.08], 'motes',  ['BUDA', 'BENLİK YANILSAMASI'], 'flame'],
-  [['lao', 1],       'lao',       [0.62, 0.5, 1.12], [0.42, 0.5, 1.12], 'mist',  ['LAO TZU', 'TAO'], 'mist'],
-  [['stoacılar', 1], 'stoa',      [0.5, 0.5, 1.00], [0.52, 0.52, 1.14], 'stoa',  ['STOA', 'ERDEM'], 'cut'],
-  [['deneyimci', 1], 'mistik',    [0.5, 0.78, 1.28], [0.5, 0.38, 1.08], 'cosmos', ['DENEYİMCİ MİSTİKLER', 'VARLIĞIN BİRLİĞİ - BÜTÜN'], 'mist'],
-  [['spinoza', 1],   'spinoza',   [0.5, 0.52, 1.20], [0.5, 0.5, 1.04], 'motes',  ['SPİNOZA', 'DOĞA'], 'flame'],
-  [['leibniz', 1],   'leibniz',   [0.5, 0.38, 1.16], [0.5, 0.6, 1.16], 'leib',   ['LEIBNIZ', 'MONAD'], 'cut'],
-  [['nietzsche', 1], 'nietzsche', [0.4, 0.55, 1.06], [0.56, 0.5, 1.16], 'wind',  ['NIETZSCHE', 'ÜSTİNSAN'], 'dip'],
-  [['freud', 1],     'freud',     [0.5, 0.45, 1.00], [0.52, 0.42, 1.18], 'motes', ['FREUD', 'BİLİNÇDIŞI'], 'flame'],
-  [['adler', 1],     'adler',     [0.5, 0.72, 1.22], [0.5, 0.32, 1.22], 'adler', ['ADLER', 'EKSİKLİK'], 'cut'],
-  [['jung', 1],      'jung',      [0.5, 0.5, 1.22], [0.5, 0.5, 1.02], 'jung',    ['JUNG', 'GÖLGE'], 'flame'],
-  [['murat', 1],     'avci',      [0.46, 0.5, 1.04], [0.54, 0.47, 1.16], 'avci',  ['MURAT AVCIOĞLU', 'ANLAM, AŞK, HAKİKAT'], 'dip'],
-  [['bugün', 1],     'salon',     [0.5, 0.45, 1.18], [0.5, 0.5, 1.02], 'avci',  null, 'cut'],
-  [['bu', 1, 'kanal'], 'viewer',  [0.5, 0.5, 1.02], [0.5, 0.48, 1.10], 'viewer', 'sen', 'flame'],
-  [['abone', 1],     'lamp',      [0.5, 0.55, 1.10], [0.5, 0.55, 1.00], 'end',   'end', 'flame'],
+  [0.0,  'eye',       [0.5, 0.5, 1.00], [0.5, 0.5, 1.10], 'eye',     'tanim', null],
+  [6.0,  'lamp',      [0.5, 0.55, 1.18], [0.5, 0.55, 1.02], 'lamp',  null, 'flame'],
+  [8.2,  'stoa',      [0.5, 0.5, 1.00], [0.52, 0.52, 1.14], 'stoa',  ['FELSEFE', 4], 'flame'],
+  [10.6, 'spinoza',   [0.5, 0.52, 1.20], [0.5, 0.5, 1.04], 'motes',  null, 'cut'],
+  [13.0, 'leibniz',   [0.5, 0.38, 1.16], [0.5, 0.6, 1.16], 'leib',   null, 'cut'],
+  [15.4, 'nietzsche', [0.4, 0.55, 1.06], [0.56, 0.5, 1.16], 'wind',  null, 'dip'],
+  [17.8, 'buda',      [0.5, 0.5, 1.02], [0.5, 0.48, 1.08], 'motes',  ['MİSTİSİZM', 3], 'flame'],
+  [20.2, 'lao',       [0.62, 0.5, 1.12], [0.42, 0.5, 1.12], 'mist',  null, 'mist'],
+  [22.6, 'mistik',    [0.5, 0.78, 1.28], [0.5, 0.38, 1.08], 'cosmos', null, 'mist'],
+  [25.0, 'freud',     [0.5, 0.45, 1.00], [0.52, 0.42, 1.18], 'motes', ['PSİKOLOJİ', 3], 'flame'],
+  [27.4, 'adler',     [0.5, 0.72, 1.22], [0.5, 0.32, 1.22], 'adler', null, 'cut'],
+  [29.8, 'jung',      [0.5, 0.5, 1.22], [0.5, 0.5, 1.02], 'jung',    null, 'flame'],
+  [32.2, 'avci',      [0.46, 0.5, 1.04], [0.54, 0.47, 1.16], 'avci',  ['BİLİM', 2], 'dip'],
+  [34.6, 'salon',     [0.5, 0.45, 1.18], [0.5, 0.5, 1.02], 'avci',  null, 'cut'],
+  [37.0, 'viewer',    [0.5, 0.5, 1.02], [0.5, 0.48, 1.10], 'viewer', null, 'flame'],
+  [40.4, 'lamp',      [0.5, 0.55, 1.10], [0.5, 0.55, 1.00], 'end',   'end', 'flame'],
 ];
 function startOf(spec) {
-  if (!spec) return 0; const [w, n, next] = spec;
+  if (typeof spec === 'number') return spec; if (!spec) return 0; const [w, n, next] = spec;
   if (next) { for (let i = 0; i < WD.length - 1; i++) if (norm(WD[i].w) === w && norm(WD[i + 1].w) === next) return ws(i) - 0.15; }
   return ws(IDX(w, n)) - 0.15;
 }
@@ -210,18 +210,34 @@ function flameFlare(t) {
 }
 
 // ---------------- büyük kartlar ----------------
-function hookCard(t) {   // 0. kareden görünür, kanca cümlesi bitince çekilir
-  const out = we(IDX('bakıyor', 1)) + 0.25; if (t > out + 0.3) return;
-  if (V) bigLines(['BİLİNEN EVRENİN', 'EN KARMAŞIK YAPISI', 'ŞU AN BU EKRANA', 'BAKIYOR'], t + 0.3, 1060, [104, 104, 118, 190], [CREAM, CREAM, AMBER, AMBER], out + 0.3, 3);
-  else bigLines(['BİLİNEN EVRENİN EN KARMAŞIK YAPISI', 'ŞU AN BU EKRANA BAKIYOR'], t + 0.3, 800, [92, 128], [CREAM, AMBER], out + 0.3, 3);
+function hookCard(t) {   // tanım: dört konu söylendikçe belirir, sonra KISA VİDEOLAR
+  const out = SHOTS[1].t0 - 0.2; if (t > out + 0.3) return;
+  const T = ['felsefe', 'psikoloji', 'mistisizm', 'bilim'].map(w => ws(IDX(w, 1)) - 0.08), L = ['FELSEFE', 'PSİKOLOJİ', 'MİSTİSİZM', 'BİLİM'];
+  const fade = ease((out - t) / 0.35); ctx.save(); ctx.lineJoin = 'round'; ctx.shadowColor = 'rgba(0,0,0,0.85)'; ctx.shadowBlur = 30;
+  ctx.font = `${V ? 140 : 96}px Anton`; let pos;
+  if (V) pos = L.map((l, i) => [W / 2, 700 + i * 178]);
+  else { const tr = 4, gap = 90, wd = L.map(l => [...l].reduce((a, c) => a + ctx.measureText(c).width, 0) + tr * (l.length - 1)); let x = W / 2 - (wd.reduce((a, b) => a + b, 0) + gap * 3) / 2;
+    pos = wd.map(w => { const p = [x + w / 2, 640]; x += w + gap; return p; }); pos.forEach((p, i) => p.push(wd[i])); }
+  L.forEach((l, i) => { const lt = t - T[i]; if (lt < 0) return; const k = ease(lt / 0.35); ctx.globalAlpha = k * fade; ctx.fillStyle = CREAM;
+    ctx.save(); ctx.translate(0, (1 - k) * 22); spaced(l, pos[i][0], pos[i][1], 4, 'center'); ctx.restore(); });
+  if (!V) { ctx.fillStyle = AMBER; for (let i = 0; i < 3; i++) { const lt = t - T[i + 1]; if (lt < 0) continue; ctx.globalAlpha = ease(lt / 0.3) * fade; ctx.beginPath(); ctx.arc(pos[i][0] + pos[i][2] / 2 + 45, 604, 7, 0, 6.283); ctx.fill(); } }
+  const lk = t - (ws(IDX('kısa', 1)) - 0.08); if (lk > 0) { const k = ease(lk / 0.4); ctx.globalAlpha = k * fade; ctx.fillStyle = AMBER; ctx.font = `700 ${V ? 64 : 58}px Cinzel`;
+    spaced('KISA VİDEOLAR', W / 2, V ? 1340 : 790, 12, 'center'); const lw = (V ? 560 : 640) * eio(lk / 0.7); ctx.fillRect(W / 2 - lw / 2, V ? 1370 : 818, lw, 3); }
+  ctx.restore();
+}
+// grup etiketi: soldan çizilen amber fitil, üstünde büyük konu adı; grubun bütün planları boyunca kalır
+function groupCard(label, lt, life) {
+  if (lt < 0 || lt > life) return;
+  const a = Math.min(ease(lt / 0.45), ease((life - lt) / 0.4)), x = V ? 84 : 128, y = V ? 1240 : 880;
+  ctx.save(); ctx.shadowColor = 'rgba(0,0,0,0.85)'; ctx.shadowBlur = 24;
+  const lw = (V ? 520 : 600) * eio(lt / 0.8); ctx.globalAlpha = a; ctx.fillStyle = AMBER; ctx.fillRect(x, y + 26, lw, 4);
+  const gl = ctx.createRadialGradient(x + lw, y + 28, 0, x + lw, y + 28, 22); gl.addColorStop(0, 'rgba(255,220,150,0.95)'); gl.addColorStop(1, 'rgba(255,180,80,0)'); ctx.fillStyle = gl; ctx.fillRect(x + lw - 22, y + 6, 44, 44);
+  ctx.font = `${V ? 132 : 128}px Anton`; ctx.fillStyle = CREAM; const k = ease((lt - 0.1) / 0.45); ctx.globalAlpha = a * k; ctx.save(); ctx.translate(0, (1 - k) * 18); spaced(label, x, y, 8); ctx.restore();
+  ctx.restore();
 }
 function drawCard(s, t) {
   const lt = t - s.t0, life = s.t1 - s.t0 - 0.25;
-  if (Array.isArray(s.card)) { const nm = SH[SHOTS.indexOf(s)][0]; const t0 = ws(IDX(nm[0], nm[1])); nameCard(s.card[0], s.card[1], t - t0, s.t1 - t0 - 0.2); }
-  if (s.card === 'insan') { const i0 = IDX('insan', 1); const l2 = t - ws(i0) + 0.05; if (l2 > 0) bigLines(V ? ['İNSAN', 'NEDİR?'] : ['İNSAN NEDİR?'], l2, V ? 860 : 560, V ? [210, 210] : [170], [CREAM, CREAM], s.t1 - ws(i0) - 0.2, 6); }
-  if (s.card === 'sen') { const i0 = IDX('insan', 2), i1 = IDX('yani', 1); const out = s.t1 - 0.15;
-    if (t > ws(i0) - 0.05) bigLines(['İNSAN.'], t - ws(i0) + 0.05, V ? 860 : 520, [V ? 230 : 190], [CREAM], out - ws(i0), 8);
-    if (t > ws(i1) - 0.05) bigLines(['YANİ SEN.'], t - ws(i1) + 0.05, V ? 1030 : 660, [V ? 130 : 110], [AMBER], out - ws(i1), 6); }
+  if (Array.isArray(s.card)) { const i = SHOTS.indexOf(s); groupCard(s.card[0], lt, SHOTS[i + s.card[1] - 1].t1 - s.t0 - 0.3); }
   if (s.card === 'end') endCard(lt);
 }
 function endCard(lt) {
@@ -230,7 +246,7 @@ function endCard(lt) {
   ctx.save(); ctx.shadowColor = 'rgba(0,0,0,0.85)'; ctx.shadowBlur = 26;
   ctx.globalAlpha = a; ctx.font = '150px Anton'; ctx.fillStyle = CREAM; spaced('TANER SAVAŞÇI', W / 2, 250, 6, 'center');
   ctx.fillStyle = AMBER; const lw = 620 * eio((lt - 0.6) / 0.8); ctx.fillRect(W / 2 - lw / 2, 285, lw, 3);
-  ctx.globalAlpha = ease((lt - 0.9) / 0.6); ctx.font = '700 40px Cinzel'; ctx.fillStyle = AMBER; spaced('FELSEFE · PSİKOLOJİ · BİLİM · MİSTİSİZM', W / 2, 350, 7, 'center');
+  ctx.globalAlpha = ease((lt - 0.9) / 0.6); ctx.font = '700 40px Cinzel'; ctx.fillStyle = AMBER; spaced('FELSEFE · PSİKOLOJİ · MİSTİSİZM · BİLİM', W / 2, 350, 7, 'center');
   const b = ease((lt - 1.4) / 0.5); if (b > 0) { const pulse = 1 + 0.035 * Math.sin((lt - 1.4) * 4.5);
     ctx.globalAlpha = b; ctx.save(); ctx.translate(W / 2 - 250, 878); ctx.scale(pulse, pulse); ytIcon(0, 0, 70, b); ctx.restore();
     ctx.font = '84px Anton'; ctx.fillStyle = CREAM; ctx.textAlign = 'left'; ctx.fillText('ABONE OL', W / 2 - 180, 908);
@@ -246,7 +262,7 @@ function endCardV(lt) {
   ctx.save(); ctx.shadowColor = 'rgba(0,0,0,0.85)'; ctx.shadowBlur = 26;
   ctx.globalAlpha = a; ctx.font = '138px Anton'; ctx.fillStyle = CREAM; spaced('TANER', W / 2, 400, 8, 'center'); spaced('SAVAŞÇI', W / 2, 545, 8, 'center');
   ctx.fillStyle = AMBER; const lw = 520 * eio((lt - 0.6) / 0.8); ctx.fillRect(W / 2 - lw / 2, 585, lw, 3);
-  ctx.globalAlpha = ease((lt - 0.9) / 0.6); ctx.font = '700 38px Cinzel'; ctx.fillStyle = AMBER; spaced('FELSEFE · PSİKOLOJİ', W / 2, 650, 6, 'center'); spaced('BİLİM · MİSTİSİZM', W / 2, 702, 6, 'center');
+  ctx.globalAlpha = ease((lt - 0.9) / 0.6); ctx.font = '700 38px Cinzel'; ctx.fillStyle = AMBER; spaced('FELSEFE · PSİKOLOJİ', W / 2, 650, 6, 'center'); spaced('MİSTİSİZM · BİLİM', W / 2, 702, 6, 'center');
   const b = ease((lt - 1.4) / 0.5); if (b > 0) { const pulse = 1 + 0.035 * Math.sin((lt - 1.4) * 4.5);
     ctx.globalAlpha = b; ctx.save(); ctx.translate(W / 2 - 230, 1420); ctx.scale(pulse, pulse); ytIcon(0, 0, 76, b); ctx.restore();
     ctx.font = '96px Anton'; ctx.fillStyle = CREAM; ctx.textAlign = 'left'; ctx.fillText('ABONE OL', W / 2 - 160, 1455);
@@ -260,10 +276,8 @@ function endCardV(lt) {
 const BIGCARD = [];
 const CH = D.chunks.map((c, n) => { const s = WD[c[0]].s, eLast = WD[c[c.length - 1]].e; const next = D.chunks[n + 1] ? WD[D.chunks[n + 1][0]].s : DUR; return { idx: c, s: s - 0.08, e: Math.min(next - 0.04, eLast + 0.6) }; });
 function captionsOff(t) {
-  if (t < we(IDX('bakıyor', 1)) + 0.3) return true;                                   // kanca kartı
-  if (t > ws(IDX('insan', 1)) - 0.1 && t < ws(IDX('buda', 1)) - 0.02) return true;                    // İNSAN NEDİR?
-  if (t > ws(IDX('insan', 2)) - 0.1 && t < SHOTS[15].t0) return true;                   // İNSAN. YANİ SEN.
-  if (t > SHOTS[15].t0 + 0.3) return true;                                               // kapanış kartı
+  if (t < SHOTS[1].t0) return true;                       // tanım kartı
+  if (t > SHOTS[15].t0 + 0.3) return true;                // kapanış kartı
   return false;
 }
 function captions(t) {
