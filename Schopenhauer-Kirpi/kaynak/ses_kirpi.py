@@ -84,7 +84,7 @@ def tick():
     tt = np.linspace(0, 0.08, S(0.08)); return (np.sin(2 * np.pi * 2400 * tt) + bp(noise(0.08), 1500, 5000)) * np.exp(-tt * 70)
 def swell(d=1.6):
     tt = np.linspace(0, d, S(d)); x = sum(np.sin(2 * np.pi * f * tt) for f in (220, 277.2, 329.6, 440)) * 0.25; return x * np.sin(np.linspace(0, np.pi, len(tt))) ** 1.5
-place(sfx, 6.62, thud(48, 1.2), 0, 1.0)                               # the door, the 24 years
+place(sfx, 6.92, thud(48, 1.2), 0, 1.0)                               # the door, the 24 years
 place(sfx, tBu, scratch(2.2), 0.2, 0.35)                              # her line in ink
 place(sfx, tOku, thud(90, 0.5) * 0.6, 0, 0.7); place(sfx, tOku + 0.02, chime(1760, 1.6), 0, 0.25)   # gold leaf stamp
 place(sfx, tDon - 0.45, whoosh(0.7), -0.4, 0.8); place(sfx, tDon - 0.4, crackle(0.5, 160), 0.3, 0.6)  # quill wipe

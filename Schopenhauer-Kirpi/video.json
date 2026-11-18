@@ -1,6 +1,6 @@
 {
   "konu": "Schopenhauer-Kirpi",
-  "sure": 106.0,
+  "sure": 106.3,
   "whisper_ipucu": "Schopenhauer, Şopenhauer, Weimar, Vaymar, Goethe, Göte, Frankfurt, Atma, kaniş, kirpi, eczacılar, nezaket ve görgü, mesel.",
   "duzelt": {
     "hala": "hâlâ",
@@ -25,16 +25,10 @@
   "boom": [],
   "gecis": [],
   "qc_kareleri": [
-    0,
-    60,
-    560,
-    1380,
-    1650,
-    1870,
-    2300,
-    2420,
-    2460,
-    3020
+    731,
+    736,
+    780,
+    938
   ],
   "sil": [
     "şey",

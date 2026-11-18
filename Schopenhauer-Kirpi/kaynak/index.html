@@ -2,10 +2,6 @@
 <html lang="tr"><head><meta charset="utf-8"><title>Schopenhauer Kirpi 9x16</title>
 <style>
 @font-face{font-family:Anton;src:url(fonts/Anton-Regular.ttf)}
-@font-face{font-family:Cinzel;font-weight:900;src:url(fonts/cinzel-latin-900.woff2) format('woff2');unicode-range:U+0000-00FF,U+2000-206F}
-@font-face{font-family:Cinzel;font-weight:900;src:url(fonts/cinzel-latin-ext-900.woff2) format('woff2');unicode-range:U+0100-024F,U+1E00-1EFF}
-@font-face{font-family:Cinzel;font-weight:700;src:url(fonts/cinzel-latin-700.woff2) format('woff2');unicode-range:U+0000-00FF,U+2000-206F}
-@font-face{font-family:Cinzel;font-weight:700;src:url(fonts/cinzel-latin-ext-700.woff2) format('woff2');unicode-range:U+0100-024F,U+1E00-1EFF}
 @font-face{font-family:Alegreya Sans;font-weight:800;src:url(fonts/alegreya-sans-latin-800.woff2) format('woff2');unicode-range:U+0000-00FF,U+2000-206F}
 @font-face{font-family:Alegreya Sans;font-weight:800;src:url(fonts/alegreya-sans-latin-ext-800.woff2) format('woff2');unicode-range:U+0100-024F,U+1E00-1EFF}
 html,body{margin:0;background:#000}canvas{display:block;width:360px;height:640px}
@@ -92,8 +88,8 @@ function fireWash(t, side = 0, amt = 1) {
 }
 // fog band drifting sideways
 function fog(t, y0, h, a, speed = 12) {
-  ctx.save(); for (let k = 0; k < 3; k++) { const x = ((t * speed * (1 + k * 0.4) + k * 400) % (W * 2)) - W; const g = ctx.createRadialGradient(x + W / 2, y0, 0, x + W / 2, y0, W * 0.7);
-    g.addColorStop(0, `rgba(200,215,235,${a})`); g.addColorStop(1, 'rgba(200,215,235,0)'); ctx.fillStyle = g; ctx.fillRect(0, y0 - h, W, h * 2); } ctx.restore();
+  ctx.save(); for (let k = 0; k < 3; k++) { const x = ((t * speed * (1 + k * 0.4) + k * 400) % (W * 2)) - W; const g = ctx.createRadialGradient(0, 0, 0, 0, 0, W * 0.7);
+    g.addColorStop(0, `rgba(200,215,235,${a})`); g.addColorStop(1, 'rgba(200,215,235,0)'); ctx.save(); ctx.translate(x + W / 2, y0); ctx.scale(1, h / (W * 0.7)); ctx.fillStyle = g; ctx.fillRect(-W * 0.7, -W * 0.7, W * 1.4, W * 1.4); ctx.restore(); } ctx.restore();   // elliptical, no hard band edges
 }
 // crimson quill strokes: the film's wipe (lines grow from one edge and cover the frame)
 const QUILLS = (() => { const r = rng(55), a = []; for (let i = 0; i < 46; i++) a.push({ y: r(), a: -0.5 + r() * 0.25, l: 0.5 + r() * 0.8, w: 3 + r() * 9, d: r() * 0.35 }); return a; })();
@@ -116,7 +112,7 @@ function measure(x1, y1, x2, y2, k, label) {
   ctx.strokeStyle = GOLD; ctx.lineWidth = 4; ctx.shadowColor = 'rgba(255,183,3,0.8)'; ctx.shadowBlur = 16; ctx.globalAlpha = ease(k * 2);
   ctx.beginPath(); ctx.moveTo(mx - hw, lerp(y1, y2, 0.5)); ctx.lineTo(mx + hw, lerp(y1, y2, 0.5)); ctx.stroke();
   for (const sx of [mx - hw, mx + hw]) { ctx.beginPath(); ctx.moveTo(sx, y1 - 22); ctx.lineTo(sx, y1 + 22); ctx.stroke(); }
-  if (label && k > 0.6) { ctx.globalAlpha = ease((k - 0.6) / 0.4); ctx.shadowBlur = 0; ctx.font = '900 58px Cinzel'; ctx.textAlign = 'center'; ctx.lineWidth = 10; ctx.strokeStyle = 'rgba(6,8,18,0.85)'; ctx.strokeText(label, mx, y1 - 40); ctx.fillStyle = GOLD; ctx.fillText(label, mx, y1 - 40); }
+  if (label && k > 0.6) { ctx.globalAlpha = ease((k - 0.6) / 0.4); ctx.shadowBlur = 0; ctx.font = '900 58px Baskerville'; ctx.textAlign = 'center'; ctx.lineWidth = 10; ctx.strokeStyle = 'rgba(6,8,18,0.85)'; ctx.strokeText(label, mx, y1 - 40); ctx.fillStyle = GOLD; ctx.fillText(label, mx, y1 - 40); }
   ctx.restore();
 }
 
@@ -127,15 +123,15 @@ function headline(lines, lt, { y = 420, size = 128, colors = null, out = 99, lab
   ctx.save(); ctx.globalAlpha = a; ctx.textAlign = 'center'; ctx.lineJoin = 'round';
   const g = ctx.createLinearGradient(0, y - size * 1.7, 0, y + size * (lines.length + 0.3)); g.addColorStop(0, 'rgba(6,8,18,0)'); g.addColorStop(0.35, 'rgba(6,8,18,0.42)'); g.addColorStop(0.7, 'rgba(6,8,18,0.42)'); g.addColorStop(1, 'rgba(6,8,18,0)');
   ctx.fillStyle = g; ctx.fillRect(0, y - size * 1.7, W, size * (lines.length + 2));
-  if (label) { ctx.font = '700 40px Cinzel'; ctx.fillStyle = labelCol; ctx.fillText(label, W / 2, y - size * 0.95); }
+  if (label) { ctx.font = '700 56px Baskerville'; ctx.lineJoin = 'round'; ctx.lineWidth = 9; ctx.strokeStyle = 'rgba(6,6,14,0.9)'; ctx.strokeText(label, W / 2, y - size * 1.22); ctx.fillStyle = labelCol; ctx.fillText(label, W / 2, y - size * 1.22); }
   lines.forEach((s, i) => { let sz = size; ctx.font = `${sz}px Anton`; const mw = ctx.measureText(s).width; if (mw > 960) { sz = Math.floor(sz * 960 / mw); ctx.font = `${sz}px Anton`; }
-    const yy = y + i * size * 1.06 + (1 - a) * 24; ctx.lineWidth = sz * 0.1; ctx.strokeStyle = 'rgba(6,6,14,0.92)'; ctx.strokeText(s, W / 2, yy);
+    const yy = y + i * size * 1.15 + (1 - a) * 24; ctx.lineWidth = sz * 0.1; ctx.strokeStyle = 'rgba(6,6,14,0.92)'; ctx.strokeText(s, W / 2, yy);
     ctx.fillStyle = colors ? colors[i] : CREAM; ctx.shadowColor = 'rgba(255,183,3,0.45)'; ctx.shadowBlur = 30; ctx.fillText(s, W / 2, yy); ctx.shadowBlur = 0; });
   ctx.restore();
 }
 // handwriting reveal: a quote appears as if written in ink, left to right
 function inkLine(s, lt, x, y, size, dur, col = '#2A140C', glow = 'rgba(255,230,190,0.9)') {
-  if (lt < 0) return; ctx.save(); ctx.font = `italic 700 ${size}px Cinzel`; ctx.textAlign = 'left'; const w = ctx.measureText(s).width; const k = easeOut(lt / dur);
+  if (lt < 0) return; ctx.save(); ctx.font = `italic 700 ${size}px Baskerville`; ctx.textAlign = 'left'; const w = ctx.measureText(s).width; const k = easeOut(lt / dur);
   ctx.beginPath(); ctx.rect(x - w / 2 - 10, y - size, (w + 20) * k, size * 1.6); ctx.clip();
   ctx.lineWidth = 10; ctx.strokeStyle = glow; ctx.lineJoin = 'round'; ctx.strokeText(s, x - w / 2, y); ctx.fillStyle = col; ctx.fillText(s, x - w / 2, y); ctx.restore();
 }
@@ -143,7 +139,7 @@ function inkLine(s, lt, x, y, size, dur, col = '#2A140C', glow = 'rgba(255,230,1
 function goldStamp(lines, lt, y, size) {
   if (lt < 0) return; const k = easeOut(lt / 0.35), sc = lerp(1.25, 1, k);
   ctx.save(); ctx.globalAlpha = ease(lt / 0.2); ctx.translate(W / 2, y); ctx.scale(sc, sc); ctx.textAlign = 'center';
-  lines.forEach((s, i) => { ctx.font = `900 ${size}px Cinzel`; const yy = i * size * 1.1; const w = ctx.measureText(s).width;
+  lines.forEach((s, i) => { ctx.font = `900 ${size}px Baskerville`; const yy = i * size * 1.1; const w = ctx.measureText(s).width;
     const g = ctx.createLinearGradient(-w / 2, 0, w / 2, 0); const sw = ((lt * 0.6) % 1.6) - 0.3;
     g.addColorStop(0, '#9C6B1C'); g.addColorStop(clamp(sw - 0.1, 0, 1), '#E8B64A'); g.addColorStop(clamp(sw, 0, 1), '#FFF3C4'); g.addColorStop(clamp(sw + 0.1, 0, 1), '#E8B64A'); g.addColorStop(1, '#9C6B1C');
     ctx.lineWidth = 12; ctx.strokeStyle = 'rgba(20,10,4,0.9)'; ctx.strokeText(s, 0, yy); ctx.fillStyle = g; ctx.shadowColor = 'rgba(255,190,80,0.6)'; ctx.shadowBlur = 24; ctx.fillText(s, 0, yy); ctx.shadowBlur = 0; });
@@ -163,7 +159,7 @@ const SHOTS = [
   [0, (lt, d, t) => { const z = lerp(1.06, 1.2, easeOut(lt / d)); const m = view(G.kapi, 0.51, 0.42, z);
     const seam = 1 - ease((t - 5.6) / 1.4); const fl = 0.85 + 0.15 * Math.sin(t * 11);
     halo(m.x(0.514), m.y(0.27), 330 * m.s * (0.45 + 0.55 * seam), 0.95 * seam * fl);
-    motes(t, 0.6); flash(t - 6.62, '0,0,0', 0.5, 0.5); }],
+    motes(t, 0.6); flash(t - 6.92, '0,0,0', 0.5, 0.5); }],
   // 2a. the salon: slow drift across the room
   [t15, (lt, d, t) => { view(G.salon, lerp(0.38, 0.6, ease(lt / d)), 0.42, 1.28); fireWash(t, 0, 0.6); motes(t, 0.9); }],
   // 2b. push toward the thin book; her line is written in ink
@@ -240,7 +236,7 @@ const SHOTS = [
   [CLOSE.addr, (lt, d, t) => { view(G.portre, 0.5, 0.4, 1.04, { filter: 'brightness(0.55)' }); const a = ease(lt / 0.4);
     ctx.save(); ctx.globalAlpha = a; ctx.fillStyle = 'rgba(6,8,18,0.72)'; ctx.fillRect(0, 1080, W, 640);
     ytIcon(W / 2, 1190, 110, a); ctx.textAlign = 'center'; ctx.font = '800 84px "Alegreya Sans"'; ctx.fillStyle = CREAM; ctx.fillText('@TanerSavaşçı', W / 2, 1345);
-    ctx.font = '700 38px Cinzel'; ctx.fillStyle = GOLD; ctx.fillText('YOUTUBE', W / 2, 1400);
+    ctx.font = '700 38px Baskerville'; ctx.fillStyle = GOLD; ctx.fillText('YOUTUBE', W / 2, 1400);
     ctx.font = '800 64px "Alegreya Sans"'; ctx.fillStyle = CREAM; ctx.fillText('Instagram  @sevgiliinsann', W / 2, 1530); ctx.fillText('www.sevgiliinsan.com', W / 2, 1630); ctx.restore(); }],
 ];
 SHOTS.forEach((s, i) => s[2] = i + 1 < SHOTS.length ? SHOTS[i + 1][0] : DUR + 0.5);
@@ -263,7 +259,8 @@ function hookCard(t) {   // 0-3 s, from frame 0
 // ---------------- captions (shared house style: dark contour + soft shadow, gold current word) ----------------
 const CH = D.chunks.map((c, n) => { const s = WD[c[0]].s, eLast = WD[c[c.length - 1]].e; const next = D.chunks[n + 1] ? WD[D.chunks[n + 1][0]].s : DUR; return { idx: c, s: s - 0.08, e: Math.min(next - 0.04, eLast + 0.7) }; });
 function captions(t) {
-  if (t < 3.0 || t >= tSence - 0.1) return;            // hook card owns 0-3 s; question and end cards own the outro
+  if (t < 3.0 || t >= tSence - 0.1) return;
+  if ((t >= tBu - 0.1 && t < tArt) || (t >= T('okunacak.') - 0.1 && t < tHak)) return;   // the ink card and the gold stamp carry these words            // hook card owns 0-3 s; question and end cards own the outro
   const c = CH.find(c => t >= c.s && t < c.e); if (!c) return;
   const a = Math.min(ease((t - c.s) / 0.1), ease((c.e - t) / 0.1));
   let size = 84; const big = 1.16; ctx.font = `800 ${size}px "Alegreya Sans"`;
@@ -306,6 +303,6 @@ async function renderFrame(f) {
   finish(t, f); hookCard(t); captions(t);
 }
 window.captureFrame = async (f, type = 'image/png', q = 0.95) => { await renderFrame(f); return cv.toDataURL(type, q); };
-window.READY = (async () => { await Promise.all(['280px Anton', '700 40px Cinzel', '900 40px Cinzel', 'italic 700 40px Cinzel', '800 40px "Alegreya Sans"'].map(f => document.fonts.load(f, 'ŞİĞÜÖÇışğüöçâÂ'))); await prep(); await renderFrame(0); return { frames: FRAMES, fps: FPS, width: W, height: H, renderer: 'canvas' }; })();
+window.READY = (async () => { await Promise.all(['280px Anton', '700 40px Baskerville', '900 40px Baskerville', 'italic 700 40px Baskerville', '800 40px "Alegreya Sans"'].map(f => document.fonts.load(f, 'ŞİĞÜÖÇışğüöçâÂ'))); await prep(); await renderFrame(0); return { frames: FRAMES, fps: FPS, width: W, height: H, renderer: 'canvas' }; })();
 const q = new URLSearchParams(location.search); if (q.has('t')) window.READY.then(() => renderFrame(Math.round(+q.get('t') * FPS)));
 </script></body></html>

@@ -135,3 +135,10 @@ Kredi kıt: en az adım, tek ses kaydı, yeniden render'ı önlemek için ilk se
 ## Bilinen tuzaklar (2026-11-17, telaffuz ve eller)
 - Zor isim telaffuzu: önce 3-4 yazımı tek kısa denemede okut (~130 kredi), Enes seçsin, sonra cümleleri kaydet. "Jung" = /juŋ/ (Enes onayladı); "Yung" yazımı "Yang", /jʊŋ/ "Yom" okundu.
 - SDXL elleri bozuk çiziyor (fazla parmak, toynak gibi el, bebek parmakları). El görünen her kare Flow Nano Banana'da referanssız, sıfırdan çizilir (`download_quality: upscaled`); eski kareyi referans vermek bozuk pozu kopyalıyor. SDXL yalnız elsiz sahneler için.
+
+## Bilinen tuzaklar (2026-11-18, Enes'in teslim sonrası yakaladığı hatalar)
+- Ses parçası birleştirirken (kanca yeniden okuma + eski kayıt) baş KESİLMEZ: yeni parça başındaki sessizlikle birlikte tam konur. Kontrol: `silencedetect` ile birleşmiş dosyanın ilk sesi ≥0,08 sn'de başlamalı ve ilk kelime whisper'da ≥0,3 sn sürmeli; "Annesini 0.0-0.2" gibi kısa ilk kelime = kesik baş demektir. Teslimden önce ilk 2 sn ölçülür.
+- Yazı tipi seçmeden önce Türkçe harf testi: `İıŞşĞğÜüÖöÇçÂâ` hem büyük hem küçük harfle tek karede çizilip bakılır. Cinzel (yalnız büyük harf/small-caps) "ı" harfini başka fontla basıyor: KULLANILMAZ. Serif ihtiyacında macOS Baskerville (bold/bold italic) Türkçe tam.
+- Ekrandaki kart/damga konuşulan sözün aynısını yazıyorsa o süre boyunca altyazı gizlenir (iki kez yazı, üst üste binme yok). QC kareleri yalnız sahne başlarından değil, HER kartın/damganın/etiketin göründüğü andan da alınır.
+- Başlık üstü küçük etiket ile Anton satırı arasında ≥size*1.2 boşluk, satır aralığı size*1.15 (İ noktası ve virgül çakışmasın); etiket ≥52 px ve konturlu.
+- Sis/ışık katmanı dikdörtgen bölgeye radyal gradyanla çizilmez (sert şerit kenarı çıkar); elips (scale) ile çizilir.

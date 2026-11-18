@@ -1,10 +1,11 @@
 # Schopenhauer-Kirpi: durum
 
-**Aşama:** TESLİM EDİLDİ (2026-11-18, Enes: "Tamam, teslim et")
+**Aşama:** TESLİM EDİLDİ (düzeltilmiş sürüm, 2026-11-18; 106,3 sn, 3189 kare)
 **Son güncelleme:** 2026-11-18
 
 ## Sıradaki adım
-Yok. Reels teslim edildi; dosyalar outputs/Schopenhauer-Kirpi/ içinde, GitHub'a gönderildi.
+Enes (2026-11-18): "girişte geç başlamışsın an gitmiş nesini son kez ... diye devam ediyor", "yazılarda İ harfleri", kartla altyazı çakışması, "sakın okuma kredisi harcama".
+Yapılan (kredisiz): vo.mp3 = kanca-v2 ilk 0,30 sn geri kondu (eski kesik: ses/vo-kesik-yedek.mp3), words-raw +0,30 kaydırıldı, sure 106,3; Cinzel → Baskerville; kart/damga anında altyazı gizli; etiketler büyük ve konturlu; sis şeridi elips; kapak yeniden üretildi. Render bitti, outputs güncellendi, commit edildi.
 
 ## Kararlar (Enes)
 - Stil: çizgi film (Arcane / graphic novel), 2026-11-18
