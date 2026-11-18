@@ -1,0 +1,44 @@
+{
+  "konu": "Schopenhauer-Kirpi",
+  "sure": 106.0,
+  "whisper_ipucu": "Schopenhauer, Şopenhauer, Weimar, Vaymar, Goethe, Göte, Frankfurt, Atma, kaniş, kirpi, eczacılar, nezaket ve görgü, mesel.",
+  "duzelt": {
+    "hala": "hâlâ",
+    "Şopenhauer": "Schopenhauer",
+    "Vaymar": "Weimar",
+    "Göte": "Goethe",
+    "kaplanabilecekleri": "katlanabilecekleri",
+    "Annesi,": "Annesi",
+    "çıktı": "çıktı,",
+    "böyleydi.": "böyleydi:",
+    "Yaklaşınca": "yaklaşınca",
+    "etmek,": "etmek",
+    "insan,": "insan",
+    "hangisisin?": "hangisisin:",
+    "Sokulan": "sokulan",
+    "mi?": "mi,",
+    "Kendi": "kendi"
+  },
+  "zaman_duzelt": [],
+  "vurgu": [],
+  "bolum_sinirlari": [],
+  "boom": [],
+  "gecis": [],
+  "qc_kareleri": [
+    0,
+    60,
+    560,
+    1380,
+    1650,
+    1870,
+    2300,
+    2420,
+    2460,
+    3020
+  ],
+  "sil": [
+    "şey",
+    "yok.",
+    "Bir"
+  ]
+}

@@ -1,0 +1,8 @@
+file,source,licence,author,notes
+ses/muzik-aday/mozart_k421.flac,https://commons.wikimedia.org/wiki/File:Mozart_-_String_Quartet_No._15_in_D_minor,_K421_-_II._Andante_(Musopen_String_Quartet).flac,Public domain,Mozart / Musopen String Quartet,aday
+ses/muzik-aday/schubert_d784.flac,https://commons.wikimedia.org/wiki/File:Schubert_-_Piano_Sonata_No._14_in_A_minor,_D784_-_II._Andante_(Paul_Pitman).flac,Public domain,Schubert / Paul Pitman,aday
+ses/muzik-aday/chopin_flut.flac,https://commons.wikimedia.org/wiki/File:Chopin_-_Variations_for_Flute_and_Piano_in_E_major,_B._9_(Diana_Hughes).flac,Public domain,Chopin / Diana Hughes,aday
+gorseller/flow/*,Google Flow (Nano Banana),AI generated (Enes'in Google AI üyeliği),-,karakter ve sahne kareleri
+gorseller/veo/*,Google Flow (Veo 3.1 Fast),AI generated,-,2 klip
+gorseller/ai/*,Yerel SDXL,AI generated,-,arka planlar
+ses/vo.mp3,ElevenLabs (Sercan Esen),ElevenLabs lisansı,-,anlatım

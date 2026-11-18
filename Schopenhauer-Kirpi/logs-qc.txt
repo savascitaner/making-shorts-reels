@@ -1,0 +1,2 @@
+[capture] frames: /Users/claude-eng/Shorts - Reels/Schopenhauer-Kirpi/kaynak/renders/qc/%06d.jpg
+bak: /Users/claude-eng/Shorts - Reels/Schopenhauer-Kirpi/kaynak/renders/qc-sheet.jpg

@@ -1,0 +1,311 @@
+<!doctype html>
+<html lang="tr"><head><meta charset="utf-8"><title>Schopenhauer Kirpi 9x16</title>
+<style>
+@font-face{font-family:Anton;src:url(fonts/Anton-Regular.ttf)}
+@font-face{font-family:Cinzel;font-weight:900;src:url(fonts/cinzel-latin-900.woff2) format('woff2');unicode-range:U+0000-00FF,U+2000-206F}
+@font-face{font-family:Cinzel;font-weight:900;src:url(fonts/cinzel-latin-ext-900.woff2) format('woff2');unicode-range:U+0100-024F,U+1E00-1EFF}
+@font-face{font-family:Cinzel;font-weight:700;src:url(fonts/cinzel-latin-700.woff2) format('woff2');unicode-range:U+0000-00FF,U+2000-206F}
+@font-face{font-family:Cinzel;font-weight:700;src:url(fonts/cinzel-latin-ext-700.woff2) format('woff2');unicode-range:U+0100-024F,U+1E00-1EFF}
+@font-face{font-family:Alegreya Sans;font-weight:800;src:url(fonts/alegreya-sans-latin-800.woff2) format('woff2');unicode-range:U+0000-00FF,U+2000-206F}
+@font-face{font-family:Alegreya Sans;font-weight:800;src:url(fonts/alegreya-sans-latin-ext-800.woff2) format('woff2');unicode-range:U+0100-024F,U+1E00-1EFF}
+html,body{margin:0;background:#000}canvas{display:block;width:360px;height:640px}
+</style></head><body><canvas id="c" width="1080" height="1920"></canvas>
+<script src="words.js"></script>
+<script>
+// Schopenhauer: Kirpi İkilemi. Signature: amber heat halos (warmth) + crimson quill lines (pain) + a gold measuring line (distance).
+const W = 1080, H = 1920, FPS = 30, DUR = window.DATA.duration, FRAMES = Math.round(DUR * FPS);
+const cv = document.getElementById('c'), ctx = cv.getContext('2d');
+const D = window.DATA, WD = D.words;
+const AMBER = '#FFB703', PRUSSIAN = '#1B263B', CRIMSON = '#B3121B', CREAM = '#F6EEDC', GOLD = '#F2B544', ICE = '#BFD7EA';
+const clamp = (x, a, b) => Math.max(a, Math.min(b, x));
+const ease = x => { x = clamp(x, 0, 1); return x * x * (3 - 2 * x); };
+const easeOut = x => { x = clamp(x, 0, 1); return 1 - Math.pow(1 - x, 3); };
+const lerp = (a, b, k) => a + (b - a) * k;
+function rng(seed) { let a = seed >>> 0; return () => { a = (a + 0x6D2B79F5) >>> 0; let t = a; t = Math.imul(t ^ (t >>> 15), t | 1); t ^= t + Math.imul(t ^ (t >>> 7), t | 61); return ((t ^ (t >>> 14)) >>> 0) / 4294967296; }; }
+// word time by text (first match at or after index `from`), so cards never drift when alignment changes
+const norm = s => s.toLocaleLowerCase('tr').replace(/[^a-zçğıöşüâî0-9']/g, '');
+function IDX(word, from = 0) { const n = norm(word); for (let i = from; i < WD.length; i++) if (norm(WD[i].w) === n) return i; throw new Error('word not found: ' + word); }
+const T = (word, from = 0) => WD[IDX(word, from)].s;
+
+// ---------------- media ----------------
+const IMG = {
+  kapi: 'flow/k1_kapi.jpg', salon: 'flow/k2_salon.jpg', genc: 'flow/k3_genc_yakin.jpg', nehirA: 'ai/bg04_nehir_s23.jpg', nehir: 'flow/k4_nehir.jpg',
+  sayfa: 'ai/bg05_sayfa_s23.jpg', kirpiler: 'flow/k6_kirpiler.jpg', mesafe: 'flow/k8_mesafe.jpg', sarkac: 'ai/bg09_sarkac_s11.jpg',
+  somine: 'ai/bg10_somine_s11.jpg', tek: 'flow/k11_tek.jpg', gece: 'ai/bg11_kar_gece_s23.jpg', yasli: 'flow/v2_somine_yakin.jpg', portre: 'flow/c1_yasli_arthur.jpg',
+};
+// Veo clips unpacked to 24 fps jpgs: gorseller/klip/<name>/%04d.jpg (+ n.txt)
+const CLIPS = { dikenler: { fps: 24, n: 188 }, konus: { fps: 24, n: 0 } };
+const G = {};
+function loadImg(src) { return new Promise((ok, no) => { const im = new Image(); im.onload = () => ok(im); im.onerror = () => no(src); im.src = '../gorseller/' + src; }); }
+const clipCache = new Map();
+async function clipFrame(name, ct) {        // ct = clip seconds
+  const c = CLIPS[name]; const i = clamp(Math.round(ct * c.fps) + 1, 1, c.n); const key = name + i;
+  if (!clipCache.has(key)) { clipCache.set(key, await loadImg(`klip/${name}/${String(i).padStart(4, '0')}.jpg`)); if (clipCache.size > 24) clipCache.delete(clipCache.keys().next().value); }
+  return clipCache.get(key);
+}
+async function prep() {
+  for (const [k, s] of Object.entries(IMG)) G[k] = await loadImg(s);
+  try { const r = await fetch('../gorseller/klip/konus/n.txt'); if (r.ok) CLIPS.konus.n = parseInt(await r.text()); } catch (e) {}
+  try { const r = await fetch('../gorseller/klip/konus/sync.json'); if (r.ok) CLIPS.konus.sync = await r.json(); } catch (e) {}
+  G.grain = [0, 1, 2, 3].map(s => { const c = document.createElement('canvas'); c.width = 540; c.height = 960; const x = c.getContext('2d'); const d = x.createImageData(540, 960); const r = rng(311 + s);
+    for (let i = 0; i < d.data.length; i += 4) { const v = 128 + (r() - 0.5) * 255; d.data[i] = d.data[i + 1] = d.data[i + 2] = v; d.data[i + 3] = 255; } x.putImageData(d, 0, 0); return c; });
+}
+// cover-crop an image; (u,v) = point of the image at screen centre, z = zoom; returns the mapping for overlays
+function view(im, u, v, z, { rot = 0, dx = 0, dy = 0, filter = 'none', alpha = 1 } = {}) {
+  const iw = im.width, ih = im.height, s = Math.max(W / iw, H / ih) * z, dw = iw * s, dh = ih * s;
+  const ox = clamp(u * dw - W / 2, 0, dw - W), oy = clamp(v * dh - H / 2, 0, dh - H);
+  ctx.save(); ctx.globalAlpha = alpha; ctx.filter = filter; ctx.translate(W / 2 + dx, H / 2 + dy); if (rot) { ctx.rotate(rot); ctx.scale(1.08, 1.08); }
+  ctx.drawImage(im, -W / 2 - ox, -H / 2 - oy, dw, dh); ctx.restore();
+  return { x: px => px * dw - ox + dx, y: py => py * dh - oy + dy, s: dw / W };
+}
+
+// ---------------- signature layers ----------------
+// heat halo: the warmth each body gives off (screen blend)
+function halo(x, y, r, a, col = '255,183,3') {
+  if (a <= 0) return; ctx.save(); ctx.globalCompositeOperation = 'screen';
+  const g = ctx.createRadialGradient(x, y, 0, x, y, r); g.addColorStop(0, `rgba(${col},${0.55 * a})`); g.addColorStop(0.45, `rgba(${col},${0.22 * a})`); g.addColorStop(1, `rgba(${col},0)`);
+  ctx.fillStyle = g; ctx.fillRect(x - r, y - r, 2 * r, 2 * r);
+  ctx.globalCompositeOperation = 'source-over'; ctx.strokeStyle = `rgba(${col},${0.5 * a})`; ctx.lineWidth = 3; ctx.setLineDash([2, 10]); ctx.beginPath(); ctx.arc(x, y, r * 0.72, 0, 6.283); ctx.stroke(); ctx.setLineDash([]);
+  ctx.restore();
+}
+// snow in three depths; `melt` = {x,y,r} keeps flakes out of a warm circle
+const FLAKES = (() => { const r = rng(9), a = []; for (let i = 0; i < 260; i++) a.push({ x: r(), y: r(), d: [0.35, 0.65, 1][i % 3], p: r() * 6.28, w: 0.5 + r() }); return a; })();
+function snow(t, amt, wind = 0.02, melt = null) {
+  ctx.save(); ctx.fillStyle = '#EAF2FF';
+  for (const f of FLAKES) { if (f.p / 6.28 > amt) continue; const sp = 0.035 + 0.06 * f.d;
+    const y = ((f.y + t * sp) % 1) * (H + 40) - 20, x = (((f.x + t * wind * f.d + 0.012 * Math.sin(t * f.w + f.p)) % 1) + 1) % 1 * W;
+    let a = 0.35 + 0.55 * f.d; if (melt) { const dd = Math.hypot(x - melt.x, y - melt.y); if (dd < melt.r) continue; if (dd < melt.r * 1.4) a *= (dd - melt.r) / (melt.r * 0.4); }
+    ctx.globalAlpha = a; ctx.beginPath(); ctx.arc(x, y, 1.6 + 3.2 * f.d, 0, 6.283); ctx.fill(); }
+  ctx.restore();
+}
+// warm drifting dust in candle/fire light
+const MOTES = (() => { const r = rng(21), a = []; for (let i = 0; i < 70; i++) a.push({ x: r(), y: r(), p: r() * 6.28, s: 0.6 + r() }); return a; })();
+function motes(t, amt, col = '255,214,150') {
+  ctx.save(); for (const m of MOTES) { if (m.s - 0.6 > amt) continue; const x = (m.x + 0.02 * Math.sin(t * 0.3 * m.s + m.p)) * W, y = (((m.y - t * 0.008 * m.s) % 1) + 1) % 1 * H;
+    ctx.globalAlpha = 0.25 + 0.35 * Math.sin(t * m.s + m.p) ** 2; ctx.fillStyle = `rgba(${col},1)`; ctx.beginPath(); ctx.arc(x, y, 1.5 + 2 * m.s, 0, 6.283); ctx.fill(); } ctx.restore();
+}
+// flickering firelight wash from one side
+function fireWash(t, side = 0, amt = 1) {
+  const fl = 0.75 + 0.15 * Math.sin(t * 13.1) + 0.1 * Math.sin(t * 7.3 + 1) + 0.06 * Math.sin(t * 29);
+  ctx.save(); ctx.globalCompositeOperation = 'soft-light'; const x0 = side ? W : 0;
+  const g = ctx.createLinearGradient(x0, 0, W - x0, 0); g.addColorStop(0, `rgba(255,150,40,${0.55 * amt * fl})`); g.addColorStop(0.6, 'rgba(255,150,40,0)'); ctx.fillStyle = g; ctx.fillRect(0, 0, W, H); ctx.restore();
+}
+// fog band drifting sideways
+function fog(t, y0, h, a, speed = 12) {
+  ctx.save(); for (let k = 0; k < 3; k++) { const x = ((t * speed * (1 + k * 0.4) + k * 400) % (W * 2)) - W; const g = ctx.createRadialGradient(x + W / 2, y0, 0, x + W / 2, y0, W * 0.7);
+    g.addColorStop(0, `rgba(200,215,235,${a})`); g.addColorStop(1, 'rgba(200,215,235,0)'); ctx.fillStyle = g; ctx.fillRect(0, y0 - h, W, h * 2); } ctx.restore();
+}
+// crimson quill strokes: the film's wipe (lines grow from one edge and cover the frame)
+const QUILLS = (() => { const r = rng(55), a = []; for (let i = 0; i < 46; i++) a.push({ y: r(), a: -0.5 + r() * 0.25, l: 0.5 + r() * 0.8, w: 3 + r() * 9, d: r() * 0.35 }); return a; })();
+function quillWipe(k, dir = 1) {   // k 0..1 in, 1..2 out
+  if (k <= 0 || k >= 2) return; ctx.save();
+  for (const q of QUILLS) { const kin = clamp((k - q.d) / 0.65, 0, 1), kout = clamp((k - 1 - q.d) / 0.65, 0, 1); if (kin <= 0) continue;
+    const x0 = dir > 0 ? -60 : W + 60, len = q.l * W * 1.6; const y = q.y * H;
+    const s = lerp(0, len, easeOut(kout)), e = lerp(0, len, easeOut(kin));
+    ctx.strokeStyle = CRIMSON; ctx.lineCap = 'round'; ctx.lineWidth = q.w * 6; ctx.globalAlpha = 0.95;
+    ctx.beginPath(); ctx.moveTo(x0 + dir * s * Math.cos(q.a), y + s * Math.sin(q.a)); ctx.lineTo(x0 + dir * e * Math.cos(q.a), y + e * Math.sin(q.a)); ctx.stroke();
+    ctx.strokeStyle = '#FF6B4A'; ctx.lineWidth = q.w * 0.8; ctx.stroke(); }
+  if (k > 0.55 && k < 1.45) { ctx.globalAlpha = 1 - Math.abs(k - 1) / 0.45; ctx.fillStyle = '#4A0A0F'; ctx.fillRect(0, 0, W, H); }
+  ctx.restore();
+}
+function flash(lt, col = '255,90,70', dur = 0.35, peak = 0.85) { if (lt < 0 || lt > dur) return; ctx.fillStyle = `rgba(${col},${peak * (1 - lt / dur) ** 2})`; ctx.fillRect(0, 0, W, H); }
+function shake(lt, amp = 22, dur = 0.45) { const k = Math.max(0, 1 - lt / dur); return [Math.sin(lt * 87) * amp * k, Math.cos(lt * 71) * amp * k]; }
+// gold measuring line between two points: the "safe distance"
+function measure(x1, y1, x2, y2, k, label) {
+  if (k <= 0) return; ctx.save(); const mx = lerp(x1, x2, 0.5), hw = (x2 - x1) / 2 * easeOut(k);
+  ctx.strokeStyle = GOLD; ctx.lineWidth = 4; ctx.shadowColor = 'rgba(255,183,3,0.8)'; ctx.shadowBlur = 16; ctx.globalAlpha = ease(k * 2);
+  ctx.beginPath(); ctx.moveTo(mx - hw, lerp(y1, y2, 0.5)); ctx.lineTo(mx + hw, lerp(y1, y2, 0.5)); ctx.stroke();
+  for (const sx of [mx - hw, mx + hw]) { ctx.beginPath(); ctx.moveTo(sx, y1 - 22); ctx.lineTo(sx, y1 + 22); ctx.stroke(); }
+  if (label && k > 0.6) { ctx.globalAlpha = ease((k - 0.6) / 0.4); ctx.shadowBlur = 0; ctx.font = '900 58px Cinzel'; ctx.textAlign = 'center'; ctx.lineWidth = 10; ctx.strokeStyle = 'rgba(6,8,18,0.85)'; ctx.strokeText(label, mx, y1 - 40); ctx.fillStyle = GOLD; ctx.fillText(label, mx, y1 - 40); }
+  ctx.restore();
+}
+
+// ---------------- type ----------------
+// headline: Anton, cream/gold, dark contour; slides up 24 px with a 0.3 s ease
+function headline(lines, lt, { y = 420, size = 128, colors = null, out = 99, label = null, labelCol = GOLD } = {}) {
+  if (lt < 0 || lt > out + 0.3) return; const a = Math.min(ease(lt / 0.3), ease((out + 0.3 - lt) / 0.3));
+  ctx.save(); ctx.globalAlpha = a; ctx.textAlign = 'center'; ctx.lineJoin = 'round';
+  const g = ctx.createLinearGradient(0, y - size * 1.7, 0, y + size * (lines.length + 0.3)); g.addColorStop(0, 'rgba(6,8,18,0)'); g.addColorStop(0.35, 'rgba(6,8,18,0.42)'); g.addColorStop(0.7, 'rgba(6,8,18,0.42)'); g.addColorStop(1, 'rgba(6,8,18,0)');
+  ctx.fillStyle = g; ctx.fillRect(0, y - size * 1.7, W, size * (lines.length + 2));
+  if (label) { ctx.font = '700 40px Cinzel'; ctx.fillStyle = labelCol; ctx.fillText(label, W / 2, y - size * 0.95); }
+  lines.forEach((s, i) => { let sz = size; ctx.font = `${sz}px Anton`; const mw = ctx.measureText(s).width; if (mw > 960) { sz = Math.floor(sz * 960 / mw); ctx.font = `${sz}px Anton`; }
+    const yy = y + i * size * 1.06 + (1 - a) * 24; ctx.lineWidth = sz * 0.1; ctx.strokeStyle = 'rgba(6,6,14,0.92)'; ctx.strokeText(s, W / 2, yy);
+    ctx.fillStyle = colors ? colors[i] : CREAM; ctx.shadowColor = 'rgba(255,183,3,0.45)'; ctx.shadowBlur = 30; ctx.fillText(s, W / 2, yy); ctx.shadowBlur = 0; });
+  ctx.restore();
+}
+// handwriting reveal: a quote appears as if written in ink, left to right
+function inkLine(s, lt, x, y, size, dur, col = '#2A140C', glow = 'rgba(255,230,190,0.9)') {
+  if (lt < 0) return; ctx.save(); ctx.font = `italic 700 ${size}px Cinzel`; ctx.textAlign = 'left'; const w = ctx.measureText(s).width; const k = easeOut(lt / dur);
+  ctx.beginPath(); ctx.rect(x - w / 2 - 10, y - size, (w + 20) * k, size * 1.6); ctx.clip();
+  ctx.lineWidth = 10; ctx.strokeStyle = glow; ctx.lineJoin = 'round'; ctx.strokeText(s, x - w / 2, y); ctx.fillStyle = col; ctx.fillText(s, x - w / 2, y); ctx.restore();
+}
+// gold leaf stamp with a light sweep
+function goldStamp(lines, lt, y, size) {
+  if (lt < 0) return; const k = easeOut(lt / 0.35), sc = lerp(1.25, 1, k);
+  ctx.save(); ctx.globalAlpha = ease(lt / 0.2); ctx.translate(W / 2, y); ctx.scale(sc, sc); ctx.textAlign = 'center';
+  lines.forEach((s, i) => { ctx.font = `900 ${size}px Cinzel`; const yy = i * size * 1.1; const w = ctx.measureText(s).width;
+    const g = ctx.createLinearGradient(-w / 2, 0, w / 2, 0); const sw = ((lt * 0.6) % 1.6) - 0.3;
+    g.addColorStop(0, '#9C6B1C'); g.addColorStop(clamp(sw - 0.1, 0, 1), '#E8B64A'); g.addColorStop(clamp(sw, 0, 1), '#FFF3C4'); g.addColorStop(clamp(sw + 0.1, 0, 1), '#E8B64A'); g.addColorStop(1, '#9C6B1C');
+    ctx.lineWidth = 12; ctx.strokeStyle = 'rgba(20,10,4,0.9)'; ctx.strokeText(s, 0, yy); ctx.fillStyle = g; ctx.shadowColor = 'rgba(255,190,80,0.6)'; ctx.shadowBlur = 24; ctx.fillText(s, 0, yy); ctx.shadowBlur = 0; });
+  ctx.restore();
+}
+
+// ---------------- timeline ----------------
+const t15 = T('Annesi'), tOgl = T('Oğlunun'), tBu = T('Bu', 20), tArt = T("Arthur'un"), tSen = T('Senin'), tHak = T('Haklı'), tFra = T("Frankfurt'ta,"), t27 = T('27'),
+  tVe = T('Ve', 60), tBenz = T('benzetmelerinden'), tDon = T('Dondurucu'), tAma1 = T('Ama', 85), tBat = T('batar.'), tAci = T('Acıyla'), tUsu = T('üşürler.'), tYen = T('Yeniden'), tKan = T('kanarlar.'),
+  tSon = T('Sonunda'), tMes = T('mesafe', 100), tNez = T('nezaket'), tIsi = T('Isınma'), tOna = T('Ona'), tYak = T('yaklaşınca'), tUza = T('uzaklaşınca'), tAma3 = T('Ama', 135), tIci = T('İçinde'), tEder = WD[IDX('eder.')].e,
+  tYani = T('Yani'), tAtes = T('ısınmak', 170), tSence = T('Sence'), tDaha = T('Daha', 190), tEnd = WD[WD.length - 1].e;
+const CLOSE = { cover: tEnd + 0.5, addr: tEnd + 2.5 };
+
+// Each shot: [t0, draw(lt, d, t)] ; async allowed (clips)
+const SHOTS = [
+  // 1. HOOK: corridor, door seam light dies (0 – Annesi)
+  [0, (lt, d, t) => { const z = lerp(1.06, 1.2, easeOut(lt / d)); const m = view(G.kapi, 0.51, 0.42, z);
+    const seam = 1 - ease((t - 5.6) / 1.4); const fl = 0.85 + 0.15 * Math.sin(t * 11);
+    halo(m.x(0.514), m.y(0.27), 330 * m.s * (0.45 + 0.55 * seam), 0.95 * seam * fl);
+    motes(t, 0.6); flash(t - 6.62, '0,0,0', 0.5, 0.5); }],
+  // 2a. the salon: slow drift across the room
+  [t15, (lt, d, t) => { view(G.salon, lerp(0.38, 0.6, ease(lt / d)), 0.42, 1.28); fireWash(t, 0, 0.6); motes(t, 0.9); }],
+  // 2b. push toward the thin book; her line is written in ink
+  [tOgl, (lt, d, t) => { view(G.salon, lerp(0.32, 0.34, ease(lt / d)), lerp(0.5, 0.56, ease(lt / d)), lerp(1.35, 1.9, easeOut(lt / d))); motes(t, 0.7);
+    const l2 = t - tBu + 0.1; if (l2 > 0) { ctx.fillStyle = `rgba(246,232,205,${0.82 * ease(l2 / 0.3)})`; const y = 1580; ctx.fillRect(50, y - 150, W - 100, 290);
+      inkLine('“Bu herhalde', l2, W / 2, y - 30, 84, 0.9); inkLine('eczacılar için bir kitap.”', l2 - 0.8, W / 2, y + 85, 68, 1.2); } }],
+  // 3. the son's answer, half amber half blue, stamped in gold leaf
+  [tArt, (lt, d, t) => { view(G.genc, 0.5, 0.36, lerp(1.08, 1.28, easeOut(lt / d)));
+    const b = lerp(0.3, 0.62, ease(lt / d)); ctx.save(); ctx.globalCompositeOperation = 'soft-light'; const g = ctx.createLinearGradient(0, 0, W, 0); g.addColorStop(0, 'rgba(255,170,60,0.7)'); g.addColorStop(b, 'rgba(255,170,60,0)'); g.addColorStop(Math.min(1, b + 0.15), 'rgba(40,70,140,0.5)'); g.addColorStop(1, 'rgba(40,70,140,0.7)'); ctx.fillStyle = g; ctx.fillRect(0, 0, W, H); ctx.restore();
+    goldStamp(['HÂLÂ', 'OKUNACAK'], t - T('okunacak.'), 1500, 120); }],
+  // 4a. "Haklı çıktı ama bedeli ağır": the empty river at dawn
+  [tHak, (lt, d, t) => { view(G.nehirA, 0.5, lerp(0.42, 0.5, ease(lt / d)), lerp(1.18, 1.06, ease(lt / d))); fog(t, 1250, 260, 0.22, 18); }],
+  // 4b. Frankfurt: tracking alongside the old man and his poodle
+  [tFra, (lt, d, t) => { const dxp = Math.sin(t * 1.6) * 3; view(G.nehir, lerp(0.42, 0.56, lt / d), 0.52, 1.22, { dy: dxp }); fog(t, 1180, 300, 0.28, 30); fog(t, 1700, 200, 0.18, -20);
+    headline(['27 YIL,', 'BİR KANİŞ'], t - t27, { y: 360, size: 130, colors: [CREAM, GOLD], out: 3.6 }); }],
+  // 5. his manuscript; ink turns to quills (wipe into the parable)
+  [tVe, (lt, d, t) => { view(G.sayfa, 0.5, 0.5, lerp(1.0, 1.18, ease(lt / d)), { rot: lerp(-0.02, 0.015, ease(lt / d)) }); fireWash(t, 1, 0.5);
+    headline(['KİRPİ', 'İKİLEMİ'], t - tBenz, { y: 820, size: 190, colors: [CREAM, '#E2423A'], label: 'PARERGA · 1851', out: tDon - tBenz - 0.5 }); }],
+  // 6. the huddle: tilt down, halos swell toward each other
+  [tDon, (lt, d, t) => { const m = view(G.kirpiler, 0.5, lerp(0.42, 0.56, ease(lt / d)), 1.12); const k = ease(lt / d);
+    const r = rng(4); for (let i = 0; i < 5; i++) { const ang = i * 1.256 + 0.4, rr = lerp(0.2, 0.09, k); halo(m.x(0.52 + rr * Math.cos(ang) * 0.9), m.y(0.635 + rr * Math.sin(ang) * 0.5), lerp(140, 230, k) * m.s, 0.55 + 0.25 * Math.sin(t * 2 + i)); }
+    snow(t, 0.9, 0.015); }],
+  // 7a. Veo: they press together, quills flash (clip 0 – 3.0 s)
+  [tAma1, async (lt, d, t) => { const im = await clipFrame('dikenler', clamp(lt * (3.0 / d), 0, 3.0)); const [sx, sy] = shake(t - (tBat + 0.05)); view(im, 0.5, 0.5, 1.02, { dx: t > tBat ? sx : 0, dy: t > tBat ? sy : 0 });
+    snow(t, 0.4, 0.01); headline(['YAKLAŞ = ACI'], t - tBat, { y: 330, size: 120, colors: ['#FF6B5A'] }); }],
+  // 7b. Veo: apart and cold (clip 4.3 – 7.85 s)
+  [tAci, async (lt, d, t) => { const im = await clipFrame('dikenler', lerp(4.3, 7.8, clamp(lt / d, 0, 1))); view(im, 0.5, 0.5, lerp(1.02, 1.1, ease(lt / d)), { filter: `saturate(${lerp(1, 0.6, ease(lt / d))})` });
+    flash(lt, '230,40,40', 0.4, 0.9); snow(t, 1, 0.03); headline(['UZAKLAŞ = SOĞUK'], t - tUsu, { y: 330, size: 120, colors: [ICE] }); }],
+  // 7c. again: closer, the flash again (clip 1.0 – 2.6 s, then hold)
+  [tYen, async (lt, d, t) => { const ct = Math.min(1.0 + lt * 1.6 / Math.max(0.1, tKan + 0.15 - tYen), 2.6); const im = await clipFrame('dikenler', ct); const [sx, sy] = shake(t - (tKan + 0.15), 28);
+    view(im, 0.5, 0.52, 1.25, { dx: t > tKan + 0.15 ? sx : 0, dy: t > tKan + 0.15 ? sy : 0 }); flash(t - (tKan + 0.15), '255,70,60', 0.5, 0.9); snow(t, 0.5, 0.02); }],
+  // 8a. the safe distance: pull back from the ring; the measuring line appears
+  [tSon, (lt, d, t) => { const z = lerp(1.9, 1.05, easeOut(lt / Math.min(d, 6))); const m = view(G.mesafe, 0.5, 0.53, z);
+    const P = [[0.406, 0.473], [0.5625, 0.465], [0.667, 0.531], [0.597, 0.596], [0.43, 0.598], [0.337, 0.531]];
+    P.forEach(([x, y], i) => halo(m.x(x), m.y(y), 0.078 * W * m.s * 1.9 * (1 + 0.04 * Math.sin(t * 2.2 + i)), 0.7));
+    measure(m.x(0.406) + 30 * m.s, m.y(0.473) - 70 * m.s, m.x(0.5625) - 30 * m.s, m.y(0.465) - 70 * m.s, (t - tMes) / 0.9, null);
+    snow(t, 0.7, 0.01); headline(['MESAFENİN ADI:', 'NEZAKET'], t - tNez, { y: 330, size: 130, colors: [CREAM, GOLD] }); }],
+  // 8b. half warmth, no quills: the two from the clip, halos just touching
+  [tIsi, async (lt, d, t) => { const im = await clipFrame('dikenler', 7.8); const m = view(im, 0.5, 0.55, 1.05); const k = ease(lt / 1.2);
+    halo(m.x(0.247), m.y(0.6), lerp(150, 300, k), 0.85); halo(m.x(0.785), m.y(0.6), lerp(150, 300, k), 0.85);
+    measure(m.x(0.247) + 120, m.y(0.42), m.x(0.785) - 120, m.y(0.42), (lt - 0.6) / 0.8, 'GÜVENLİ MESAFE'); snow(t, 0.8, 0.012); }],
+  // 9. the pendulum: pain ⇄ boredom
+  [tOna, (lt, d, t) => { const sw = Math.sin((t - tOna) * 1.9); view(G.sarkac, 0.5, 0.46, 1.12, { rot: sw * 0.012 });
+    const cx = W / 2, cy = 230, L = 980, ang = sw * 0.42, bx = cx + Math.sin(ang) * L, by = cy + Math.cos(ang) * L;
+    ctx.save(); ctx.strokeStyle = '#C9962E'; ctx.lineWidth = 12; ctx.beginPath(); ctx.moveTo(cx, cy); ctx.lineTo(bx, by); ctx.stroke();
+    const g = ctx.createRadialGradient(bx - 25, by - 25, 10, bx, by, 95); g.addColorStop(0, '#FFE7A6'); g.addColorStop(0.5, '#D19A33'); g.addColorStop(1, '#5E3B0E'); ctx.fillStyle = g; ctx.beginPath(); ctx.arc(bx, by, 95, 0, 6.283); ctx.fill(); ctx.restore();
+    ctx.save(); ctx.globalCompositeOperation = 'soft-light'; ctx.fillStyle = sw < 0 ? `rgba(220,40,30,${-sw * 0.7})` : `rgba(60,110,220,${sw * 0.7})`; ctx.fillRect(0, 0, W, H); ctx.restore();
+    const lA = t - tYak, lC = t - tUza; ctx.save(); ctx.textAlign = 'center'; ctx.font = '150px Anton'; ctx.lineWidth = 14; ctx.strokeStyle = 'rgba(6,6,14,0.9)';
+    if (lA > 0) { ctx.globalAlpha = ease(lA / 0.3) * (0.45 + 0.55 * clamp(-sw, 0, 1)); ctx.strokeText('ACI', 270, 1560); ctx.fillStyle = '#FF5A4A'; ctx.fillText('ACI', 270, 1560); }
+    if (lC > 0) { ctx.globalAlpha = ease(lC / 0.3) * (0.45 + 0.55 * clamp(sw, 0, 1)); ctx.font = '96px Anton'; ctx.strokeText('CAN', 790, 1500); ctx.strokeText('SIKINTISI', 790, 1600); ctx.fillStyle = ICE; ctx.fillText('CAN', 790, 1500); ctx.fillText('SIKINTISI', 790, 1600); }
+    ctx.restore(); motes(t, 0.5); }],
+  // 10a. the empty study, fire: "the last sentence"
+  [tAma3, (lt, d, t) => { view(G.somine, 0.45, 0.55, lerp(1.04, 1.22, ease(lt / d))); fireWash(t, 1, 0.9); motes(t, 0.9);
+    headline(['SON CÜMLE'], lt - 0.4, { y: 420, size: 150, colors: [GOLD], label: 'AZ BİLİNEN' }); }],
+  // 10b. Veo: he says it himself (speech synced to the narration)
+  [tIci, async (lt, d, t) => { let im = G.yasli; const c = CLIPS.konus;
+    if (c.n > 0) { const sy = c.sync || { a: 0.3, b: 7.6 }; const ct = lerp(sy.a, sy.b, clamp(lt / (tEder - tIci), 0, 1.06)); im = await clipFrame('konus', ct); }
+    view(im, 0.5, 0.42, lerp(1.0, 1.08, ease(lt / d))); fireWash(t, 0, 0.35); }],
+  // 11. the lone hedgehog with its own fire; snow melts before it lands
+  [tYani, (lt, d, t) => { const m = view(G.tek, 0.5, 0.62, lerp(1.25, 1.05, easeOut(lt / d))); const hx = m.x(0.5), hy = m.y(0.752);
+    halo(hx, hy, (260 + 30 * Math.sin(t * 1.7)) * m.s, 1); snow(t, 1, 0.01, { x: hx, y: hy, r: 210 * m.s });
+    headline(['İÇİNDEKİ ATEŞ'], t - tAtes, { y: 420, size: 150, colors: [AMBER] }); }],
+  // 12. question card over the night forest
+  [tSence, (lt, d, t) => { view(G.gece, 0.5, 0.55, lerp(1.1, 1.0, ease(lt / d)), { filter: 'brightness(0.7)' }); halo(W / 2, 1480, 260, 0.8); snow(t, 0.8, 0.01);
+    headline(['SOKULAN KİRPİ Mİ,', 'KENDİ ATEŞİNİ', 'TAŞIYAN MI?'], lt - 0.1, { y: 640, size: 118, colors: [ICE, CREAM, AMBER], label: 'SENCE SEN HANGİSİSİN?' });
+    if (t > T('Cevabını')) headline(['CEVABINI YORUMLARA YAZ'], t - T('Cevabını'), { y: 1080, size: 64, colors: [CREAM] }); }],
+  // 13. follow
+  [tDaha, (lt, d, t) => { view(G.gece, 0.5, 0.55, 1.0, { filter: 'brightness(0.45)' }); halo(W / 2, 960, 420, 0.5);
+    headline(['DAHA FAZLASI İÇİN'], lt, { y: 820, size: 92, colors: [CREAM] }); headline(['TAKİPTE KAL'], lt - 0.25, { y: 1000, size: 180, colors: [GOLD] }); }],
+  // 14. clean cover (2 s)
+  [CLOSE.cover, (lt, d, t) => { view(G.portre, 0.5, 0.4, lerp(1.0, 1.04, lt / d)); const g = ctx.createLinearGradient(0, 1150, 0, H); g.addColorStop(0, 'rgba(6,8,18,0)'); g.addColorStop(1, 'rgba(6,8,18,0.9)'); ctx.fillStyle = g; ctx.fillRect(0, 1150, W, H - 1150);
+    headline(['YAKLAŞINCA ACI,', 'UZAKLAŞINCA SOĞUK'], 99, { y: 1460, size: 130, colors: ['#FF5A4A', ICE], label: 'SCHOPENHAUER · KİRPİ İKİLEMİ' }); }],
+  // 15. addresses, on the clear lower side of the cover
+  [CLOSE.addr, (lt, d, t) => { view(G.portre, 0.5, 0.4, 1.04, { filter: 'brightness(0.55)' }); const a = ease(lt / 0.4);
+    ctx.save(); ctx.globalAlpha = a; ctx.fillStyle = 'rgba(6,8,18,0.72)'; ctx.fillRect(0, 1080, W, 640);
+    ytIcon(W / 2, 1190, 110, a); ctx.textAlign = 'center'; ctx.font = '800 84px "Alegreya Sans"'; ctx.fillStyle = CREAM; ctx.fillText('@TanerSavaşçı', W / 2, 1345);
+    ctx.font = '700 38px Cinzel'; ctx.fillStyle = GOLD; ctx.fillText('YOUTUBE', W / 2, 1400);
+    ctx.font = '800 64px "Alegreya Sans"'; ctx.fillStyle = CREAM; ctx.fillText('Instagram  @sevgiliinsann', W / 2, 1530); ctx.fillText('www.sevgiliinsan.com', W / 2, 1630); ctx.restore(); }],
+];
+SHOTS.forEach((s, i) => s[2] = i + 1 < SHOTS.length ? SHOTS[i + 1][0] : DUR + 0.5);
+// joints: 'cut' default; 'x' = crossfade, 'q' = crimson quill wipe, 'h' = amber halo iris
+const JOINT = { 1: 'cut', 2: 'cut', 3: 'x', 4: 'cut', 5: 'x', 6: 'x', 7: 'q', 8: 'cut', 9: 'cut', 10: 'cut', 11: 'x', 12: 'x', 13: 'cut', 14: 'x', 15: 'cut', 16: 'h', 17: 'x', 18: 'x', 19: 'x', 20: 'x' };
+function ytIcon(x, y, s, a) {
+  ctx.save(); ctx.globalAlpha = a; ctx.fillStyle = '#FF0033'; const w = s * 1.42, h = s, r = h * 0.28;
+  ctx.beginPath(); ctx.moveTo(x - w / 2 + r, y - h / 2); ctx.arcTo(x + w / 2, y - h / 2, x + w / 2, y + h / 2, r); ctx.arcTo(x + w / 2, y + h / 2, x - w / 2, y + h / 2, r); ctx.arcTo(x - w / 2, y + h / 2, x - w / 2, y - h / 2, r); ctx.arcTo(x - w / 2, y - h / 2, x + w / 2, y - h / 2, r); ctx.fill();
+  ctx.fillStyle = '#fff'; ctx.beginPath(); ctx.moveTo(x - h * 0.17, y - h * 0.24); ctx.lineTo(x + h * 0.27, y); ctx.lineTo(x - h * 0.17, y + h * 0.24); ctx.fill(); ctx.restore();
+}
+function hookCard(t) {   // 0-3 s, from frame 0
+  if (t >= 3.0) return; const out = ease((3.0 - t) / 0.25);
+  ctx.save(); ctx.globalAlpha = out; ctx.textAlign = 'center'; ctx.lineJoin = 'round';
+  const g = ctx.createLinearGradient(0, 1000, 0, 1700); g.addColorStop(0, 'rgba(6,8,18,0)'); g.addColorStop(0.4, 'rgba(6,8,18,0.55)'); g.addColorStop(1, 'rgba(6,8,18,0.2)'); ctx.fillStyle = g; ctx.fillRect(0, 1000, W, 700);
+  ctx.font = '280px Anton'; ctx.lineWidth = 22; ctx.strokeStyle = 'rgba(6,6,14,0.92)'; ctx.strokeText('24 YIL.', W / 2, 1330); ctx.fillStyle = AMBER; ctx.shadowColor = 'rgba(255,183,3,0.7)'; ctx.shadowBlur = 44; ctx.fillText('24 YIL.', W / 2, 1330); ctx.shadowBlur = 0;
+  ctx.font = '130px Anton'; ctx.lineWidth = 13; const k = ease((t - 0.5) / 0.3); ctx.globalAlpha = out * k; ctx.strokeText('TEK BİR KAPI.', W / 2, 1500); ctx.fillStyle = CREAM; ctx.fillText('TEK BİR KAPI.', W / 2, 1500);
+  ctx.restore();
+}
+
+// ---------------- captions (shared house style: dark contour + soft shadow, gold current word) ----------------
+const CH = D.chunks.map((c, n) => { const s = WD[c[0]].s, eLast = WD[c[c.length - 1]].e; const next = D.chunks[n + 1] ? WD[D.chunks[n + 1][0]].s : DUR; return { idx: c, s: s - 0.08, e: Math.min(next - 0.04, eLast + 0.7) }; });
+function captions(t) {
+  if (t < 3.0 || t >= tSence - 0.1) return;            // hook card owns 0-3 s; question and end cards own the outro
+  const c = CH.find(c => t >= c.s && t < c.e); if (!c) return;
+  const a = Math.min(ease((t - c.s) / 0.1), ease((c.e - t) / 0.1));
+  let size = 84; const big = 1.16; ctx.font = `800 ${size}px "Alegreya Sans"`;
+  const words = c.idx.map(i => WD[i].w); let widths = words.map(w => ctx.measureText(w).width), sp = size * 0.3;
+  let tot = widths.reduce((x, y) => x + y, 0) + sp * (words.length - 1);
+  if (tot > 880) { size = Math.floor(size * 880 / tot); ctx.font = `800 ${size}px "Alegreya Sans"`; widths = words.map(w => ctx.measureText(w).width); sp = size * 0.3; tot = widths.reduce((x, y) => x + y, 0) + sp * (words.length - 1); }
+  const y = 1340;
+  const onOf = wi => { const w = WD[wi]; return t >= w.s - 0.03 && t < (WD[wi + 1] ? Math.min(WD[wi + 1].s, w.e + 0.4) : w.e + 1); };
+  const scs = c.idx.map(wi => onOf(wi) ? big + 0.06 * Math.max(0, 1 - (t - WD[wi].s) / 0.15) : 1);
+  const ew = widths.map((w, j) => w * scs[j]); tot = ew.reduce((x, y) => x + y, 0) + sp * (words.length - 1);
+  let x = W / 2 - tot / 2; ctx.textAlign = 'left'; ctx.textBaseline = 'alphabetic'; ctx.lineJoin = 'round';
+  c.idx.forEach((wi, j) => { const w = WD[wi], on = onOf(wi), done = t >= w.e, sc = scs[j];
+    ctx.save(); ctx.translate(x + ew[j] / 2, y); ctx.scale(sc, sc); ctx.globalAlpha = a * (on || done ? 1 : 0.62);
+    ctx.lineWidth = size * 0.16; ctx.strokeStyle = 'rgba(10,7,4,0.95)'; ctx.shadowColor = 'rgba(0,0,0,0.65)'; ctx.shadowBlur = 14; ctx.shadowOffsetY = 4; ctx.strokeText(words[j], -widths[j] / 2, 0); ctx.shadowBlur = 0; ctx.shadowOffsetY = 0;
+    ctx.fillStyle = on ? GOLD : CREAM; ctx.fillText(words[j], -widths[j] / 2, 0); ctx.restore(); x += ew[j] + sp; });
+  ctx.globalAlpha = 1;
+}
+function finish(t, f) {
+  const v = ctx.createRadialGradient(W / 2, H * 0.5, H * 0.38, W / 2, H * 0.5, H * 0.8); v.addColorStop(0, 'rgba(0,0,0,0)'); v.addColorStop(1, 'rgba(8,12,28,0.55)'); ctx.fillStyle = v; ctx.fillRect(0, 0, W, H);
+  ctx.globalAlpha = 0.07; ctx.globalCompositeOperation = 'overlay'; ctx.drawImage(G.grain[f % 4], 0, 0, W, H); ctx.globalCompositeOperation = 'source-over'; ctx.globalAlpha = 1;
+  const fo = ease((DUR - t) / 0.8); if (fo < 1) { ctx.fillStyle = `rgba(0,0,0,${1 - fo})`; ctx.fillRect(0, 0, W, H); }
+}
+const SCR = document.createElement('canvas'); SCR.width = W; SCR.height = H;
+async function drawShot(i, t) { const s = SHOTS[i]; ctx.save(); await s[1](t - s[0], s[2] - s[0], t); ctx.restore(); ctx.globalAlpha = 1; ctx.filter = 'none'; ctx.globalCompositeOperation = 'source-over'; }
+async function renderFrame(f) {
+  const t = f / FPS; ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.globalAlpha = 1; ctx.filter = 'none';
+  let i = SHOTS.findIndex(s => t >= s[0] && t < s[2]); if (i < 0) i = SHOTS.length - 1;
+  const j = JOINT[i] || 'cut', lt = t - SHOTS[i][0];
+  if (j === 'q' && lt < 0.45) {                 // quill wipe: old shot under incoming quills, new shot as they retreat
+    const k = 1 + lt / 0.45; await drawShot(i, t); quillWipe(k, 1);
+  } else { await drawShot(i, t);
+    const xf = j === 'x' ? 0.4 : j === 'h' ? 0.7 : 0;
+    if (xf && lt < xf && i > 0) { const k = ease(lt / xf); const x = SCR.getContext('2d'); x.setTransform(1, 0, 0, 1, 0, 0); x.clearRect(0, 0, W, H); x.drawImage(cv, 0, 0);
+      await drawShot(i - 1, t); ctx.save();
+      if (j === 'h') { ctx.beginPath(); ctx.arc(W / 2, H * 0.7, k * H * 1.1, 0, 6.283); ctx.clip(); ctx.drawImage(SCR, 0, 0); ctx.restore(); ctx.save(); ctx.strokeStyle = `rgba(255,183,3,${1 - k})`; ctx.lineWidth = 14; ctx.beginPath(); ctx.arc(W / 2, H * 0.7, k * H * 1.1, 0, 6.283); ctx.stroke(); }
+      else { ctx.globalAlpha = k; ctx.drawImage(SCR, 0, 0); }
+      ctx.restore(); ctx.globalAlpha = 1; } }
+  // quill wipe intro: the last 0.45 s of the shot before a 'q' joint
+  if (i + 1 < SHOTS.length && JOINT[i + 1] === 'q') { const rem = SHOTS[i][2] - t; if (rem < 0.45) quillWipe(1 - rem / 0.45, 1); }
+  finish(t, f); hookCard(t); captions(t);
+}
+window.captureFrame = async (f, type = 'image/png', q = 0.95) => { await renderFrame(f); return cv.toDataURL(type, q); };
+window.READY = (async () => { await Promise.all(['280px Anton', '700 40px Cinzel', '900 40px Cinzel', 'italic 700 40px Cinzel', '800 40px "Alegreya Sans"'].map(f => document.fonts.load(f, 'ŞİĞÜÖÇışğüöçâÂ'))); await prep(); await renderFrame(0); return { frames: FRAMES, fps: FPS, width: W, height: H, renderer: 'canvas' }; })();
+const q = new URLSearchParams(location.search); if (q.has('t')) window.READY.then(() => renderFrame(Math.round(+q.get('t') * FPS)));
+</script></body></html>

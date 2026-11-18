@@ -1,0 +1,13 @@
+{
+"style": ", high-end painterly 2D animation background painting, hand-painted oil brush textures, 19th-century European graphic novel art, moody candlelight and moonlight chiaroscuro, palette of deep Prussian blue, warm amber glow and crimson shadows, cinematic vertical composition, highly detailed, atmospheric depth",
+"neg": "photo, photorealistic, 3d render, text, letters, watermark, signature, logo, people, person, hands, fingers, face, blurry, lowres, frame, border, modern objects",
+"items": [
+ ["bg01_koridor", [11, 23], "a long candlelit corridor in an elegant 1810s Weimar townhouse at night, a heavy dark oak door at the end almost closed, a thin seam of warm amber light through the gap, empty, cold blue shadows"],
+ ["bg02_salon", [11, 23], "an empty grand 1810s literary salon in Weimar, crystal chandelier with candles, red velvet armchairs, bookshelves, warm golden glow, blurred depth, no people"],
+ ["bg04_nehir", [11, 23], "misty early morning on a 19th century riverside promenade in Frankfurt, river Main, a gothic cathedral spire silhouette across the water, bare trees, cold blue fog with a faint amber sunrise, empty path"],
+ ["bg05_sayfa", [11, 23], "top-down view of an old handwritten manuscript page on a dark wooden desk, iron gall ink lines, a quill and an inkwell, a single candle casting amber light, cold blue moonlight from a window"],
+ ["bg06_orman", [11, 23], "a snow-covered forest clearing at twilight in deep winter, tall dark pines, soft falling snow, deep Prussian blue cold atmosphere, empty snowy ground in the foreground"],
+ ["bg09_sarkac", [11, 23], "a gothic study with a massive ornate brass wall clock pendulum, left side lit by crimson fireplace glow, right side by pale blue moonlight from a tall window, floating dust motes, books"],
+ ["bg10_somine", [11, 23], "an old philosopher's study at night, a warm crackling fireplace, a worn leather armchair, stacks of books, a flute lying on a side table, amber firelight against blue shadows, no people"],
+ ["bg11_kar_gece", [11, 23], "a lonely snowy forest floor at night under a dark blue sky, gentle snowfall, one small circle of warm amber light glowing on the snow in the center, vast empty cold space around it"]
+]}

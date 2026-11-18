@@ -32,3 +32,4 @@ Kısa dizin. Kurallar `CLAUDE.md`'de, her reels'in ayrıntısı kendi `<Konu>/ST
 - Üst üste büyük yazılarda alt satırın konturu üst satırın Ç/virgül kuyruğunu örtebilir: satır aralığını kontrol et.
 - Jung-Kader: "Jung Haklı mıydı?" (Murat Avcıoğlu konuşması) Reels 2:56 + 16:9 7:25, TESLİM EDİLDİ 2026-11-17 → Jung-Kader/STATE.md
 - Kanal-Fragmani (2026-11-18): YouTube kanal fragmanı 16:9 + Instagram 9:16, 66,5 sn, "Elden Ele Kandil". TESLİM EDİLDİ. Ayrıntı: Kanal-Fragmani/STATE.md
+- Schopenhauer-Kirpi (2026-11-18): "Annesiyle 24 Yıl Görüşmedi" Reels 9:16 (1:46), Kirpi İkilemi, çizgi film, 2 Veo klibi, Chopin flüt (PD). Ayrıntı: Schopenhauer-Kirpi/STATE.md

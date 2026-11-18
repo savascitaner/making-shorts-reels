@@ -1,0 +1,2 @@
+206 words; last: [{'w': 'fazlası', 's': np.float64(97.76), 'e': np.float64(98.32), 'p': np.float64(1.0)}, {'w': 'için', 's': np.float64(98.32), 'e': np.float64(98.48), 'p': np.float64(0.999)}, {'w': 'takipte', 's': np.float64(98.48), 'e': np.float64(99.18), 'p': np.float64(0.998)}, {'w': 'kal.', 's': np.float64(99.18), 'e': np.float64(99.38), 'p': np.float64(0.999)}]
+203 words 86 chunks
