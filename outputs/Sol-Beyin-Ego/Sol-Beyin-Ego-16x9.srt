@@ -1,0 +1,495 @@
+1
+00:00:00,000 --> 00:00:02,940
+Şu an aynaya baktığınızda gördüğünüz kişiyi
+
+2
+00:00:02,960 --> 00:00:03,460
+düşünün.
+
+3
+00:00:03,480 --> 00:00:07,350
+Bir adınız var, bir mesleğiniz, korkularınız,
+
+4
+00:00:07,380 --> 00:00:10,540
+savunduğunuz fikirler, ben asla şunu yapmam
+
+5
+00:00:10,560 --> 00:00:12,220
+dediğiniz çizgileriniz var.
+
+6
+00:00:12,240 --> 00:00:15,780
+Yıllar boyunca ailenizin, toplumun ve kendi
+
+7
+00:00:15,800 --> 00:00:18,780
+deneyimlerinizin ilmek ilmek ördüğü o karakter,
+
+8
+00:00:18,800 --> 00:00:21,700
+ben dediğiniz karakter benliğiniz, sosyal
+
+9
+00:00:21,720 --> 00:00:22,520
+egonuzdur.
+
+10
+00:00:22,540 --> 00:00:25,720
+Peki bu karakter, kafatasınızın sol tarafında
+
+11
+00:00:25,740 --> 00:00:28,020
+çalışan bir hikâye anlatıcısının kurduğu
+
+12
+00:00:28,040 --> 00:00:29,180
+bir senaryo olsaydı?
+
+13
+00:00:29,200 --> 00:00:31,960
+Üstelik ağır bir kaza ya da beyin hasarı
+
+14
+00:00:31,980 --> 00:00:35,000
+bu anlatıcıyı sarstığında, yıllarca biriktirdiğiniz
+
+15
+00:00:35,020 --> 00:00:37,300
+kimliğin büyük bölümü saniyeler içinde
+
+16
+00:00:37,320 --> 00:00:39,000
+erişilemez hâle gelebilir.
+
+17
+00:00:39,020 --> 00:00:42,540
+Geriye etiketsiz, çıplak bir varım duygusu
+
+18
+00:00:42,560 --> 00:00:43,080
+kalır.
+
+19
+00:00:43,100 --> 00:00:45,960
+Bugün sinirbilimin en şaşırtıcı bulgularından
+
+20
+00:00:45,980 --> 00:00:47,030
+birine bakıyoruz:
+
+21
+00:00:47,080 --> 00:00:48,720
+Sol beyin yorumlayıcısı.
+
+22
+00:00:48,740 --> 00:00:52,720
+Hikâye 1960'larda, Roger Sperry ve öğrencisi
+
+23
+00:00:52,740 --> 00:00:55,380
+Michael Gazzaniga'nın ayrık beyin hastalarıyla
+
+24
+00:00:55,400 --> 00:00:56,940
+yaptığı deneylerle başlıyor.
+
+25
+00:00:56,960 --> 00:00:59,180
+Ağır epilepsi nöbetlerini durdurmak için,
+
+26
+00:00:59,200 --> 00:01:01,840
+beynin iki yarımküresini birbirine bağlayan
+
+27
+00:01:01,860 --> 00:01:04,600
+köprü, yani korpus kallozum ameliyatla
+
+28
+00:01:04,620 --> 00:01:05,400
+kesilmişti.
+
+29
+00:01:05,420 --> 00:01:08,500
+Böylece beynin iki yarısı birbirinden habersiz,
+
+30
+00:01:08,520 --> 00:01:10,940
+iki ayrı ada gibi çalışmaya başladı.
+
+31
+00:01:10,960 --> 00:01:13,380
+Gazzaniga bu hastalara bir deney yaptı.
+
+32
+00:01:13,400 --> 00:01:16,580
+Sağ yarımküre konuşamaz ama görür ve anlar.
+
+33
+00:01:16,600 --> 00:01:20,100
+Konuşma ve dil ise çoğu insanda sol yarımkürededir.
+
+34
+00:01:20,120 --> 00:01:23,040
+Hastanın yalnızca sağ yarımküresinin görebileceği
+
+35
+00:01:23,060 --> 00:01:25,560
+yere kar fırtınası resmi, yalnızca sol
+
+36
+00:01:25,580 --> 00:01:27,740
+yarımküresinin görebileceği yere tavuk
+
+37
+00:01:27,760 --> 00:01:29,180
+ayağı resmi gösterildi.
+
+38
+00:01:29,200 --> 00:01:31,500
+Sonra hastadan, önündeki kartlardan bu
+
+39
+00:01:31,520 --> 00:01:33,640
+resimlere uyanları seçmesi istendi.
+
+40
+00:01:33,660 --> 00:01:36,960
+Sol eli, yani sağ beyni, kar küreğini seçti.
+
+41
+00:01:36,980 --> 00:01:40,040
+Sağ eli, yani sol beyni, tavuğu seçti.
+
+42
+00:01:40,060 --> 00:01:42,920
+Asıl şaşırtıcı an ise Gazzaniga hastaya
+
+43
+00:01:42,940 --> 00:01:44,460
+Neden bu ikisini seçtin?
+
+44
+00:01:44,480 --> 00:01:45,760
+diye sorduğunda geldi.
+
+45
+00:01:45,780 --> 00:01:48,220
+Konuşan sol beyin, kar fırtınasını hiç
+
+46
+00:01:48,240 --> 00:01:48,940
+görmemişti.
+
+47
+00:01:48,960 --> 00:01:50,800
+Ama bilmiyorum demedi.
+
+48
+00:01:50,820 --> 00:01:52,420
+Anında bir hikâye kurdu:
+
+49
+00:01:52,440 --> 00:01:55,140
+Tavuk ayağı tavukla ilgili, kümesi temizlemek
+
+50
+00:01:55,160 --> 00:01:56,330
+için de kürek lazım.
+
+51
+00:01:56,360 --> 00:01:59,320
+Gazzaniga bu mekanizmaya yorumlayıcı adını
+
+52
+00:01:59,340 --> 00:01:59,840
+verdi.
+
+53
+00:01:59,860 --> 00:02:02,440
+Sol beynin görevi her zaman gerçeği bulmak
+
+54
+00:02:02,460 --> 00:02:05,220
+değil, eldeki parçalardan tutarlı ve bizi
+
+55
+00:02:05,240 --> 00:02:07,340
+haklı çıkaran bir hikâye kurmaktır.
+
+56
+00:02:07,360 --> 00:02:09,330
+Bu deneyin bizimle ilgisi şu:
+
+57
+00:02:09,420 --> 00:02:11,980
+Doğduğumuzda hazır bir sosyal egomuz yoktur.
+
+58
+00:02:12,000 --> 00:02:15,040
+Bebekken hissederiz; acıkırız, ağlarız,
+
+59
+00:02:15,060 --> 00:02:15,720
+güleriz.
+
+60
+00:02:15,740 --> 00:02:18,610
+Etiket yok, geçmiş yok, utanç yok.
+
+61
+00:02:18,640 --> 00:02:21,180
+Büyüyüp dili öğrendikçe ve anlatı kurma
+
+62
+00:02:21,200 --> 00:02:23,580
+becerimiz geliştikçe, yorumlayıcı devreye
+
+63
+00:02:23,600 --> 00:02:24,020
+girer.
+
+64
+00:02:24,040 --> 00:02:27,020
+Ailemizin tepkilerini, toplumun kurallarını,
+
+65
+00:02:27,040 --> 00:02:29,940
+yaşadıklarımızı alır ve tek bir hikâyede
+
+66
+00:02:29,960 --> 00:02:30,800
+birleştirir:
+
+67
+00:02:30,820 --> 00:02:32,540
+Ben utangaç biriyim.
+
+68
+00:02:32,560 --> 00:02:34,840
+Ben insanlara kolay güvenmem.
+
+69
+00:02:34,860 --> 00:02:38,200
+Ben şu unvana sahip, saygı görmesi gereken
+
+70
+00:02:38,220 --> 00:02:38,720
+biriyim.
+
+71
+00:02:38,740 --> 00:02:41,520
+Bu roller ve etiketler, sinirbilimcilerin
+
+72
+00:02:41,540 --> 00:02:44,360
+otobiyografik benlik dediği yapıyı oluşturur.
+
+73
+00:02:44,380 --> 00:02:46,940
+Sınırlarımızı çizer, geçmişle geleceği
+
+74
+00:02:46,960 --> 00:02:49,810
+bağlar ve bize sen busun der.
+
+75
+00:02:49,840 --> 00:02:53,000
+Beynin dış katmanlarında, milyonlarca sinaptik
+
+76
+00:02:53,020 --> 00:02:55,340
+bağlantıda yazılmış büyük bir anlatıdır
+
+77
+00:02:55,360 --> 00:02:55,760
+bu.
+
+78
+00:02:55,780 --> 00:02:57,760
+Şimdi kritik soruya gelelim:
+
+79
+00:02:57,780 --> 00:03:00,800
+Şiddetli bir kafa travması ya da oksijensiz
+
+80
+00:03:00,820 --> 00:03:03,660
+kalma sonrasında insan neden bazen tüm
+
+81
+00:03:03,680 --> 00:03:06,760
+geçmişini unutur, sosyal egosu, yani karakter
+
+82
+00:03:06,780 --> 00:03:09,660
+benliği sıfırlanır ve adeta bir bebek gibi
+
+83
+00:03:09,680 --> 00:03:10,460
+başa döner?
+
+84
+00:03:10,480 --> 00:03:14,660
+Çünkü dili, kuralları, unvanları ve kurguladığımız
+
+85
+00:03:14,680 --> 00:03:17,580
+karakteri taşıyan ağlar büyük ölçüde beynin
+
+86
+00:03:17,600 --> 00:03:19,920
+dış kabuğundaki neokortekste yer alır.
+
+87
+00:03:19,940 --> 00:03:22,800
+Evrimsel olarak en yeni bölgedir ve darbeye
+
+88
+00:03:22,820 --> 00:03:25,680
+ile oksijensizliğe karşı en hassas olanlardan
+
+89
+00:03:25,700 --> 00:03:26,360
+biridir.
+
+90
+00:03:26,380 --> 00:03:28,940
+Ağır bir hasarda bu ağlar bozulabilir.
+
+91
+00:03:28,960 --> 00:03:31,240
+Karakter benlik sıfırlanır:
+
+92
+00:03:31,260 --> 00:03:35,100
+Kişi adını, geçmişini, toplumda nasıl davranması
+
+93
+00:03:35,120 --> 00:03:36,430
+gerektiğini unutabilir.
+
+94
+00:03:36,460 --> 00:03:38,700
+Ama geriye bir şey kalır.
+
+95
+00:03:38,720 --> 00:03:39,980
+Ben varım.
+
+96
+00:03:40,000 --> 00:03:43,460
+Bu en temel varoluş duygusuna, varoluşsal
+
+97
+00:03:43,480 --> 00:03:44,640
+benlik diyoruz.
+
+98
+00:03:44,660 --> 00:03:47,380
+Antonio Damasio'nun çekirdek benlik kavramına
+
+99
+00:03:47,400 --> 00:03:50,120
+dayanan bu benlik, beyin sapı ve talamus
+
+100
+00:03:50,140 --> 00:03:51,840
+gibi derin yapılara bağlıdır.
+
+101
+00:03:51,860 --> 00:03:54,640
+Hikâye anlatıcısı sustuğunda bile bedenin
+
+102
+00:03:54,660 --> 00:03:56,830
+ve şu anın bilinci sürer.
+
+103
+00:03:56,880 --> 00:04:00,660
+Etiketsiz, geçmişsiz, kuralsız ama canlı
+
+104
+00:04:00,680 --> 00:04:01,320
+bir bilinç.
+
+105
+00:04:01,340 --> 00:04:03,960
+Tıpkı yeni doğmuş bir bebekte olduğu gibi.
+
+106
+00:04:03,980 --> 00:04:07,020
+Zamanla, sinirsel esneklik sayesinde beyin
+
+107
+00:04:07,040 --> 00:04:08,560
+kendini yeniden düzenler.
+
+108
+00:04:08,580 --> 00:04:11,660
+Kişi çevresiyle etkileşerek yeni bir karakter,
+
+109
+00:04:11,680 --> 00:04:13,200
+yeni bir hikâye kurar.
+
+110
+00:04:13,220 --> 00:04:16,040
+Kaza öncesi katı ve kuralcı olan birinin
+
+111
+00:04:16,060 --> 00:04:18,560
+sonrasında daha yumuşak biri olarak anıldığı
+
+112
+00:04:18,580 --> 00:04:20,120
+durumlar da bildirilmiştir.
+
+113
+00:04:20,140 --> 00:04:22,940
+Kafamızda sürekli konuşan, yargılayan,
+
+114
+00:04:22,960 --> 00:04:25,520
+geçmişe takılıp geleceği kaygıyla izleyen
+
+115
+00:04:25,540 --> 00:04:27,880
+o ses, gerçek özümüzün tamamı değil.
+
+116
+00:04:27,900 --> 00:04:30,720
+Bizi toplum içinde ayakta tutmak için çalışan
+
+117
+00:04:30,740 --> 00:04:32,060
+güçlü bir arayüz.
+
+118
+00:04:32,080 --> 00:04:34,500
+Bir dahaki sefere egonuz kırıldığında ya
+
+119
+00:04:34,520 --> 00:04:36,940
+da zihniniz susmadığında şunu hatırlayın:
+
+120
+00:04:36,960 --> 00:04:40,570
+Siz anlattığınız hikâyeden çok daha fazlasınız.
+
+121
+00:04:40,620 --> 00:04:43,400
+Hiç zihninizdeki o anlatıcının sustuğu
+
+122
+00:04:43,420 --> 00:04:45,800
+ve yalnızca var olduğunuzu hissettiğiniz
+
+123
+00:04:45,820 --> 00:04:46,960
+bir an yaşadınız mı?
+
+124
+00:04:46,980 --> 00:04:48,770
+Cevabınızı yorumlara yazın.

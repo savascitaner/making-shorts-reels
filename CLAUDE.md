@@ -150,3 +150,7 @@ Kredi kıt: en az adım, tek ses kaydı, yeniden render'ı önlemek için ilk se
 - Ekrandaki kart/damga konuşulan sözün aynısını yazıyorsa o süre boyunca altyazı gizlenir (iki kez yazı, üst üste binme yok). QC kareleri yalnız sahne başlarından değil, HER kartın/damganın/etiketin göründüğü andan da alınır.
 - Başlık üstü küçük etiket ile Anton satırı arasında ≥size*1.2 boşluk, satır aralığı size*1.15 (İ noktası ve virgül çakışmasın); etiket ≥52 px ve konturlu.
 - Sis/ışık katmanı dikdörtgen bölgeye radyal gradyanla çizilmez (sert şerit kenarı çıkar); elips (scale) ile çizilir.
+
+## Bilinen tuzaklar (2026-11-20, Sol-Beyin-Ego: üst üste yazı)
+- Çok satırlı Anton kartlarında (kanca, soru, "takipte kal", kapak) satır aralığı ≥ boyut×1,2; giriş animasyonunda ölçek büyütülüyorsa (ör. 1,12→1) aralık EN BÜYÜK ölçeğe göre hesaplanır, yoksa ilk karelerde İ noktası üst satırın tabanına değer. Üst satırdaki Ç/Ş çengeli de alt satırın İ noktasına yaklaşır.
+- Render'dan ÖNCE her yazılı anın (kanca ilk karesi dahil, ölçek en büyükken) tam çözünürlükte kırpımı alınıp bakılır; küçültülmüş QC panosu çakışmayı göstermez.

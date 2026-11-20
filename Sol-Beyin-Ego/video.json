@@ -1,0 +1,22 @@
+{
+ "konu": "Sol-Beyin-Ego",
+ "sure": 288.84,
+ "whisper_ipucu": "Gazzaniga, Sperry, korpus kallozum, Damasio, talamus, neokorteks, yarımküre",
+ "duzelt": {},
+ "zaman_duzelt": [],
+ "vurgu": [],
+ "bolum_sinirlari": [],
+ "boom": [],
+ "gecis": [],
+ "qc_kareleri": [
+  0,
+  90,
+  200,
+  600,
+  1200,
+  1800,
+  2400,
+  3000,
+  3600
+ ]
+}
