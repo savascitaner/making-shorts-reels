@@ -36,3 +36,5 @@ Kısa dizin. Kurallar `CLAUDE.md`'de, her reels'in ayrıntısı kendi `<Konu>/ST
 - Kanal-Fragmani (2026-11-18): YouTube kanal fragmanı 16:9 + Instagram 9:16, 66,5 sn, "Elden Ele Kandil". TESLİM EDİLDİ. Ayrıntı: Kanal-Fragmani/STATE.md
 - Schopenhauer-Kirpi (2026-11-18): "Annesiyle 24 Yıl Görüşmedi" Reels 9:16 (1:46), Kirpi İkilemi, çizgi film, 2 Veo klibi, Chopin flüt (PD). Ayrıntı: Schopenhauer-Kirpi/STATE.md
 - Sol-Beyin-Ego (2026-11-20): TESLİM EDİLDİ. 16:9 4:58 + Shorts 2:35, sinematik gerçek görüntü + 6 Veo, PD Satie müzik. Ayrıntı: Sol-Beyin-Ego/STATE.md
+- Tanri-Kavrami: senaryo taslak 2 hazır, onay bekliyor. "Tanrı kavramı videosu" denince `Tanri-Kavrami/STATE.md` + senaryodan devam (uzun 16:9 + Shorts 9:16, Sinematik).
+- Vahdetten-Kesrete: TESLİM EDİLDİ 2026-11-21 (uzun 7:27 + Shorts 0:59); ayrıntı Vahdetten-Kesrete/STATE.md

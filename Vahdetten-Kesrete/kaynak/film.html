@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="tr"><head><meta charset="utf-8"><title>Vahdetten Kesrete</title>
+<style>
+@font-face{font-family:Anton;src:url(fonts/Anton-Regular.ttf)}
+@font-face{font-family:Alegreya Sans;font-weight:800;src:url(fonts/alegreya-sans-latin-800.woff2) format('woff2');unicode-range:U+0000-00FF,U+2000-206F}
+@font-face{font-family:Alegreya Sans;font-weight:800;src:url(fonts/alegreya-sans-latin-ext-800.woff2) format('woff2');unicode-range:U+0100-024F,U+1E00-1EFF}
+html,body{margin:0;background:#000}canvas{display:block;max-width:100vw;max-height:100vh}
+</style></head><body><canvas id="c"></canvas>
+<script>const FMT = new URLSearchParams(location.search).get('fmt') || 'long'; document.write('<script src="cfg-' + FMT + '.js"><\/script>');</script>
+<script>
+const C = window.CFG, W = C.W, H = C.H, FPS = C.FPS, DUR = C.DUR, FRAMES = Math.round(DUR * FPS), LONG = FMT === 'long';
+const cv = document.getElementById('c'); cv.width = W; cv.height = H; const ctx = cv.getContext('2d');
+const GOLD = '#F2B544', CREAM = '#F6EEDC', EMBER = '#FF9B54';
+const clamp = (x, a, b) => Math.max(a, Math.min(b, x)), lerp = (a, b, k) => a + (b - a) * k, ease = x => { x = clamp(x, 0, 1); return x * x * (3 - 2 * x); };
+const rng = s => () => { s |= 0; s = s + 0x6D2B79F5 | 0; let t = Math.imul(s ^ s >>> 15, 1 | s); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; };
+const mk = (w, h) => { const c = document.createElement('canvas'); c.width = w; c.height = h; return c; };
+const LA = mk(W, H), LB = mk(W, H), BL = mk(W >> 2, H >> 2), BL2 = mk(W >> 2, H >> 2), SM = mk(64, 36);
+const PLAN = C.plan.map((p, i) => ({ t0: p[0], t1: (C.plan[i + 1] ? C.plan[i + 1][0] : DUR), src: p[1], kind: p[2], o: p[3] || {}, i }));
+// ---------- media ----------
+const IMG = {}; const imgUrl = k => k[0] === 's' ? `../gorseller/ai/${k}_s11.jpg` : `../gorseller/flow/${k}.jpeg`;
+const loadImg = src => new Promise((ok, no) => { const im = new Image(); im.onload = () => ok(im); im.onerror = () => no(new Error(src)); im.src = src; });
+const FR = new Map();
+async function clipFrame(k, n) { n = clamp(n, 1, 190); const key = k + n; if (FR.has(key)) return FR.get(key);
+  const im = await loadImg(`../gorseller/klip/${k}/${String(n).padStart(4, '0')}.jpg`); FR.set(key, im); if (FR.size > 120) FR.delete(FR.keys().next().value); return im; }
+// ---------- fx assets ----------
+const GLOW = (() => { const c = mk(64, 64), g = c.getContext('2d'), r = g.createRadialGradient(32, 32, 0, 32, 32, 32); r.addColorStop(0, 'rgba(255,248,225,1)'); r.addColorStop(0.25, 'rgba(255,210,130,0.55)'); r.addColorStop(1, 'rgba(255,190,90,0)'); g.fillStyle = r; g.fillRect(0, 0, 64, 64); return c; })();
+const GRAIN = [0, 1, 2].map(s => { const c = mk(256, 256), g = c.getContext('2d'), d = g.createImageData(256, 256), r = rng(900 + s); for (let i = 0; i < d.data.length; i += 4) { const v = 128 + (r() - 0.5) * 255; d.data[i] = d.data[i + 1] = d.data[i + 2] = v; d.data[i + 3] = 255; } g.putImageData(d, 0, 0); return c; });
+const DUST = (() => { const r = rng(31), a = []; for (let i = 0; i < (LONG ? 16 : 14); i++) a.push({ x: r(), y: r(), z: 0.2 + r() * 0.8, p: r() * 6.28, big: false }); return a; })();
+// ---------- shots ----------
+function cover(g, im, z, px, py, mirror) {
+  const iw = im.width, ih = im.height, s = Math.max(W / iw, H / ih) * z, sw = W / s, sh = H / s, sx = (iw - sw) * clamp(px, 0, 1), sy = (ih - sh) * clamp(py, 0, 1);
+  g.save(); if (mirror) { g.translate(W, 0); g.scale(-1, 1); } g.drawImage(im, sx, sy, sw, sh, 0, 0, W, H); g.restore();
+}
+const KB = [[1.04, 1.16, 0.5, 0.5, 0.5, 0.5], [1.16, 1.04, 0.5, 0.5, 0.5, 0.5], [1.10, 1.16, 0.25, 0.5, 0.75, 0.5], [1.10, 1.16, 0.75, 0.45, 0.25, 0.55], [1.05, 1.15, 0.5, 0.75, 0.5, 0.25]];
+async function drawShot(g, s, t) {
+  g.setTransform(1, 0, 0, 1, 0, 0); g.globalAlpha = 1; g.fillStyle = '#000'; g.fillRect(0, 0, W, H);
+  const u = clamp((t - s.t0) / Math.max(0.1, s.t1 - s.t0), 0, 1.3), lt = Math.max(0, t - s.t0);
+  if (s.kind === 'img') { if (!IMG[s.src]) IMG[s.src] = await loadImg(imgUrl(s.src)); const k = KB[s.i % KB.length]; cover(g, IMG[s.src], lerp(k[0], k[1], u), lerp(k[2], k[4], u), lerp(k[3], k[5], u), s.o.mirror); return; }
+  const rate = s.o.rate || 1, fpos = lt * rate * 24, fa = Math.floor(fpos), fb = fa + 1, fr = fpos - fa, zz = 1 + 0.05 * u;
+  if (s.kind === 'clip') { const a = await clipFrame(s.src, fa + 1); cover(g, a, zz, 0.5, 0.5, 0); if (fr > 0.02 && fb < 190) { const b = await clipFrame(s.src, fb + 1); g.globalAlpha = fr; cover(g, b, zz, 0.5, 0.5, 0); g.globalAlpha = 1; } return; }
+  if (s.kind === 'vclip') { const a = await clipFrame(s.src, fa + 1); const sm = SM.getContext('2d'); sm.drawImage(a, 0, 0, 64, 36); g.save(); g.imageSmoothingQuality = 'high'; g.drawImage(SM, 0, 0, W, H); g.fillStyle = 'rgba(2,3,12,0.55)'; g.fillRect(0, 0, W, H); g.restore();
+    const hh = H * (1 + 0.04 * u), ww = hh * a.width / a.height; g.save(); g.shadowColor = 'rgba(255,190,90,0.45)'; g.shadowBlur = 60; g.drawImage(a, (W - ww) / 2, (H - hh) / 2, ww, hh); g.restore(); }
+}
+// ---------- fx ----------
+function inten(t) { const S = C.sections; let k = 0; for (let i = 0; i < S.length; i++) if (t >= S[i][0]) k = i; const a = S[k][1], b = S[Math.min(k + 1, S.length - 1)][1], t1 = S[Math.min(k + 1, S.length - 1)][0]; const m = k + 1 < S.length ? ease((t - (t1 - 4)) / 4) : 0; return lerp(a, b, m); }
+function beamLevel(t) { let m = 0; for (const w of C.beams) m = Math.max(m, w[2] * Math.min(ease((t - w[0]) / 1.5), ease((w[1] - t) / 1.5))); return m; }
+function beams(g, t, I, sx, sy) { g.save(); g.globalCompositeOperation = 'lighter'; const n = 9, R = Math.hypot(W, H) * 1.15;
+  for (let i = 0; i < n; i++) { const a0 = Math.PI / 2 + (i / n - 0.5) * (LONG ? 2.0 : 1.5) + 0.05 * Math.sin(t * 0.22 + i * 1.7), wd = 0.03 + 0.03 * ((i * 37) % 7) / 7, al = I * (0.05 + 0.08 * Math.pow(Math.sin(t * 0.55 + i * 2.3 + 1), 2));
+    const gr = g.createLinearGradient(sx, sy, sx + Math.cos(a0) * R, sy + Math.sin(a0) * R); gr.addColorStop(0, `rgba(255,214,140,${al})`); gr.addColorStop(0.7, `rgba(255,200,110,${al * 0.35})`); gr.addColorStop(1, 'rgba(255,200,110,0)');
+    g.fillStyle = gr; g.beginPath(); g.moveTo(sx, sy); g.lineTo(sx + Math.cos(a0 - wd) * R, sy + Math.sin(a0 - wd) * R); g.lineTo(sx + Math.cos(a0 + wd) * R, sy + Math.sin(a0 + wd) * R); g.closePath(); g.fill(); }
+  g.restore(); }
+function dust(g, t, I) { g.save(); g.globalCompositeOperation = 'lighter'; const sc = W / 1920;
+  for (const p of DUST) { const x = (((p.x + t * 0.006 * p.z) % 1) + 1) % 1, y = (((p.y - t * 0.009 * p.z) % 1) + 1) % 1, tw = 0.5 + 0.5 * Math.sin(t * (0.8 + p.z) + p.ph), r = (p.big ? 14 + 20 * p.z : 2 + 4.5 * p.z) * sc * (LONG ? 1 : 1.2);
+    g.globalAlpha = (p.big ? 0.09 : 0.3) * tw * (0.3 + Math.min(I, 0.8)) * p.z; g.drawImage(GLOW, x * W - r, y * H - r, r * 2, r * 2); }
+  g.restore(); }
+function ring(g, cx, cy, r, ratio, w, al) { if (al <= 0.003) return; g.save(); g.globalCompositeOperation = 'lighter'; g.lineWidth = w; g.strokeStyle = `rgba(255,210,130,${al})`; g.shadowColor = 'rgba(255,190,90,0.8)'; g.shadowBlur = 24; g.beginPath(); g.ellipse(cx, cy, r, r * ratio, 0, 0, 7); g.stroke(); g.restore(); }
+function flare(g, t, tp, sx, sy) { const k = (t - tp) / 1.5; if (k < 0 || k > 1) return; const env = 0.55 * Math.min(1, (t - tp) / 0.06) * Math.exp(-3.2 * k), cx = W * 0.5, cy = H * 0.45;
+  g.save(); g.globalCompositeOperation = 'lighter';
+  const sg = g.createLinearGradient(cx - W * 0.45, 0, cx + W * 0.45, 0); sg.addColorStop(0, 'rgba(255,200,110,0)'); sg.addColorStop(0.5, `rgba(255,236,190,${0.55 * env})`); sg.addColorStop(1, 'rgba(255,200,110,0)'); g.fillStyle = sg; g.fillRect(cx - W * 0.45, cy - 5 * (W / 1920), W * 0.9, 10 * (W / 1920));
+  const r0 = 200 * (W / 1920) * (0.6 + env); g.globalAlpha = env * 0.9; g.drawImage(GLOW, cx - r0, cy - r0, r0 * 2, r0 * 2);
+  for (let i = 1; i <= 4; i++) { const px = lerp(sx, cx, 1 + i * 0.45), py = lerp(sy, cy, 1 + i * 0.45), rr = (30 + i * 16) * (W / 1920); g.globalAlpha = env * 0.35 / i; g.drawImage(GLOW, px - rr, py - rr, rr * 2, rr * 2); }
+  g.restore(); }
+function sweep(g, k) { if (k < 0 || k > 1) return; g.save(); g.globalCompositeOperation = 'lighter'; const x = lerp(-W * 0.3, W * 1.3, ease(k)), w = W * 0.22, gr = g.createLinearGradient(x - w, 0, x + w, 0), a = 0.5 * Math.sin(Math.PI * k); gr.addColorStop(0, 'rgba(255,220,150,0)'); gr.addColorStop(0.5, `rgba(255,240,200,${a})`); gr.addColorStop(1, 'rgba(255,220,150,0)'); g.fillStyle = gr; g.fillRect(x - w, 0, w * 2, H); g.restore(); }
+function fx(g, t) {
+  let I = inten(t); const b = C.bang, bt = t - b; let Bm = beamLevel(t); if (b > 0 && bt > -0.2 && bt < 4) { I += 0.8 * Math.exp(-Math.max(0, bt) * 0.9); Bm += 1.0 * Math.exp(-Math.max(0, bt) * 0.9); }
+  const sx = W * (0.5 + 0.22 * Math.sin(t * 0.07)), sy = -H * 0.1; if (Bm > 0.02) beams(g, t, Bm, sx, sy); dust(g, t, I);
+  for (const tp of C.pulses) flare(g, t, tp, sx, sy);
+  const rg = LONG ? [239.8, 342.2] : [18.15, 35.3]; if (t > rg[0] && t < rg[1]) { for (let j = 0; j < 4; j++) { const k = (((t - rg[0]) / 3.2 + j / 4) % 1); ring(g, W * 0.5, H * (LONG ? 0.7 : 0.62), k * W * 0.55, 0.2, 5 * (1 - k) + 0.5, 0.2 * Math.sin(Math.PI * k)); } }
+  if (b > 0 && bt > 0 && bt < 3) { const k = bt / 3; ring(g, W / 2, H / 2, k * W * 0.9, 1, 46 * (1 - k) + 2, 0.85 * (1 - k)); ring(g, W / 2, H / 2, k * W * 0.6, 1, 20 * (1 - k) + 1, 0.6 * (1 - k)); if (bt < 0.5) { g.fillStyle = `rgba(255,246,222,${0.9 * (1 - bt / 0.5)})`; g.fillRect(0, 0, W, H); } }
+}
+function bloom(g) { const a = BL.getContext('2d'), b = BL2.getContext('2d'); a.drawImage(cv, 0, 0, BL.width, BL.height); b.filter = 'blur(7px) brightness(1.2) contrast(1.35)'; b.clearRect(0, 0, BL.width, BL.height); b.drawImage(BL, 0, 0); b.filter = 'none';
+  g.save(); g.globalCompositeOperation = 'screen'; g.globalAlpha = 0.16; g.drawImage(BL2, 0, 0, W, H); g.restore(); }
+function finish(g, t, f) { const v = g.createRadialGradient(W / 2, H / 2, H * 0.35, W / 2, H / 2, Math.hypot(W, H) * 0.55); v.addColorStop(0, 'rgba(0,0,0,0)'); v.addColorStop(1, 'rgba(3,5,20,0.55)'); g.fillStyle = v; g.fillRect(0, 0, W, H);
+  g.save(); g.globalCompositeOperation = 'overlay'; g.globalAlpha = 0.07; const pt = g.createPattern(GRAIN[f % 3], 'repeat'); g.fillStyle = pt; g.fillRect(0, 0, W, H); g.fillStyle = 'rgba(255,170,70,0.5)'; g.globalAlpha = 0.07; g.fillRect(0, 0, W, H); g.restore(); }
+// ---------- text ----------
+function outlined(g, txt, x, y, font, fill, lw, glow) { g.font = font; g.lineJoin = 'round'; g.lineWidth = lw; g.strokeStyle = 'rgba(6,6,16,0.92)'; g.strokeText(txt, x, y); g.fillStyle = fill; if (glow) { g.shadowColor = glow; g.shadowBlur = 40; } g.fillText(txt, x, y); g.shadowBlur = 0; }
+function stack(g, lines, sizes, cols, cy, maxScale, glow) { g.textAlign = 'center'; g.textBaseline = 'alphabetic'; let ys = [], y = 0; for (let i = 0; i < lines.length; i++) { if (i) y += Math.max(sizes[i], sizes[i - 1]) * 1.2 * maxScale; ys.push(y); } const off = cy - (y / 2);
+  lines.forEach((l, i) => outlined(g, l, W / 2, off + ys[i] + sizes[i] * 0.35, `${sizes[i]}px Anton`, cols[i], sizes[i] * 0.09, glow)); }
+function hookCard(g, t) { const h = C.hook; if (t >= h.t1) return; const out = ease((h.t1 - t) / 0.25), pulse = 1 + 0.03 * Math.sin(t * 6); g.save(); g.globalAlpha = out;
+  const gr = g.createLinearGradient(0, H * 0.25, 0, H * 0.75); gr.addColorStop(0, 'rgba(4,5,18,0)'); gr.addColorStop(0.3, 'rgba(4,5,18,0.55)'); gr.addColorStop(0.7, 'rgba(4,5,18,0.55)'); gr.addColorStop(1, 'rgba(4,5,18,0)'); g.fillStyle = gr; g.fillRect(0, H * 0.25, W, H * 0.5);
+  g.translate(W / 2, H / 2); g.scale(pulse, pulse); g.translate(-W / 2, -H / 2);
+  if (LONG) stack(g, h.lines, [230, 300], [CREAM, GOLD], H * 0.5, 1.12, 'rgba(255,170,60,0.7)'); else stack(g, h.lines, [140, 140, 190], [CREAM, CREAM, GOLD], H * 0.5, 1.12, 'rgba(255,170,60,0.7)'); g.restore(); }
+const CH = C.chunks.map((c, n) => { const wd = C.words, s = wd[c[0]].s, e = wd[c[c.length - 1]].e, nx = C.chunks[n + 1] ? wd[C.chunks[n + 1][0]].s : DUR; return { idx: c, s: s - 0.08, e: Math.min(nx - 0.04, e + 0.7) }; });
+function captions(g, t) {
+  if (t < C.hook.t1) return; for (const r of C.caphide) if (t >= r[0] && t < r[1]) return; if (t > C.kcard.t0) return;
+  const c = CH.find(c => t >= c.s && t < c.e); if (!c) return; const WD = C.words, a = Math.min(ease((t - c.s) / 0.1), ease((c.e - t) / 0.1));
+  let size = LONG ? 78 : 84; const maxw = LONG ? 1500 : 880, big = 1.14; g.font = `800 ${size}px "Alegreya Sans"`;
+  const words = c.idx.map(i => WD[i].w); let widths = words.map(w => g.measureText(w).width), sp = size * 0.3, tot = widths.reduce((x, y) => x + y, 0) + sp * (words.length - 1);
+  if (tot > maxw) { size = Math.floor(size * maxw / tot); g.font = `800 ${size}px "Alegreya Sans"`; widths = words.map(w => g.measureText(w).width); sp = size * 0.3; tot = widths.reduce((x, y) => x + y, 0) + sp * (words.length - 1); }
+  const y = LONG ? H - 130 : 1340;
+  const onOf = wi => { const w = WD[wi]; return t >= w.s - 0.03 && t < (WD[wi + 1] ? Math.min(WD[wi + 1].s, w.e + 0.4) : w.e + 1); };
+  const scs = c.idx.map(wi => onOf(wi) ? big + 0.06 * Math.max(0, 1 - (t - WD[wi].s) / 0.15) : 1), ew = widths.map((w, j) => w * scs[j]); tot = ew.reduce((x, y) => x + y, 0) + sp * (words.length - 1);
+  let x = W / 2 - tot / 2; g.textAlign = 'left'; g.textBaseline = 'alphabetic';
+  c.idx.forEach((wi, j) => { const w = WD[wi], on = onOf(wi), done = t >= w.e; g.save(); g.translate(x + ew[j] / 2, y); g.scale(scs[j], scs[j]); g.globalAlpha = a * (on || done ? 1 : 0.62);
+    g.lineWidth = size * 0.16; g.lineJoin = 'round'; g.strokeStyle = 'rgba(10,7,4,0.95)'; g.shadowColor = 'rgba(0,0,0,0.65)'; g.shadowBlur = 14; g.shadowOffsetY = 4; g.strokeText(words[j], -widths[j] / 2, 0); g.shadowBlur = 0; g.shadowOffsetY = 0;
+    g.fillStyle = on ? (w.em ? EMBER : GOLD) : CREAM; g.fillText(words[j], -widths[j] / 2, 0); g.restore(); x += ew[j] + sp; });
+}
+let LOGO = null;
+function bellIcon(g, cx, cy, s, rot, col) { g.save(); g.translate(cx, cy); g.rotate(rot); g.scale(s, s); g.fillStyle = col; g.beginPath(); g.arc(0, -4, 16, Math.PI, 0); g.lineTo(22, 16); g.lineTo(-22, 16); g.closePath(); g.fill(); g.beginPath(); g.arc(0, 22, 6, 0, Math.PI); g.fill(); g.restore(); }
+function cursor(g, x, y, sc) { g.save(); g.translate(x, y); g.scale(sc, sc); g.fillStyle = '#fff'; g.strokeStyle = '#111'; g.lineWidth = 3; g.beginPath(); g.moveTo(0, 0); g.lineTo(0, 40); g.lineTo(11, 31); g.lineTo(19, 49); g.lineTo(27, 45); g.lineTo(19, 28); g.lineTo(32, 27); g.closePath(); g.fill(); g.stroke(); g.restore(); }
+function subAnim(g, t) { const lt = t - C.sub.t0; if (lt < 0 || lt > 5.1) return; const u = LONG ? 1.0 : 0.9, PW = 1000, x0 = LONG ? 70 : (W - PW * u) / 2, y0 = LONG ? 60 : 140;
+  const al = Math.min(ease(lt / 0.4), ease((5.1 - lt) / 0.5)), slide = (1 - ease(lt / 0.55)) * -220;
+  g.save(); g.globalAlpha = al; g.translate(x0, y0 + slide); g.scale(u, u);
+  g.fillStyle = 'rgba(18,14,26,0.88)'; g.strokeStyle = 'rgba(255,255,255,0.14)'; g.lineWidth = 2; g.beginPath(); g.roundRect(0, 0, PW, 150, 75); g.fill(); g.stroke();
+  if (LOGO) { g.save(); g.beginPath(); g.arc(80, 75, 56, 0, 7); g.clip(); g.drawImage(LOGO, 24, 19, 112, 112); g.restore(); } g.strokeStyle = CREAM; g.lineWidth = 5; g.beginPath(); g.arc(80, 75, 58, 0, 7); g.stroke();
+  g.textAlign = 'left'; g.textBaseline = 'alphabetic'; g.font = '800 50px "Alegreya Sans"'; g.fillStyle = CREAM; g.fillText('Taner Savaşçı', 160, 72); g.font = '800 34px "Alegreya Sans"'; g.fillStyle = '#A9A294'; g.fillText('@TanerSavaşçı', 160, 116);
+  const done = lt >= 1.65, press = lt > 1.55 && lt < 1.75, sc = press ? 0.94 : 1;
+  g.save(); g.translate(690, 75); g.scale(sc, sc); g.fillStyle = done ? '#3B3A48' : CREAM; g.beginPath(); g.roundRect(-165, -47, 330, 94, 47); g.fill(); g.font = '800 38px "Alegreya Sans"'; g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillStyle = done ? '#E8E2D6' : '#1a1205'; g.fillText(done ? 'ABONE OLUNDU ✓' : 'ABONE OL', 0, 3); g.restore();
+  const bc = [925, 75], ringing = lt > 2.7, k = lt - 2.7; g.fillStyle = GOLD; g.beginPath(); g.arc(bc[0], bc[1], 52, 0, 7); g.fill();
+  bellIcon(g, bc[0], bc[1] - 2, 1.25, ringing ? Math.sin(k * 16) * 0.4 * Math.exp(-k * 1.5) : 0, '#1a1205');
+  if (ringing && k < 1.4) { const ra = Math.exp(-k * 1.6); g.strokeStyle = `rgba(242,181,68,${ra})`; g.lineWidth = 7; g.lineCap = 'round'; for (const sd of [-1, 1]) { g.beginPath(); g.arc(bc[0], bc[1], 66 + 8 * Math.sin(k * 14), sd < 0 ? Math.PI * 0.78 : -Math.PI * 0.22, sd < 0 ? Math.PI * 1.22 : Math.PI * 0.22); g.stroke(); } }
+  let cx, cy; if (lt < 0.8) { cx = 760; cy = 260; } else if (lt < 1.5) { const q = ease((lt - 0.8) / 0.7); cx = lerp(760, 700, q); cy = lerp(260, 90, q); } else if (lt < 2.1) { cx = 700; cy = 90; } else if (lt < 2.65) { const q = ease((lt - 2.1) / 0.55); cx = lerp(700, 930, q); cy = lerp(90, 92, q); } else { cx = 930; cy = 92; }
+  if (lt > 0.7 && lt < 3.6) cursor(g, cx, cy, (lt > 1.55 && lt < 1.75) || (lt > 2.65 && lt < 2.85) ? 0.9 : 1);
+  g.restore(); }
+function yt(g, x, y, s, a) { g.save(); g.globalAlpha = a; g.translate(x, y); g.scale(s, s); g.fillStyle = '#E62117'; g.beginPath(); g.roundRect(-60, -42, 120, 84, 22); g.fill(); g.fillStyle = '#fff'; g.beginPath(); g.moveTo(-14, -24); g.lineTo(26, 0); g.lineTo(-14, 24); g.closePath(); g.fill(); g.restore(); }
+function ig(g, x, y, s, a) { g.save(); g.globalAlpha = a; g.translate(x, y); g.scale(s, s); const gr = g.createLinearGradient(-50, 50, 50, -50); gr.addColorStop(0, '#FEDA75'); gr.addColorStop(0.4, '#FA7E1E'); gr.addColorStop(0.7, '#D62976'); gr.addColorStop(1, '#4F5BD5'); g.fillStyle = gr; g.beginPath(); g.roundRect(-50, -50, 100, 100, 28); g.fill();
+  g.strokeStyle = '#fff'; g.lineWidth = 8; g.beginPath(); g.roundRect(-30, -30, 60, 60, 18); g.stroke(); g.beginPath(); g.arc(0, 0, 14, 0, 7); g.stroke(); g.fillStyle = '#fff'; g.beginPath(); g.arc(21, -21, 5, 0, 7); g.fill(); g.restore(); }
+function cards(g, t) {
+  const q = C.qcard, k = C.kcard;
+  if (t >= q.t0 && t < q.t1) { const a = Math.min(ease((t - q.t0) / 0.3), ease((q.t1 - t) / 0.3)); g.save(); g.globalAlpha = a; g.fillStyle = 'rgba(3,4,16,0.55)'; g.fillRect(0, 0, W, H);
+    const n = q.lines.length, sz = LONG ? 110 : 150; stack(g, q.lines, q.lines.map(() => sz), q.lines.map((_, i) => i >= n - 2 ? GOLD : CREAM), H * (LONG ? 0.42 : 0.44), 1.1, 'rgba(255,170,60,0.6)');
+    g.textAlign = 'center'; outlined(g, q.small, W / 2, H * (LONG ? 0.8 : 0.72), `${LONG ? 54 : 64}px Anton`, EMBER, 7); g.restore(); }
+  if (t >= k.t0) { const lt = t - k.t0, a = ease(lt / 0.4); g.save(); g.globalAlpha = a; g.fillStyle = 'rgba(3,4,16,0.6)'; g.fillRect(0, 0, W, H); g.restore();
+    const S = LONG ? [H * 0.2, H * 0.4] : [H * 0.2, H * 0.31]; g.save(); g.globalAlpha = a; g.textAlign = 'center'; outlined(g, 'DAHA FAZLASI İÇİN', W / 2, S[0], `${LONG ? 90 : 96}px Anton`, CREAM, 10); outlined(g, 'TAKİPTE KAL', W / 2, S[1], `${LONG ? 190 : 190}px Anton`, GOLD, 16, 'rgba(255,170,60,0.7)'); g.restore();
+    const a2 = ease((t - k.addr_t) / 0.5); if (a2 > 0) { const rows = LONG ? [H * 0.58, H * 0.72, H * 0.86] : [H * 0.5, H * 0.6, H * 0.7], sz = LONG ? 74 : 72, ic = LONG ? 1 : 0.95, pulse = 1 + 0.04 * Math.sin((t - k.addr_t) * 5);
+      const row = (y, drawIcon, label) => { g.save(); g.globalAlpha = a2; g.font = `800 ${sz}px "Alegreya Sans"`; const w = g.measureText(label).width, gap = 40, tot = 110 * ic + gap + w, x = W / 2 - tot / 2; if (drawIcon) drawIcon(g, x + 55 * ic, y - sz * 0.3, ic * pulse, a2); g.textAlign = 'left'; g.textBaseline = 'alphabetic'; outlined(g, label, x + 110 * ic + gap, y, `800 ${sz}px "Alegreya Sans"`, CREAM, 9); g.restore(); };
+      row(rows[0], yt, '@TanerSavaşçı'); row(rows[1], ig, '@sevgiliinsann'); row(rows[2], null, 'www.sevgiliinsan.com'); } }
+}
+// ---------- frame ----------
+async function renderFrame(f) {
+  const t = f / FPS; let i = PLAN.findIndex(s => t >= s.t0 && t < s.t1); if (i < 0) i = PLAN.length - 1; const s = PLAN[i];
+  ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over'; ctx.shadowBlur = 0;
+  const xf = 0.9, kk = (t - s.t0) / xf;
+  if (i > 0 && kk < 1) { await drawShot(LA.getContext('2d'), PLAN[i - 1], t); await drawShot(LB.getContext('2d'), s, t); ctx.drawImage(LA, 0, 0); ctx.globalAlpha = ease(kk); ctx.drawImage(LB, 0, 0); ctx.globalAlpha = 1; }
+  else await drawShot(ctx, s, t);
+    fx(ctx, t); bloom(ctx); finish(ctx, t, f); hookCard(ctx, t); subAnim(ctx, t); captions(ctx, t); cards(ctx, t);
+  const fo = ease((DUR - t) / 0.8); if (fo < 1) { ctx.fillStyle = `rgba(0,0,0,${1 - fo})`; ctx.fillRect(0, 0, W, H); }
+}
+window.captureFrame = async (f, type = 'image/png', q = 0.95) => { await renderFrame(f); return cv.toDataURL(type, q); };
+window.READY = (async () => { await Promise.all(['230px Anton', '800 40px "Alegreya Sans"'].map(f => document.fonts.load(f, 'ŞİĞÜÖÇışğüöçâÂ°'))); const keys = [...new Set(PLAN.filter(p => p.kind === 'img').map(p => p.src))]; await Promise.all(keys.map(async k => { IMG[k] = await loadImg(imgUrl(k)); })); LOGO = await loadImg('../gorseller/kanal-logo.png'); await renderFrame(0); return { frames: FRAMES, fps: FPS, width: W, height: H, renderer: 'canvas' }; })();
+const q = new URLSearchParams(location.search); if (q.has('t')) window.READY.then(() => renderFrame(Math.round(+q.get('t') * FPS)));
+</script></body></html>

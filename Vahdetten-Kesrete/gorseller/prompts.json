@@ -1,0 +1,22 @@
+{
+"w": 1344, "h": 768,
+"style": ", cinematic documentary photograph, ultra realistic, volumetric light beams, deep cosmic navy blue shadows with warm golden light, 8k, highly detailed, IMAX",
+"neg": "text, letters, watermark, signature, logo, cartoon, illustration, painting, lowres, blurry, people, face, hands, frame, border",
+"items": [
+ ["s01_yildiz", [11], "a vast field of distant stars with a faint golden nebula glow, deep space"],
+ ["s02_pencere", [11], "a view of a starry night sky through a dark window frame from inside an empty dark room, golden light on the sill"],
+ ["s03_agi", [11], "cosmic web of glowing golden filaments connecting galaxies in the dark void"],
+ ["s04_noron", [11], "glowing neurons and synapses network, golden sparks of electricity, deep indigo background"],
+ ["s05_alan", [11], "invisible quantum field visualized as a grid of luminous golden wave lines rippling through dark space"],
+ ["s06_patlama", [11], "the Big Bang, an infinitely dense sphere of pure white-gold energy fracturing outward in shock waves"],
+ ["s07_plazma", [11], "waves of cooling plasma, glowing orange and gold particles crystallizing, dark background"],
+ ["s08_hidrojen", [11], "hydrogen gas clouds in space, cyan and gold nebula glow, drifting dust"],
+ ["s09_dogum", [11], "star forming nebula pillars lit from within by golden light, deep space"],
+ ["s10_supernova", [11], "supernova remnant with glowing filaments of gas expanding into dark space, gold and blue"],
+ ["s11_dalga", [11], "dark ocean surface seen from above with golden light lines running along gentle waves"],
+ ["s12_halka", [11], "concentric luminous ripples spreading across perfectly still dark water, golden glints"],
+ ["s13_mandala", [11], "sacred geometry mandala made of golden light lines on pure black, perfectly symmetric"],
+ ["s14_bosluk", [11], "soft golden mist drifting in an infinite dark void, minimal, meditative"],
+ ["s15_yinyang", [11], "a yin-yang shape formed by swirling black and golden ink in water, top view, macro"],
+ ["s16_galaksi", [11], "a spiral galaxy seen wide, golden core and blue arms, deep space"]
+]}

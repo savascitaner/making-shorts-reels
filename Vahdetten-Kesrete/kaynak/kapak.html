@@ -1,0 +1,25 @@
+<!doctype html><html lang="tr"><head><meta charset="utf-8"><title>Kapak</title>
+<style>@font-face{font-family:Anton;src:url(fonts/Anton-Regular.ttf)}html,body{margin:0;background:#000}canvas{display:block;max-width:100vw}</style></head><body><canvas id="c"></canvas>
+<script>
+const FMT=new URLSearchParams(location.search).get('fmt')||'shorts', LONG=FMT==='long', W=LONG?1920:1080, H=LONG?1080:1920;
+const cv=document.getElementById('c');cv.width=W;cv.height=H;const g=cv.getContext('2d');const GOLD='#F2B544',CREAM='#F6EEDC';
+const load=s=>new Promise((o,n)=>{const i=new Image();i.onload=()=>o(i);i.onerror=()=>n(new Error(s));i.src=s});
+function cover(im){const s=Math.max(W/im.width,H/im.height);g.drawImage(im,(W-im.width*s)/2,(H-im.height*s)/2,im.width*s,im.height*s)}
+function t(txt,x,y,size,fill,lw,glow){g.font=`${size}px Anton`;g.textAlign='center';g.lineJoin='round';g.lineWidth=lw;g.strokeStyle='rgba(6,6,16,0.95)';g.strokeText(txt,x,y);g.fillStyle=fill;if(glow){g.shadowColor=glow;g.shadowBlur=50}g.fillText(txt,x,y);g.shadowBlur=0}
+function stack(lines,sizes,cols,cy){let ys=[],y=0;for(let i=0;i<lines.length;i++){if(i)y+=Math.max(sizes[i],sizes[i-1])*1.2;ys.push(y)}const off=cy-y/2;lines.forEach((l,i)=>t(l,W/2,off+ys[i]+sizes[i]*0.35,sizes[i],cols[i],sizes[i]*0.09,'rgba(255,170,60,0.55)'))}
+async function draw(){
+  await document.fonts.load('200px Anton','ŞİĞÜÖÇışğüöçâÂ');
+  const bg=await load(LONG?'../gorseller/flow/f08_iki-dalga.jpeg':'../gorseller/klip/k6/0100.jpg'); cover(bg);
+  let v=g.createRadialGradient(W/2,H/2,H*0.2,W/2,H/2,Math.hypot(W,H)*0.6);v.addColorStop(0,'rgba(3,5,20,0.25)');v.addColorStop(1,'rgba(3,5,20,0.8)');g.fillStyle=v;g.fillRect(0,0,W,H);
+  g.fillStyle='rgba(4,5,18,0.26)';g.fillRect(0,0,W,H);
+  if(LONG){
+    stack(['SEN BİR','DALGASIN'],[250,330],[CREAM,GOLD],H*0.43);
+    t('VAHDETTEN KESRETE',W/2,H*0.915,104,CREAM,10);
+  } else {
+    stack(["NOBEL'Lİ","FİZİKÇİNİN","ARMASINDA","NE YAZIYOR?"],[150,150,150,170],[CREAM,CREAM,CREAM,GOLD],H*0.47);
+    t('VAHDETTEN KESRETE',W/2,H*0.80,64,CREAM,7);
+  }
+}
+window.captureFrame=async(f,type='image/png',q=0.95)=>{await draw();return cv.toDataURL(type,q)};
+window.READY=(async()=>({frames:1,fps:1,width:W,height:H,renderer:'canvas'}))();
+</script></body></html>
